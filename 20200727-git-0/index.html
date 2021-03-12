@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>git常用命令 - CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/csorz/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-27 09:48">
+      2020年7月27日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：21 分钟前
+                
+              </p>
+            
+            <article class="markdown-body">
+              <p>Git是开发人员必备技能，在管理项目时会经常使用。有些命令使用频次少，但关键时刻又需要查阅。本文将记录我在工作中常用命令，方便快速查找。</p>
+<a id="more"></a>
+
+<h2 id="git简介"><a href="#git简介" class="headerlink" title="git简介"></a>git简介</h2><p>Git是Linux之父Linus的第二个伟大的作品，它最早是在Linux上开发的，被用来管理Linux核心的源代码。后来慢慢地有人将其移植到了Unix、Windows、Max OS等操作系统中。</p>
+<p>Git是一个分布式的版本控制系统，与集中式的版本控制系统不同的是，每个人都工作在通过克隆建立的本地版本库中。也就是说每个人都拥有一个完整的版本库，查看提交日志、提交、创建里程碑和分支、合并分支、回退等所有操作都直接在本地完成而不需要网络连接。</p>
+<p>对于Git仓库来说，每个人都有一个独立完整的仓库，所谓的远程仓库或是服务器仓库其实也是一个仓库，只不过这台主机24小时运行，它是一个稳定的仓库，供他人克隆、推送，也从服务器仓库中拉取别人的提交。</p>
+<p>Git是目前世界上最先进的分布式版本控制系统，没有之一，对，没有之一!</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><pre><code class="hljs bash">git init // 初始化 在工作路径上创建主分支
+git <span class="hljs-built_in">clone</span> 地址 // 克隆远程仓库
+git <span class="hljs-built_in">clone</span> -b 分支名 地址 // 克隆分支的代码到本地
+git status // 查看状态
+git add 文件名 // 将某个文件存入暂存区
+git add b c // 把b和c存入暂存区
+git add . // 将所有文件提交到暂存区
+git add -p 文件名 // 一个文件分多次提交
+git stash -u -k // 提交部分文件内容 到仓库 例如本地有3个文件 a b c 只想提交a b到远程仓库 git add a b 然后 git stash -u -k 再然后git commit -m <span class="hljs-string">"备注信息"</span> 然后再push push之后 git stash pop 把之前放入堆栈的c拿出来 继续下一波操作
+git commit -m <span class="hljs-string">"提交的备注信息"</span>  // 提交到仓库
+git commit -am <span class="hljs-string">"备注信息"</span> // 将内容放至仓库 也可用git commit -a -m <span class="hljs-string">"备注信息"</span>
+* git commit 中的备注信息遵循conmitizen规范
+
+git remote -v // 查看远端仓库地址
+<span class="hljs-comment"># 添加地址</span>
+git remote add origin [url]
+<span class="hljs-comment"># 配置地址</span>
+git remote <span class="hljs-built_in">set</span>-url origin URL
+git ls-remote --tags origin // 查看所有tag
+git checkout -b hotfix origin/hotfix // 拉取远端hotfix分支到本地
+git remote prune origin // 删除没用的引用
+git merge --no-ff &lt;branchname&gt; // 合并本地分支
+git push origin -d &lt;branchname&gt; // 删除远程分支
+git push origin:&lt;branchname&gt; // 删除后推送至服务器</code></pre>
+
+<h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><pre><code class="hljs bash">git tag // 查看列出所有打过的标签名
+git tag -d 标签名 // 删除对应标签
+git tag 标签名字 // 在当前仓库打个标签
+git tag foo -m <span class="hljs-string">"message"</span> // 在当前提交上，打标签foo 并给message信息注释
+git tag 标签名 哈希值 -m <span class="hljs-string">"message"</span> // 在某个哈希值上打标签并且写上标签的信息
+git tag foo HEAD~4 // 在当前提交之前的第4个版本上 打标签foo
+git push origin --tags // 把所有打好的标签推送到远程仓库
+git push origin 标签名 // 把指定标签推送到远程仓库
+git stash // 把暂存区的内容 暂时放在其他中 使暂存区变空
+git stash list // 查看stash了哪些存储
+git stash pop // 将stash中的内容恢复到当前目录，将缓存堆栈中的对应stash删除
+git stash apply // 将stash中的内容恢复到当前目录，不会将缓存堆栈中的对应stash删除
+git stash clear // 删除所有缓存的stash
+git pull --tags // 把远程仓库的标签也拉取下来
+git push origin :refs/tags/远程标签名 // 删除远程仓库的标签</code></pre>
+
+<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><pre><code class="hljs bash">git branch 分支名 // 新建分支
+git branch // 查看当前所有分支
+git checkout 分支名 // 检出分支
+git checkout -b 分支名 // 创建并切换分支
+git push --<span class="hljs-built_in">set</span>-upstream origin 分支名 // 创建远端分支
+git checkout commitId 文件名（文件路径下的文件名） 还原这个文件到对应的commitId的版本
+（例如src/page/attendance/attendanceSum.vue我想把它还原到2个版本之前 首先git <span class="hljs-built_in">log</span> src/page/attendance/attendanceSum.vue找到对应想要还原的版本
+复制版本提交的commitID 然后执行git checkout commitID src/page/attendance/attendanceSum.vue
+这样就把attendanceSum.vue这个单个文件 还原到了对应版本）
+git branch -v // 查看分支以及提交<span class="hljs-built_in">hash</span>值和commit信息
+git merge 分支名 // 把该分支的内容合并到现有分支上
+git branch -d 分支名 // 删除分支
+git branch -D 分支名 // 强制删除 若没有其他分支合并就删除 d会提示 D不会
+git branch -m 旧分支名 新分支名 // 修改分支名
+git branch -M 旧分支名 新分支名 // 修改分支名 M强制修改 若与其他分支有冲突也会创建(慎用)
+git branch -r // 列出远程分支(远程所有分支名)
+git branch -a // 查看远程分支(列出远程分支以及本地分支名)
+git fetch // 更新remote索引
+git push -u origin 分支名 // 将本地分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push 也可解决 git建立远程分支关联时出现fatal ... upstram的问题</code></pre>
+
+<h2 id="变基操作"><a href="#变基操作" class="headerlink" title="变基操作"></a>变基操作</h2><pre><code class="hljs bash">git rebase -i HEAD~3 变基之后的哈希值与之前的不同 证明变基是重新做的提交 把多次提交合并成了几次提交</code></pre>
+
+<h2 id="回撤操作"><a href="#回撤操作" class="headerlink" title="回撤操作"></a>回撤操作</h2><pre><code class="hljs bash">git commit --amend -m <span class="hljs-string">"提交信息"</span> // 回撤上一次提交并与本次工作区一起提交
+git reset HEAD~2 --hard // 回撤2步
+git reset --files // 从仓库回撤到暂存区
+git reset HEAD // 回撤暂存区内容到工作目录
+git reset HEAD --soft 回撤提交到暂存区
+git reset HEAD --hard // 回撤提交 放弃变更 (慎用)
+git reset HEAD^  // 回撤仓库最后一次提交
+git reset --hard commitid // 回撤到该次提交id的位置
+git push -f -u origin 分支名 所有内容都回撤完了 将回撤后的操作强制推送到远程分支</code></pre>
+
+<h2 id="强制推送"><a href="#强制推送" class="headerlink" title="强制推送"></a>强制推送</h2><pre><code class="hljs bash">git push -- force // 慎用，除非你认为其他冲突等可以丢弃 或者不是很重要</code></pre>
+
+<h2 id="vim模式"><a href="#vim模式" class="headerlink" title="vim模式"></a>vim模式</h2><pre><code class="hljs bash">vim 文件名 // 新建一个文件
+i 插入内容
+按下esc :wq 保存并退出
+按下esc :q 直接退出
+vim 模式下 文件中<span class="hljs-comment">#号开头的为注释</span>
+.project 忽略.project文件
+*.obj 或者 *.exe 忽略一类文件 例如以.obj .exe 结尾的文件
+git check-ignore -v .project 查看ignore中.project的位置</code></pre>
+
+<h2 id="存储密码凭证-设置别名-获取config信息以及配置"><a href="#存储密码凭证-设置别名-获取config信息以及配置" class="headerlink" title="存储密码凭证 设置别名 获取config信息以及配置"></a>存储密码凭证 设置别名 获取config信息以及配置</h2><pre><code class="hljs bash">git config --list // 获取config信息
+git config --global core.safecrlf <span class="hljs-literal">false</span> // 去掉git add 命令后 出现的一堆CR LF提示信息
+其中CR是回车的意思 LF是换行
+git config --global credential.helper wincred // 存储凭证 (可用于输入一次用户密码后，不再输入 有时我们已经用SSH key 绑定关联好了 但是每次git提交的时候 还是需要你输入用户名密码 在这个时候 敲入这个命令 将凭证存储起来 用户名密码就不需要再次输入了)
+git config --global alias.ci commit // 将commit命令设置别名ci git commit命令将由git ci来代替</code></pre>
+
+<h2 id="查看git常用命令"><a href="#查看git常用命令" class="headerlink" title="查看git常用命令"></a>查看git常用命令</h2><pre><code class="hljs bash">git helper -a // 查看全部git子命令</code></pre>
+
+<h2 id="逐行查看文件的修改历史"><a href="#逐行查看文件的修改历史" class="headerlink" title="逐行查看文件的修改历史"></a>逐行查看文件的修改历史</h2><pre><code class="hljs bash">git blame 文件名 // 查看该文件的修改历史
+git blame -L 100,10 文件名 // 从100行开始，到110行 逐行查看文件的修改历史</code></pre>
+
+<h2 id="清除"><a href="#清除" class="headerlink" title="清除"></a>清除</h2><pre><code class="hljs bash">git clean -n // 列出打算清除的档案(首先会对工作区的内容进行提示)
+git clean -f // 真正的删除
+git clean -x -f // 连.gitignore中忽略的档案也删除
+git status -sb (sb是 short branch) // 简洁的输出git status中的信息</code></pre>
+
+<h2 id="删除放入暂存区文件的方法（已commit后）"><a href="#删除放入暂存区文件的方法（已commit后）" class="headerlink" title="删除放入暂存区文件的方法（已commit后）"></a>删除放入暂存区文件的方法（已commit后）</h2><pre><code class="hljs bash">git rm 文件名 // 将该文件从commit后撤回到add后
+git reset HEAD^ --hard // 删除后 可以用git rm 文件名再回撤一步</code></pre>
+
+<h2 id="查看提交内容"><a href="#查看提交内容" class="headerlink" title="查看提交内容"></a>查看提交内容</h2><pre><code class="hljs bash">git hi -5 // 查看前5条内容
+git hi --grep hello // 过滤提交信息里有hello字眼的内容</code></pre>
+
+<h2 id="修改文件名以及移动"><a href="#修改文件名以及移动" class="headerlink" title="修改文件名以及移动"></a>修改文件名以及移动</h2><pre><code class="hljs bash">git mv a b // 把a文件名字改成b 并且直接放入git add后的暂存区
+git mv b ./demos/ // 把b文件移动到demos文件夹下</code></pre>
+
+<h2 id="对比工作区，暂存区，仓库的差异"><a href="#对比工作区，暂存区，仓库的差异" class="headerlink" title="对比工作区，暂存区，仓库的差异"></a>对比工作区，暂存区，仓库的差异</h2><pre><code class="hljs bash">git diff // 查看变更 工作区与暂存区的差异比对
+git diff --cached // 暂存区与提交版本的差异
+git diff HEAD // 工作区与仓库中最后一次提交版本的差别
+git diff 版本哈希值 版本哈希值 // 查看这2个版本哈希之间的区别
+或者 git diff HEAD~数字 HEAD~数字
+git tag tt HEAD~4 给倒数第5次提交打一个tag tag名字是tt
+git diff tt 就是倒数第5个版本与第一个版本之间的差异
+git diff --cached tt 暂存区与倒数第5个版本之间的比对</code></pre>
+
+<h2 id="查看提交信息"><a href="#查看提交信息" class="headerlink" title="查看提交信息"></a>查看提交信息</h2><pre><code class="hljs bash">git show HEAD // 查看最后一次提交修改的详细信息 也可以用git show 哈希值 查看对应的内容
+git show HEAD^ // 查看倒数第二次的提交修改详细信息
+git show HEAD^^ 或者git show HEAD~2 查看前2次变更
+git show HEAD 或 git show 哈希值 或者git show tag(标签名) 都可以查看最近一次提交的详细信息</code></pre>
+
+<h2 id="查看信息"><a href="#查看信息" class="headerlink" title="查看信息"></a>查看信息</h2><pre><code class="hljs bash">git <span class="hljs-built_in">log</span> --pretty=format:<span class="hljs-string">'%h %ad | %s%d [%an]'</span> --graph --date=short
+// 获取git <span class="hljs-built_in">log</span>里的树形详细信息 包括hasg 日期 提交信息 提交人等
+git <span class="hljs-built_in">log</span> --oneline //拉出所有提交信息 q是退出
+git <span class="hljs-built_in">log</span> -5 // 查看前5次的提交记录
+git <span class="hljs-built_in">log</span> --oneline -5 // 打印出的日志里面只有哈希值和修改的内容备注
+git <span class="hljs-built_in">log</span> 文件名 // 查看该文件的提交
+git <span class="hljs-built_in">log</span> --grep // 想过滤看到的内容   过滤日志
+git <span class="hljs-built_in">log</span> -n // 查看近期提交的n条信息内容
+git <span class="hljs-built_in">log</span> -p // 查看详细提交记录</code></pre>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/git/">git</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/csorz/20200727-parse/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">搭建parse-server、parse-dashboard</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/csorz/20200727-linux-0/">
+                        <span class="hidden-mobile">linux常用命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.defer = false
+      s.setAttribute('repo', 'csorz/hexo-fluid-commit');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      var e = document.getElementsByTagName('script')[0];
+      e.parentNode.insertBefore(s, e);
+    }
+    createObserver(loadUtterances, 'comments')
+  </script>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "git常用命令&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>

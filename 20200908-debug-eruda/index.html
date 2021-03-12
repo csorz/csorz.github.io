@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>Eruda调试面板简介 - CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/csorz/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-08 11:25">
+      2020年9月8日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      764 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      9
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：21 分钟前
+                
+              </p>
+            
+            <article class="markdown-body">
+              <p>Eruda 是一个专为手机网页前端设计的调试面板，类似 DevTools 的迷你版，其主要功能包括：捕获 console 日志、检查元素状态、捕获XHR请求、显示本地存储和 Cookie 信息等等。</p>
+<a id="more"></a>
+
+<p><a href="https://github.com/liriliri/eruda" target="_blank" rel="noopener">github地址</a></p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p><img src="https://csorz.github.io/2020/09/07/ai-story/1.png" srcset="/csorz/img/loading.gif" alt="Demo"></p>
+<p>请扫描二维码或在手机上直接访问：<a href="https://eruda.liriliri.io/" target="_blank" rel="noopener">https://eruda.liriliri.io/</a></p>
+<p>如果想在其它页面尝试，请在浏览器地址栏上输入以下代码。</p>
+<pre><code class="hljs javascript">javascript:(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123; <span class="hljs-keyword">var</span> script = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'script'</span>); script.src=<span class="hljs-string">"//cdn.jsdelivr.net/npm/eruda"</span>; <span class="hljs-built_in">document</span>.body.appendChild(script); script.onload = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123; eruda.init() &#125; &#125;)();</code></pre>
+
+<h2 id="功能清单"><a href="#功能清单" class="headerlink" title="功能清单"></a>功能清单</h2><ol>
+<li><p>按钮拖拽，面板透明度大小设置。</p>
+</li>
+<li><p>Console 面板：捕获 Console 日志，支持 log、error、info、warn、dir、time/timeEnd、clear、count、assert、table；支持占位符，包括 %c 自定义样式输出；支持按日志类型及正则表达式过滤；支持 JavaScript 脚本执行。</p>
+</li>
+<li><p>Elements 面板：查看标签内容及属性；查看应用在 Dom 上的样式；支持页面元素高亮；支持屏幕直接点击选取；查看 Dom 上绑定的各类事件。</p>
+</li>
+<li><p>Network 面板：捕获请求，查看发送数据、返回头、返回内容等信息。</p>
+</li>
+<li><p>Resources 面板：查看并清除 localStorage、sessionStorage 及 cookie；查看页面加载脚本及样式文件；查看页面加载图片。</p>
+</li>
+<li><p>Sources 面板：查看页面源码；格式化 html，css，js 代码及 json 数据。</p>
+</li>
+<li><p>Info 面板：输出 URL 及 User Agent；支持自定义输出内容。</p>
+</li>
+<li><p>Snippets 面板：页面元素添加边框；加时间戳刷新页面；支持自定义代码片段。</p>
+</li>
+</ol>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><p>通过CDN使用：</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//cdn.bootcdn.net/ajax/libs/eruda/2.3.3/eruda.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>eruda.init();<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+<p>通过 npm 安装：</p>
+<pre><code class="hljs bash">npm install eruda --save</code></pre>
+
+<p>在页面中加载脚本：</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/eruda/eruda.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>eruda.init();<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+<p>JS 文件对于移动端来说略重（gzip 后大概 100kb）。建议通过 url 参数来控制是否加载调试器，比如：</p>
+<pre><code class="hljs javascript">;(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">var</span> src = <span class="hljs-string">'//cdn.jsdelivr.net/npm/eruda'</span>;
+    <span class="hljs-keyword">if</span> (!<span class="hljs-regexp">/eruda=true/</span>.test(<span class="hljs-built_in">window</span>.location) &amp;&amp; localStorage.getItem(<span class="hljs-string">'active-eruda'</span>) != <span class="hljs-string">'true'</span>) <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">document</span>.write(<span class="hljs-string">'&lt;scr'</span> + <span class="hljs-string">'ipt src="'</span> + src + <span class="hljs-string">'"&gt;&lt;/scr'</span> + <span class="hljs-string">'ipt&gt;'</span>);
+    <span class="hljs-built_in">document</span>.write(<span class="hljs-string">'&lt;scr'</span> + <span class="hljs-string">'ipt&gt;eruda.init();&lt;/scr'</span> + <span class="hljs-string">'ipt&gt;'</span>);
+&#125;)();</code></pre>
+
+<p>初始化时可以传入配置：</p>
+<ul>
+<li>container: 用于插件初始化的 Dom 元素，如果不设置，默认创建 div 作为容器直接置于 html 根结点下面。</li>
+<li>tool：指定要初始化哪些面板，默认加载所有。</li>
+</ul>
+<pre><code class="hljs javascript"><span class="hljs-keyword">let</span> el = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'div'</span>);
+<span class="hljs-built_in">document</span>.body.appendChild(el);
+
+eruda.init(&#123;
+    container: el,
+    tool: [<span class="hljs-string">'console'</span>, <span class="hljs-string">'elements'</span>],
+    useShadowDom: <span class="hljs-literal">true</span>
+&#125;);</code></pre>
+
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><ul>
+<li><a href="https://github.com/liriliri/eruda-fps" target="_blank" rel="noopener">eruda-fps</a>：展示页面的 fps 信息。</li>
+<li><a href="https://github.com/liriliri/eruda-features" target="_blank" rel="noopener">eruda-features</a>：浏览器特性检测。</li>
+<li><a href="https://github.com/liriliri/eruda-timing" target="_blank" rel="noopener">eruda-timing</a>：展示性能资源数据。</li>
+<li><a href="https://github.com/liriliri/eruda-memory" target="_blank" rel="noopener">eruda-memory</a>：展示页面内存信息。</li>
+<li><a href="https://github.com/liriliri/eruda-code" target="_blank" rel="noopener">eruda-code</a>：运行 JavaScript 代码。</li>
+<li><a href="https://github.com/liriliri/eruda-benchmark" target="_blank" rel="noopener">eruda-benchmark</a>：运行 JavaScript 性能测试。</li>
+<li><a href="https://github.com/liriliri/eruda-geolocation" target="_blank" rel="noopener">eruda-geolocation</a>：测试地理位置接口。</li>
+<li><a href="https://github.com/liriliri/eruda-dom" target="_blank" rel="noopener">eruda-dom</a>：浏览 dom 树。</li>
+<li><a href="https://github.com/liriliri/eruda-orientation" target="_blank" rel="noopener">eruda-orientation</a>：测试重力感应接口。</li>
+<li><a href="https://github.com/liriliri/eruda-orientation" target="_blank" rel="noopener">eruda-touches</a>：可视化屏幕 Touch 事件触发。</li>
+</ul>
+<p>如果你想要自己编写插件，可以查看这里的<a href="./PLUGIN.md">教程</a>。</p>
+<h2 id="相关项目"><a href="#相关项目" class="headerlink" title="相关项目"></a>相关项目</h2><ul>
+<li><a href="https://github.com/liriliri/chii" target="_blank" rel="noopener">chii</a>：远程调试工具。</li>
+<li><a href="https://github.com/liriliri/licia" target="_blank" rel="noopener">licia</a>：Eruda 使用的工具库。 </li>
+<li><a href="https://github.com/huruji/eruda-webpack-plugin" target="_blank" rel="noopener">eruda-webpack-plugin</a>：Eruda webpack 插件。</li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/javascript/">javascript</a>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/Eruda/">Eruda</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/csorz/20200908-nat-ddns/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">nat-ddns</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/csorz/20200907-ai-story/">
+                        <span class="hidden-mobile">AI课，Story模板</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.defer = false
+      s.setAttribute('repo', 'csorz/hexo-fluid-commit');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      var e = document.getElementsByTagName('script')[0];
+      e.parentNode.insertBefore(s, e);
+    }
+    createObserver(loadUtterances, 'comments')
+  </script>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Eruda调试面板简介&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20210312-%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E5%86%85%E7%BD%91%E5%9C%B0%E5%9D%80/" target="_self">
+          <img src="/csorz/img/001.jpg" srcset="/csorz/img/loading.gif" alt="正则匹配内网地址">
+          
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20210312-%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E5%86%85%E7%BD%91%E5%9C%B0%E5%9D%80/">正则匹配内网地址</a>
+
+      <a href="/csorz/20210312-%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E5%86%85%E7%BD%91%E5%9C%B0%E5%9D%80/" class="index-excerpt">
+        
+        
+          
+        
+        <div>由于项目的需求，需要过滤掉内网IP地址。首先我们需要知道内网网段范围（内网保留地址），然后根据其规则，使用正则表达式针对性去匹配。</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-03-12
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200810-typescript/" target="_self">
+          <img src="/csorz/img/006.jpg" srcset="/csorz/img/loading.gif" alt="typescript学习笔记">
+          
+            <div class="index-img-hover">
+              
+                typescript &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200810-typescript/">typescript学习笔记</a>
+
+      <a href="/csorz/20200810-typescript/" class="index-excerpt">
+        
+        
+          
+        
+        <div>基础类型数组
+# 1
+const list: (string | number)[] = []
+# 2
+const list: Array&lt;number | string&gt; = []
+
+元组 Tuple
+let x: [string, number];
+
+枚举enum类型是对JavaScript标准数据类型的一个补充。 像C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字。
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-03-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/typescript/">typescript</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20210308-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/" target="_self">
+          <img src="/csorz/img/010.jpg" srcset="/csorz/img/loading.gif" alt="20210308-服务端渲染">
+          
+            <div class="index-img-hover">
+              
+                SSR &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20210308-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/">20210308-服务端渲染</a>
+
+      <a href="/csorz/20210308-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/" class="index-excerpt">
+        
+        
+          
+        
+        <div>因业务需求，官网宣传页、商城、资讯等模块需要重构。此次重构目标是提升开发效率和优化页面加载速度，同时保留原有的SEO。在此记录两个SSR框架的使用心得。旧版使用技术框架是：Express + Ejs重构使用技术框架是：Vue + Nuxt.js 、Vue + Quasar</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-03-08
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/SSR/">SSR</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20210204-vue%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8-%E7%99%BD%E5%B1%8F%E6%88%96%E6%95%B0%E6%8D%AE%E4%B8%8D%E6%98%BE%E7%A4%BA/" target="_self">
+          <img src="/csorz/img/009.jpg" srcset="/csorz/img/loading.gif" alt="vue页面渲染异常（白屏或数据不显示）">
+          
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20210204-vue%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8-%E7%99%BD%E5%B1%8F%E6%88%96%E6%95%B0%E6%8D%AE%E4%B8%8D%E6%98%BE%E7%A4%BA/">vue页面渲染异常（白屏或数据不显示）</a>
+
+      <a href="/csorz/20210204-vue%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E5%BC%82%E5%B8%B8-%E7%99%BD%E5%B1%8F%E6%88%96%E6%95%B0%E6%8D%AE%E4%B8%8D%E6%98%BE%E7%A4%BA/" class="index-excerpt">
+        
+        
+          
+        
+        <div>这两天遇到巨坑的BUG，不过总算找到问题所在。特此记录，以免再坑。</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-02-04
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20210127-%E5%89%8D%E7%AB%AF%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E4%B8%8A%E6%8A%A5/" target="_self">
+          <img src="/csorz/img/008.jpg" srcset="/csorz/img/loading.gif" alt="20210127-前端异常捕获与上报">
+          
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20210127-%E5%89%8D%E7%AB%AF%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E4%B8%8A%E6%8A%A5/">20210127-前端异常捕获与上报</a>
+
+      <a href="/csorz/20210127-%E5%89%8D%E7%AB%AF%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E4%B8%8E%E4%B8%8A%E6%8A%A5/" class="index-excerpt">
+        
+        
+          
+        
+        <div>参考资料Sentry
+https://segmentfault.com/a/1190000013983109
+https://blog.fundebug.com/2018/12/07/how-to-handle-frontend-error/
+https://cdc.tencent.com/2018/09/13/frontend-exception-monitor-research/
+</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-27
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20210112-%E4%BD%BF%E7%94%A8vite%E6%90%AD%E5%BB%BAvue3-0%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF/" target="_self">
+          <img src="/csorz/img/007.jpg" srcset="/csorz/img/loading.gif" alt="使用vite搭建vue3.0项目模板">
+          
+            <div class="index-img-hover">
+              
+                vite &nbsp; 
+              
+                vue &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20210112-%E4%BD%BF%E7%94%A8vite%E6%90%AD%E5%BB%BAvue3-0%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF/">使用vite搭建vue3.0项目模板</a>
+
+      <a href="/csorz/20210112-%E4%BD%BF%E7%94%A8vite%E6%90%AD%E5%BB%BAvue3-0%E9%A1%B9%E7%9B%AE%E6%A8%A1%E6%9D%BF/" class="index-excerpt">
+        
+        
+          
+        
+        <div>搭建步骤创建vite-vue项目模板# https://github.com/vitejs/vite/tree/main/packages/create-app
+npm init @vitejs/app m-vvv3 --template vue-ts
+# 成功后提示：
+npx: 5 安装成功，用时 4.119 秒
+Scaffolding project in C:\*\m-vvv3...
+
+Do</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2021-01-12
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/vite/">vite</a>
+            
+              <a href="/csorz/tags/vue/">vue</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20201230-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" target="_self">
+          <img src="/csorz/img/005.jpg" srcset="/csorz/img/loading.gif" alt="20201230-自动化部署">
+          
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20201230-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/">20201230-自动化部署</a>
+
+      <a href="/csorz/20201230-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/" class="index-excerpt">
+        
+        
+          
+        
+        <div></div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-12-30
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20201230-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" target="_self">
+          <img src="/csorz/img/006.jpg" srcset="/csorz/img/loading.gif" alt="20201230-自动化测试">
+          
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20201230-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">20201230-自动化测试</a>
+
+      <a href="/csorz/20201230-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" class="index-excerpt">
+        
+        
+          
+        
+        <div>mark</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-12-30
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20201228-HTTP-Content-Type/" target="_self">
+          <img src="/csorz/img/004.jpg" srcset="/csorz/img/loading.gif" alt="HTTP协议：Content-Type">
+          
+            <div class="index-img-hover">
+              
+                HTTP &nbsp; 
+              
+                Content-Type &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20201228-HTTP-Content-Type/">HTTP协议：Content-Type</a>
+
+      <a href="/csorz/20201228-HTTP-Content-Type/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Content-Type 实体头部用于指示资源的MIME类型 media type 。
+在响应中，Content-Type标头告诉客户端实际返回的内容的内容类型。浏览器会在某些情况下进行MIME查找，并不一定遵循此标题的值; 为了防止这种行为，可以将标题 X-Content-Type-Options 设置为 nosniff。
+在请求中 (如POST 或 PUT)，客户端告诉服务器实际发送的数据类型</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-12-28
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/HTTP/">HTTP</a>
+            
+              <a href="/csorz/tags/Content-Type/">Content-Type</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20201222-javascript%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE/" target="_self">
+          <img src="/csorz/img/003.jpg" srcset="/csorz/img/loading.gif" alt="Javascript中的二进制数据">
+          
+            <div class="index-img-hover">
+              
+                Blob &nbsp; 
+              
+                ArrayBuffer &nbsp; 
+              
+                Buffer &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20201222-javascript%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE/">Javascript中的二进制数据</a>
+
+      <a href="/csorz/20201222-javascript%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE/" class="index-excerpt">
+        
+        
+          
+        
+        <div>最近常接到文件上传和下载的需求，需要频繁处理二级制数据，本文将记录Javascript二进制数据处理的相关知识点，已备后期查阅。</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-12-22
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/Blob/">Blob</a>
+            
+              <a href="/csorz/tags/ArrayBuffer/">ArrayBuffer</a>
+            
+              <a href="/csorz/tags/Buffer/">Buffer</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/csorz/page/2/">2</a><a class="page-number" href="/csorz/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/csorz/page/8/">8</a><a class="extend next" rel="next" href="/csorz/page/2/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "೭(˵¯̴͒ꇴ¯̴͒˵)౨：日有所思，日有所得&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>ai-story-zip，课件模板打包 - CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/csorz/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-15 17:49">
+      2020年9月15日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      58
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：21 分钟前
+                
+              </p>
+            
+            <article class="markdown-body">
+              <h2 id="服务端-Koa"><a href="#服务端-Koa" class="headerlink" title="服务端 Koa"></a>服务端 Koa</h2><pre><code class="hljs bash">/**
+ * 奥点云直播录制功能调整
+ */
+const router = require(<span class="hljs-string">'koa-router'</span>)();
+const _ = require(<span class="hljs-string">'lodash'</span>);
+const axios = require(<span class="hljs-string">'axios'</span>);
+const moment = require(<span class="hljs-string">'moment'</span>);
+const &#123; URL &#125; = require(<span class="hljs-string">'url'</span>)
+const path = require(<span class="hljs-string">'path'</span>);
+
+const request = require(<span class="hljs-string">'request'</span>)
+const JSZip = require(<span class="hljs-string">'jszip'</span>)
+const newZip = new JSZip()
+
+const api = require(<span class="hljs-string">'./api'</span>);
+
+<span class="hljs-built_in">let</span> picbookJson = &#123;&#125;
+<span class="hljs-built_in">let</span> picbookJsonStr = <span class="hljs-string">''</span>
+
+// 拉取Story项目模板
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">getTemplate</span></span>() &#123;
+    <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;
+        request(&#123;
+            method: <span class="hljs-string">'GET'</span>,
+            encoding: null,
+            uri: <span class="hljs-string">'http://public.yitong.com/demo/story-template/story.zip?_t='</span> + new Date().getTime()
+        &#125;, <span class="hljs-keyword">function</span> (err, response, body) &#123;
+            <span class="hljs-keyword">if</span> (err) &#123;
+                <span class="hljs-built_in">return</span> reject(err)
+            &#125;
+            resolve(body)
+        &#125;)
+    &#125;)
+&#125;
+
+// 拉取临时文件列表
+<span class="hljs-keyword">function</span> getFile(json) &#123;
+    const arr = []
+    json.resourceList.forEach((item, index) =&gt; &#123;
+        arr.push(new Promise((resolve, reject) =&gt; &#123;
+            request(&#123;
+                method: <span class="hljs-string">'GET'</span>,
+                encoding: null,
+                uri: item.replace(<span class="hljs-string">'https://'</span>, <span class="hljs-string">'http://'</span>)
+            &#125;, <span class="hljs-keyword">function</span> (err, response, body) &#123;
+                <span class="hljs-keyword">if</span> (err) &#123;
+                    <span class="hljs-built_in">return</span> reject(err)
+                &#125;
+                const arr = item.split(<span class="hljs-string">'/'</span>) || []
+                const fName = arr.length &gt; 0 ? arr[arr.length - 1] : index
+                picbookJsonStr = picbookJsonStr.replace(item, fName)
+                console.log(fName, item)
+                resolve(&#123;
+                    name: fName,
+                    body
+                &#125;)
+            &#125;)
+        &#125;))
+    &#125;)
+    <span class="hljs-built_in">return</span> Promise.all(arr)
+&#125;
+
+// stream 转 buffer
+<span class="hljs-keyword">function</span> streamToBuffer(stream) &#123;
+    <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;
+        const buffers = []
+        stream.on(<span class="hljs-string">'error'</span>, reject)
+        stream.on(<span class="hljs-string">'data'</span>, data =&gt; buffers.push(data))
+        stream.on(<span class="hljs-string">'end'</span>, () =&gt; resolve(Buffer.concat(buffers)))
+    &#125;)
+&#125;
+
+// buffer 转 stream
+// <span class="hljs-built_in">let</span> Duplex = require(<span class="hljs-string">'stream'</span>).Duplex
+
+// <span class="hljs-keyword">function</span> bufferToStream(buffer) &#123;
+//   <span class="hljs-built_in">let</span> stream = new Duplex();
+//   stream.push(buffer);
+//   stream.push(null);
+//   <span class="hljs-built_in">return</span> stream;
+// &#125;
+
+
+router.post(<span class="hljs-string">'/gw/ai/zip'</span>, async (ctx) =&gt; &#123;
+    console.log(ctx.request.body)
+    picbookJson = ctx.request.body
+    picbookJsonStr = JSON.stringify(picbookJson)
+    // 配置远端镜像路径
+    picbookJson.baseUrl = <span class="hljs-string">''</span>
+    const body = await getTemplate()
+    <span class="hljs-keyword">if</span> (!body) &#123;
+        ctx.body = api.error(&#123;
+            code: 9,
+            message: <span class="hljs-string">'出错啦'</span>,
+            result: null
+        &#125;)
+        <span class="hljs-built_in">return</span>
+    &#125;
+    // 写入资源文件
+    const zip = await newZip.loadAsync(body)
+    // 仅支持一级相对路径，例如 <span class="hljs-string">'resource/'</span>
+    const resourceFile = zip.folder(picbookJson.prefix.replace(<span class="hljs-string">'/'</span>, <span class="hljs-string">''</span>))
+    const resourceObject = await getFile(picbookJson)
+    resourceObject.forEach((item) =&gt; &#123;
+        resourceFile.file(item.name, item.body, &#123; base64: <span class="hljs-literal">true</span> &#125;)
+    &#125;)
+    // 写入配置文件
+    console.log(<span class="hljs-string">'-----------'</span>, picbookJsonStr)
+    picbookJson = JSON.parse(picbookJsonStr)
+    zip.file(<span class="hljs-string">'config.json'</span>, JSON.stringify(&#123;
+        version: 1,
+        packageDate: new Date().getTime(),
+        picbook: picbookJson
+    &#125;))
+    // https://stuk.github.io/jszip/documentation/howto/write_zip.html
+    const stream = zip.generateNodeStream(&#123; 
+        <span class="hljs-built_in">type</span>: <span class="hljs-string">'nodebuffer'</span>, // 压缩类型选择nodebuffer，在回调函数中会返回zip压缩包的Buffer的值
+        // 压缩算法
+        compression: <span class="hljs-string">"DEFLATE"</span>,
+        compressionOptions: &#123;
+            level: 9
+        &#125;,
+        streamFiles: <span class="hljs-literal">true</span>
+    &#125;)
+    // res.head(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'application/octet-stream'</span>)
+    // res.header(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/plain'</span>)
+    // res.write(await streamToBuffer(stream), <span class="hljs-string">'utf8'</span>)
+    // res.end()
+    ctx.set(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'application/octet-stream'</span>);
+    ctx.body = await streamToBuffer(stream)
+&#125;)
+
+/**
+ * 查询课程录播文件
+ */
+router.post(<span class="hljs-string">'/gw/aodianyun/getCourseData1'</span>, async (ctx) =&gt; &#123;
+    <span class="hljs-built_in">let</span> &#123; courseId &#125; = ctx.request.body;
+    const LiveLookback = Parse.Object.extend(<span class="hljs-string">"LiveLookback"</span>);
+    const search = new Parse.Query(LiveLookback);
+    //search.equalTo(<span class="hljs-string">"status"</span>, <span class="hljs-string">'success'</span>);
+    search.limit(2);
+    const results = await search.find();
+    <span class="hljs-built_in">let</span> response = &#123;
+        list: results
+    &#125;;
+    ctx.body = api.ok(response);
+&#125;);
+
+module.exports = router;</code></pre>
+
+<h2 id="服务端（Nuxt-servermiddleware-Express）"><a href="#服务端（Nuxt-servermiddleware-Express）" class="headerlink" title="服务端（Nuxt servermiddleware - Express）"></a>服务端（Nuxt servermiddleware - Express）</h2><pre><code class="hljs Bash">// 在具体页面中检测接口是否就绪
+// const &#123; result &#125; = await this.<span class="hljs-variable">$axios</span>.<span class="hljs-variable">$post</span>(<span class="hljs-string">'http://localhost:3000/api/ready'</span>)
+// console.log(<span class="hljs-string">'localhost:8000/api'</span>, result)
+const JSZip = require(<span class="hljs-string">'jszip'</span>)
+const request = require(<span class="hljs-string">'request'</span>)
+const configJson = &#123;
+  baseUrl: <span class="hljs-string">'https://public.yitong.com/demo/story/picbook/'</span>,
+  name: <span class="hljs-string">'Sharing (Story)'</span>,
+  coverImageUrl: <span class="hljs-string">'1573803206931407.jpg'</span>,
+  coverAudioUrl: <span class="hljs-string">'170f173622a46ff.mp3'</span>,
+  wordCount: 16,
+  pageContents: [
+    &#123;
+      imageUrl: <span class="hljs-string">'this_is_a_simple_example.jpg'</span>,
+      audioUrl: <span class="hljs-string">'this_is_a_simple_example.mp3'</span>,
+      text: <span class="hljs-string">'This is a simple example.'</span>,
+      wordStartTimes: [
+        100, 200, 500, 800, 1100
+      ],
+      translation: <span class="hljs-string">'这是一个样本案例。'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'15281012820093872.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16a30fb178d.mp3'</span>,
+      text: <span class="hljs-string">'Your egg.'</span>,
+      wordStartTimes: [
+        490,
+        1150
+      ],
+      translation: <span class="hljs-string">'你的鸡蛋。'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'1528101315937327.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16a70f44791.mp3'</span>,
+      text: <span class="hljs-string">'Your juice.'</span>,
+      wordStartTimes: [
+        530,
+        1200
+      ],
+      translation: <span class="hljs-string">'你的果汁。'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'1528101341373822.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16aaf007cf8.mp3'</span>,
+      text: <span class="hljs-string">'Your cake.'</span>,
+      wordStartTimes: [
+        480,
+        1030
+      ],
+      translation: <span class="hljs-string">'你的蛋糕。'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'152810136774110.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16aea4e8cb7.mp3'</span>,
+      text: <span class="hljs-string">'I\u0027m hungry.'</span>,
+      wordStartTimes: [
+        540,
+        1070
+      ],
+      translation: <span class="hljs-string">'我饿了。'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'15281013914784154.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16b27602718.mp3'</span>,
+      text: <span class="hljs-string">'My egg!'</span>,
+      wordStartTimes: [
+        510,
+        1190
+      ],
+      translation: <span class="hljs-string">'我的鸡蛋！'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'15281014154594103.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16b640658ac.mp3'</span>,
+      text: <span class="hljs-string">'My juice!'</span>,
+      wordStartTimes: [
+        490,
+        1040
+      ],
+      translation: <span class="hljs-string">'我的果汁！'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'15281014415395255.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16bb14251fa.mp3'</span>,
+      text: <span class="hljs-string">'My cake!'</span>,
+      wordStartTimes: [
+        480,
+        1080
+      ],
+      translation: <span class="hljs-string">'我的蛋糕！'</span>
+    &#125;,
+    &#123;
+      imageUrl: <span class="hljs-string">'1528101466094874.jpg'</span>,
+      audioUrl: <span class="hljs-string">'170f16bea952816.mp3'</span>,
+      text: <span class="hljs-string">'Yay! Candy!'</span>,
+      wordStartTimes: [
+        510,
+        1490
+      ],
+      translation: <span class="hljs-string">'耶！糖果！'</span>
+    &#125;
+  ],
+  resourceList: [
+    <span class="hljs-string">'1573803206931407.jpg'</span>,
+    <span class="hljs-string">'this_is_a_simple_example.jpg'</span>,
+    <span class="hljs-string">'15281012820093872.jpg'</span>,
+    <span class="hljs-string">'1528101315937327.jpg'</span>,
+    <span class="hljs-string">'1528101341373822.jpg'</span>,
+    <span class="hljs-string">'152810136774110.jpg'</span>,
+    <span class="hljs-string">'15281013914784154.jpg'</span>,
+    <span class="hljs-string">'15281014154594103.jpg'</span>,
+    <span class="hljs-string">'15281014415395255.jpg'</span>,
+    <span class="hljs-string">'1528101466094874.jpg'</span>,
+    <span class="hljs-string">'170f173622a46ff.mp3'</span>,
+    <span class="hljs-string">'this_is_a_simple_example.mp3'</span>,
+    <span class="hljs-string">'170f16a30fb178d.mp3'</span>,
+    <span class="hljs-string">'170f16a70f44791.mp3'</span>,
+    <span class="hljs-string">'170f16aaf007cf8.mp3'</span>,
+    <span class="hljs-string">'170f16aea4e8cb7.mp3'</span>,
+    <span class="hljs-string">'170f16b27602718.mp3'</span>,
+    <span class="hljs-string">'170f16b640658ac.mp3'</span>,
+    <span class="hljs-string">'170f16bb14251fa.mp3'</span>,
+    <span class="hljs-string">'170f16bea952816.mp3'</span>
+  ]
+&#125;
+const newZip = new JSZip()
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">getTemplate</span></span>() &#123;
+  <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;
+    request(&#123;
+      method: <span class="hljs-string">'GET'</span>,
+      encoding: null,
+      uri: <span class="hljs-string">'https://public.yitong.com/demo/story-template/story.zip?_t='</span> + new Date().getTime()
+    &#125;, <span class="hljs-keyword">function</span>(err, response, body) &#123;
+      <span class="hljs-keyword">if</span> (err) &#123;
+        <span class="hljs-built_in">return</span> reject(err)
+      &#125;
+      resolve(body)
+    &#125;)
+  &#125;)
+&#125;
+
+<span class="hljs-keyword">function</span> getFile(json) &#123;
+  const arr = []
+  json.resourceList.forEach(item =&gt; &#123;
+    arr.push(new Promise((resolve, reject) =&gt; &#123;
+      request(&#123;
+        method: <span class="hljs-string">'GET'</span>,
+        encoding: null,
+        uri: json.baseUrl + item
+      &#125;, <span class="hljs-keyword">function</span>(err, response, body) &#123;
+        <span class="hljs-keyword">if</span> (err) &#123;
+          <span class="hljs-built_in">return</span> reject(err)
+        &#125;
+        resolve(&#123;
+          name: item,
+          body
+        &#125;)
+      &#125;)
+    &#125;))
+  &#125;)
+  <span class="hljs-built_in">return</span> Promise.all(arr)
+&#125;
+
+// stream 转 buffer
+<span class="hljs-keyword">function</span> streamToBuffer (stream) &#123;
+  <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;
+    const buffers = []
+    stream.on(<span class="hljs-string">'error'</span>, reject)
+    stream.on(<span class="hljs-string">'data'</span>, data =&gt; buffers.push(data))
+    stream.on(<span class="hljs-string">'end'</span>, () =&gt; resolve(Buffer.concat(buffers)))
+  &#125;)
+&#125;
+
+// buffer 转 stream
+// <span class="hljs-built_in">let</span> Duplex = require(<span class="hljs-string">'stream'</span>).Duplex
+
+// <span class="hljs-keyword">function</span> bufferToStream(buffer) &#123;
+//   <span class="hljs-built_in">let</span> stream = new Duplex();
+//   stream.push(buffer);
+//   stream.push(null);
+//   <span class="hljs-built_in">return</span> stream;
+// &#125;
+
+<span class="hljs-built_in">export</span> default async <span class="hljs-keyword">function</span> (req, res, next) &#123;
+  // req is the Node.js http request object
+  const body = await getTemplate()
+  <span class="hljs-keyword">if</span> (!body) &#123;
+    res.write(JSON.stringify(&#123;
+      code: 9,
+      message: <span class="hljs-string">'出错啦'</span>,
+      result: null
+    &#125;))
+    <span class="hljs-built_in">return</span>
+  &#125;
+  const zip = await newZip.loadAsync(body)
+  zip.file(<span class="hljs-string">'story.json'</span>, JSON.stringify(configJson))
+  const picbook = zip.folder(<span class="hljs-string">'picbook'</span>)
+  const resources = await getFile(configJson)
+  resources.forEach((item) =&gt; &#123;
+    picbook.file(item.name, item.body, &#123; base64: <span class="hljs-literal">true</span> &#125;)
+  &#125;)
+  // https://stuk.github.io/jszip/documentation/howto/write_zip.html
+  const stream = zip.generateNodeStream(&#123; <span class="hljs-built_in">type</span>: <span class="hljs-string">'nodebuffer'</span>, streamFiles: <span class="hljs-literal">true</span> &#125;)
+  res.setHeader(<span class="hljs-string">'Access-Control-Allow-Origin'</span>, <span class="hljs-string">'*'</span>)
+  res.setHeader(<span class="hljs-string">'Access-Control-Allow-Credentials'</span>, <span class="hljs-string">'true'</span>)
+  res.setHeader(<span class="hljs-string">'Access-Control-Allow-Methods'</span>, <span class="hljs-string">'*'</span>)
+  res.setHeader(<span class="hljs-string">'Access-Control-Allow-Headers'</span>, <span class="hljs-string">'Content-Type,Access-Token'</span>) // 这里“Access-Token”是我要传到后台的内容key
+  res.setHeader(<span class="hljs-string">'Access-Control-Expose-Headers'</span>, <span class="hljs-string">'*'</span>)
+  // res.setHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'application/octet-stream'</span>)
+  res.setHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'text/plain'</span>)
+  // res is the Node.js http response object
+  res.write(await streamToBuffer(stream), <span class="hljs-string">'utf8'</span>)
+  res.end()
+
+  // next is a <span class="hljs-keyword">function</span> to call to invoke the next middleware
+  // Don<span class="hljs-string">'t forget to call next at the end if your middleware is not an endpoint!</span>
+<span class="hljs-string">  // next()</span>
+<span class="hljs-string">&#125;</span>
+<span class="hljs-string"></span>
+<span class="hljs-string"></span>
+<span class="hljs-string">// 参考资料：</span>
+<span class="hljs-string">// 【node-http】http://nodejs.cn/api/http.html#http_response_write_chunk_encoding_callback</span>
+<span class="hljs-string">// 【jszip】https://stuk.github.io/jszip/documentation/howto/write_zip.html</span>
+<span class="hljs-string">// 【file-saver】https://www.npmjs.com/package/file-saver</span>
+<span class="hljs-string">// 【服务器渲染中间件】https://zh.nuxtjs.org/api/configuration-servermiddleware/</span>
+<span class="hljs-string">// 【node - connect】https://github.com/senchalabs/connect#appusefn</span>
+<span class="hljs-string">// 【文件类型对照表】https://tool.oschina.net/commons/</span>
+<span class="hljs-string">// 【后台传输arraybuffer,前台用Uint8Array转】https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array</span></code></pre>
+
+<h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><pre><code class="hljs Bash">&lt;template&gt;
+  &lt;div class=<span class="hljs-string">"main"</span>&gt;
+    &lt;div class=<span class="hljs-string">"submit-btn"</span> @click=<span class="hljs-string">"package"</span>&gt;
+      &lt;i class=<span class="hljs-string">"el-icon-goods"</span>&gt;&lt;/i&gt;
+      &lt;p&gt;打包课件&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;UploadManagement @selected=<span class="hljs-string">"handleSelected()"</span> :<span class="hljs-built_in">limit</span>=<span class="hljs-string">"99"</span> /&gt;
+    &lt;el-form ref=<span class="hljs-string">"form"</span> label-width=<span class="hljs-string">"80px"</span>&gt;
+      &lt;el-form-item label=<span class="hljs-string">"课件标题"</span>&gt;
+        &lt;el-input v-model=<span class="hljs-string">"form.name"</span>&gt;&lt;/el-input&gt;
+      &lt;/el-form-item&gt;
+      &lt;el-form-item label=<span class="hljs-string">"单词数量"</span>&gt;
+        &lt;el-input v-model=<span class="hljs-string">"form.wordCount"</span>&gt;&lt;/el-input&gt;
+      &lt;/el-form-item&gt;
+      &lt;el-form-item label=<span class="hljs-string">"封面图片"</span>&gt;
+        &lt;div&gt;
+          &lt;UploadSelectManagement
+            @onSuccess=<span class="hljs-string">"handleUploadImage"</span>
+            :options=<span class="hljs-string">"&#123;</span>
+<span class="hljs-string">              limit: 1,</span>
+<span class="hljs-string">              mark: 'coverImageUrl',</span>
+<span class="hljs-string">              type: 'image/',</span>
+<span class="hljs-string">              file: form.coverImageUrl ? [&#123;name: '', url: form.coverImageUrl&#125;] : []</span>
+<span class="hljs-string">            &#125;"</span>
+          /&gt;
+          &lt;!-- &lt;UploadImage @onsuccess=<span class="hljs-string">"handleUploadImage"</span> :fileList=<span class="hljs-string">"form.coverImageUrl ? [&#123;name: '', url: form.coverImageUrl&#125;] : []"</span> :<span class="hljs-built_in">limit</span>=<span class="hljs-string">"1"</span> /&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/el-form-item&gt;
+      &lt;el-form-item label=<span class="hljs-string">"封面音频"</span>&gt;
+        &lt;UploadSelectManagement
+          @onSuccess=<span class="hljs-string">"handleUploadAudio"</span>
+          :options=<span class="hljs-string">"&#123;</span>
+<span class="hljs-string">            limit: 1,</span>
+<span class="hljs-string">            mark: 'coverAudioUrl',</span>
+<span class="hljs-string">            type: 'audio/mpeg',</span>
+<span class="hljs-string">            file: form.coverAudioUrl ? [&#123;name: '', url: form.coverAudioUrl&#125;] : []</span>
+<span class="hljs-string">          &#125;"</span>
+        /&gt;
+        &lt;!-- &lt;UploadAudio @onsuccess=<span class="hljs-string">"handleUploadAudio"</span> :url=<span class="hljs-string">"form.coverAudioUrl"</span> /&gt; --&gt;
+      &lt;/el-form-item&gt;
+      &lt;el-form-item label=<span class="hljs-string">"内容区域"</span>&gt;
+        &lt;div class=<span class="hljs-string">"page-list"</span>&gt;
+          &lt;div class=<span class="hljs-string">"page-item"</span> v-for=<span class="hljs-string">"(item, index) in form.pageContents"</span> :key=<span class="hljs-string">"index"</span>&gt;
+            &lt;span class=<span class="hljs-string">"subscript"</span>&gt;P&#123;&#123;index + 1&#125;&#125;&lt;/span&gt;
+            &lt;div class=<span class="hljs-string">"img-box"</span>&gt;
+              &lt;img
+                :src=<span class="hljs-string">"item.imageUrl"</span>
+              &gt;
+              &lt;div class=<span class="hljs-string">"operate"</span>&gt;
+                &lt;i class=<span class="hljs-string">"el-icon-caret-top"</span>&gt;&lt;/i&gt;
+                &lt;i class=<span class="hljs-string">"el-icon-edit"</span> @click=<span class="hljs-string">"showDialogForm(<span class="hljs-variable">$event</span>, item, index)"</span>&gt;&lt;/i&gt;
+                &lt;i class=<span class="hljs-string">"el-icon-caret-bottom"</span>&gt;&lt;/i&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;audio :src=<span class="hljs-string">"item.audioUrl"</span> controls&gt;&lt;/audio&gt;
+              &lt;h3&gt;&#123;&#123; item.text &#125;&#125;&lt;/h3&gt;
+              &lt;p&gt;&#123;&#123; item.translation &#125;&#125;&lt;/p&gt;
+              &lt;p&gt;&#123;&#123; item.wordStartTimes.join(<span class="hljs-string">','</span>) &#125;&#125;&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=<span class="hljs-string">"page-item"</span>&gt;
+            &lt;i class=<span class="hljs-string">"el-icon-plus add"</span> @click=<span class="hljs-string">"showDialogForm(<span class="hljs-variable">$event</span>)"</span>&gt;&lt;/i&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/el-form-item&gt;
+    &lt;/el-form&gt;
+    &lt;el-dialog title=<span class="hljs-string">"编辑内容"</span> :visible.sync=<span class="hljs-string">"dialogFormVisible"</span> :close-on-click-modal=<span class="hljs-string">"false"</span> :close-on-press-escape=<span class="hljs-string">"false"</span>&gt;
+      &lt;el-form :model=<span class="hljs-string">"form"</span>&gt;
+        &lt;el-form-item label=<span class="hljs-string">"图片"</span> :label-width=<span class="hljs-string">"formLabelWidth"</span>&gt;
+          &lt;UploadSelectManagement
+            @onSuccess=<span class="hljs-string">"handlePageUploadImage"</span>
+            :options=<span class="hljs-string">"&#123;</span>
+<span class="hljs-string">              limit: 1,</span>
+<span class="hljs-string">              mark: 'imageUrl',</span>
+<span class="hljs-string">              type: 'image/',</span>
+<span class="hljs-string">              file: pageForm.imageUrl ? [&#123;name: '', url: pageForm.imageUrl&#125;] : []</span>
+<span class="hljs-string">            &#125;"</span>
+          /&gt;
+          &lt;!-- &lt;UploadImage @onsuccess=<span class="hljs-string">"handlePageUploadImage"</span> :fileList=<span class="hljs-string">"pageForm.imageUrl ? [&#123;name: '', url: pageForm.imageUrl&#125;] : []"</span> :<span class="hljs-built_in">limit</span>=<span class="hljs-string">"1"</span> /&gt; --&gt;
+        &lt;/el-form-item&gt;
+        &lt;el-form-item label=<span class="hljs-string">"音频"</span> :label-width=<span class="hljs-string">"formLabelWidth"</span>&gt;
+          &lt;UploadSelectManagement
+            @onSuccess=<span class="hljs-string">"handlePageUploadAudio"</span>
+            :options=<span class="hljs-string">"&#123;</span>
+<span class="hljs-string">              limit: 1,</span>
+<span class="hljs-string">              mark: 'audioUrl',</span>
+<span class="hljs-string">              type: 'audio/mpeg',</span>
+<span class="hljs-string">              file: pageForm.audioUrl ? [&#123;name: '', url: pageForm.audioUrl&#125;] : []</span>
+<span class="hljs-string">            &#125;"</span>
+          /&gt;
+          &lt;!-- &lt;UploadAudio @onsuccess=<span class="hljs-string">"handlePageUploadAudio"</span> :url=<span class="hljs-string">"pageForm.audioUrl"</span> /&gt; --&gt;
+        &lt;/el-form-item&gt;
+        &lt;el-form-item label=<span class="hljs-string">"文本"</span> :label-width=<span class="hljs-string">"formLabelWidth"</span>&gt;
+          &lt;el-input v-model=<span class="hljs-string">"pageForm.text"</span>&gt;&lt;/el-input&gt;
+        &lt;/el-form-item&gt;
+        &lt;el-form-item label=<span class="hljs-string">"翻译"</span> :label-width=<span class="hljs-string">"formLabelWidth"</span>&gt;
+          &lt;el-input v-model=<span class="hljs-string">"pageForm.translation"</span>&gt;&lt;/el-input&gt;
+        &lt;/el-form-item&gt;
+        &lt;el-form-item label=<span class="hljs-string">"时间节点"</span> :label-width=<span class="hljs-string">"formLabelWidth"</span>&gt;
+          &lt;el-input v-model=<span class="hljs-string">"pageForm.wordStartTimes"</span> placeholder=<span class="hljs-string">"例如：300,600,900"</span>&gt;&lt;/el-input&gt;
+        &lt;/el-form-item&gt;
+      &lt;/el-form&gt;
+      &lt;div slot=<span class="hljs-string">"footer"</span> class=<span class="hljs-string">"dialog-footer"</span>&gt;
+        &lt;el-button @click=<span class="hljs-string">"hideDialogForm(0)"</span>&gt;取 消&lt;/el-button&gt;
+        &lt;el-button <span class="hljs-built_in">type</span>=<span class="hljs-string">"primary"</span> @click=<span class="hljs-string">"hideDialogForm(1)"</span>&gt;确 定&lt;/el-button&gt;
+      &lt;/div&gt;
+    &lt;/el-dialog&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script lang=<span class="hljs-string">"ts"</span>&gt;
+/** eslint-disbale */
+/* global openFileDialog _ */
+import moment from <span class="hljs-string">'moment'</span>
+import axios from <span class="hljs-string">'axios'</span>
+import UploadImage from <span class="hljs-string">'@/components/UploadImage/index.vue'</span>
+import UploadAudio from <span class="hljs-string">'@/components/UploadAudio/index.vue'</span>
+import UploadManagement from <span class="hljs-string">'@/components/UploadManagement/index.vue'</span>
+import UploadSelectManagement from <span class="hljs-string">'@/components/UploadManagement/select.vue'</span>
+import &#123; Component, Vue, Prop &#125; from <span class="hljs-string">'vue-property-decorator'</span>
+import FileSaver from <span class="hljs-string">'file-saver'</span>
+
+interface IPage &#123;
+  imageUrl: string
+  audioUrl: string
+  text: string
+  wordStartTimes: string | number|string[]
+  translation: string
+&#125;
+@Component(&#123;
+  name: <span class="hljs-string">'ai-update'</span>,
+  components: &#123;
+    UploadImage,
+    UploadAudio,
+    UploadManagement,
+    UploadSelectManagement
+  &#125;
+&#125;)
+<span class="hljs-built_in">export</span> default class extends Vue &#123;
+  showUploadManagement = <span class="hljs-literal">false</span>
+  pageIndex = -1
+  dialogFormVisible = <span class="hljs-literal">false</span>
+  formLabelWidth = <span class="hljs-string">'120px'</span>
+  pageFormWordStartTimes = <span class="hljs-string">''</span>
+  pageForm: IPage = &#123;
+    imageUrl: <span class="hljs-string">''</span>,
+    audioUrl: <span class="hljs-string">''</span>,
+    text: <span class="hljs-string">''</span>,
+    wordStartTimes: <span class="hljs-string">''</span>,
+    translation: <span class="hljs-string">''</span>
+  &#125;
+  form: any = &#123;
+    baseUrl: <span class="hljs-string">''</span>,
+    name: <span class="hljs-string">''</span>,
+    prefix: <span class="hljs-string">'resource/'</span>,
+    coverImageUrl: <span class="hljs-string">''</span>,
+    coverAudioUrl: <span class="hljs-string">''</span>,
+    wordCount: <span class="hljs-string">''</span>,
+    pageContents: [
+    ],
+    resourceList: [
+    ]
+  &#125;
+  // 模板数据
+  formTemplate = &#123;
+    baseUrl: <span class="hljs-string">'https://public.yitong.com/demo/story/'</span>,
+    prefix: <span class="hljs-string">'picbook/'</span>,
+    name: <span class="hljs-string">'Sharing (Story)'</span>,
+    coverImageUrl: <span class="hljs-string">'1573803206931407.jpg'</span>,
+    coverAudioUrl: <span class="hljs-string">'170f173622a46ff.mp3'</span>,
+    wordCount: 16,
+    pageContents: [
+      &#123;
+        imageUrl: <span class="hljs-string">'this_is_a_simple_example.jpg'</span>,
+        audioUrl: <span class="hljs-string">'this_is_a_simple_example.mp3'</span>,
+        text: <span class="hljs-string">'This is a simple example.'</span>,
+        wordStartTimes: [
+          100, 200, 500, 800, 1100
+        ],
+        translation: <span class="hljs-string">'这是一个样本案例。'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'15281012820093872.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16a30fb178d.mp3'</span>,
+        text: <span class="hljs-string">'Your egg.'</span>,
+        wordStartTimes: [
+          490,
+          1150
+        ],
+        translation: <span class="hljs-string">'你的鸡蛋。'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'1528101315937327.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16a70f44791.mp3'</span>,
+        text: <span class="hljs-string">'Your juice.'</span>,
+        wordStartTimes: [
+          530,
+          1200
+        ],
+        translation: <span class="hljs-string">'你的果汁。'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'1528101341373822.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16aaf007cf8.mp3'</span>,
+        text: <span class="hljs-string">'Your cake.'</span>,
+        wordStartTimes: [
+          480,
+          1030
+        ],
+        translation: <span class="hljs-string">'你的蛋糕。'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'152810136774110.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16aea4e8cb7.mp3'</span>,
+        text: <span class="hljs-string">'I\u0027m hungry.'</span>,
+        wordStartTimes: [
+          540,
+          1070
+        ],
+        translation: <span class="hljs-string">'我饿了。'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'15281013914784154.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16b27602718.mp3'</span>,
+        text: <span class="hljs-string">'My egg!'</span>,
+        wordStartTimes: [
+          510,
+          1190
+        ],
+        translation: <span class="hljs-string">'我的鸡蛋！'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'15281014154594103.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16b640658ac.mp3'</span>,
+        text: <span class="hljs-string">'My juice!'</span>,
+        wordStartTimes: [
+          490,
+          1040
+        ],
+        translation: <span class="hljs-string">'我的果汁！'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'15281014415395255.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16bb14251fa.mp3'</span>,
+        text: <span class="hljs-string">'My cake!'</span>,
+        wordStartTimes: [
+          480,
+          1080
+        ],
+        translation: <span class="hljs-string">'我的蛋糕！'</span>
+      &#125;,
+      &#123;
+        imageUrl: <span class="hljs-string">'1528101466094874.jpg'</span>,
+        audioUrl: <span class="hljs-string">'170f16bea952816.mp3'</span>,
+        text: <span class="hljs-string">'Yay! Candy!'</span>,
+        wordStartTimes: [
+          510,
+          1490
+        ],
+        translation: <span class="hljs-string">'耶！糖果！'</span>
+      &#125;
+    ],
+     resourceList: [
+      <span class="hljs-string">'1573803206931407.jpg'</span>,
+      <span class="hljs-string">'this_is_a_simple_example.jpg'</span>,
+      <span class="hljs-string">'15281012820093872.jpg'</span>,
+      <span class="hljs-string">'1528101315937327.jpg'</span>,
+      <span class="hljs-string">'1528101341373822.jpg'</span>,
+      <span class="hljs-string">'152810136774110.jpg'</span>,
+      <span class="hljs-string">'15281013914784154.jpg'</span>,
+      <span class="hljs-string">'15281014154594103.jpg'</span>,
+      <span class="hljs-string">'15281014415395255.jpg'</span>,
+      <span class="hljs-string">'1528101466094874.jpg'</span>,
+      <span class="hljs-string">'170f173622a46ff.mp3'</span>,
+      <span class="hljs-string">'this_is_a_simple_example.mp3'</span>,
+      <span class="hljs-string">'170f16a30fb178d.mp3'</span>,
+      <span class="hljs-string">'170f16a70f44791.mp3'</span>,
+      <span class="hljs-string">'170f16aaf007cf8.mp3'</span>,
+      <span class="hljs-string">'170f16aea4e8cb7.mp3'</span>,
+      <span class="hljs-string">'170f16b27602718.mp3'</span>,
+      <span class="hljs-string">'170f16b640658ac.mp3'</span>,
+      <span class="hljs-string">'170f16bb14251fa.mp3'</span>,
+      <span class="hljs-string">'170f16bea952816.mp3'</span>
+    ]
+  &#125;
+  <span class="hljs-function"><span class="hljs-title">created</span></span>() &#123;
+  &#125;
+  setCoverImageUrl(list: any) &#123;
+    this.form.coverImageUrl = list &amp;&amp; list.length &gt; 0 ? list[0].url : <span class="hljs-string">''</span>
+  &#125;
+  handleSelected(ref: string) &#123;
+    // this.<span class="hljs-variable">$refs</span>[ref].
+  &#125;
+  <span class="hljs-function"><span class="hljs-title">resetPageForm</span></span>() &#123;
+    this.pageForm = &#123;
+      imageUrl: <span class="hljs-string">''</span>,
+      audioUrl: <span class="hljs-string">''</span>,
+      text: <span class="hljs-string">''</span>,
+      wordStartTimes: <span class="hljs-string">''</span>,
+      translation: <span class="hljs-string">''</span>
+    &#125;
+  &#125;
+  showDialogForm(e: any, item?: IPage, index?: number) &#123;
+    const _index = index || -1
+    this.pageIndex = _index &gt; -1 ? _index : this.form.pageContents.length
+    console.log(item)
+    console.log(index)
+    <span class="hljs-keyword">if</span> (item) &#123;
+      this.<span class="hljs-variable">$set</span>(this, <span class="hljs-string">'pageForm'</span>, &#123;
+        ...item,
+        wordStartTimes: (item.wordStartTimes || [] as any).join(<span class="hljs-string">','</span>)
+      &#125;)
+    &#125; <span class="hljs-keyword">else</span> &#123;
+      this.resetPageForm()
+    &#125;
+    this.dialogFormVisible = <span class="hljs-literal">true</span>
+  &#125;
+  hideDialogForm(bool: boolean) &#123;
+    <span class="hljs-keyword">if</span> (bool) &#123;
+      <span class="hljs-keyword">if</span> (!(this.pageForm.imageUrl &amp;&amp; this.pageForm.audioUrl &amp;&amp; this.pageForm.text &amp;&amp; this.pageForm.wordStartTimes &amp;&amp; this.pageForm.translation)) &#123;
+        alert(<span class="hljs-string">'请填写完整信息！'</span>)
+        <span class="hljs-built_in">return</span>
+      &#125;
+      const params = &#123;
+        ...this.pageForm,
+        wordStartTimes: (this.pageForm.wordStartTimes as any).split(<span class="hljs-string">','</span>)
+      &#125;
+      <span class="hljs-keyword">if</span> (this.pageIndex &gt; -1) &#123;
+        this.form.pageContents.splice(this.pageIndex, 1, params)
+      &#125; <span class="hljs-keyword">else</span> &#123;
+        this.form.pageContents.push(params)
+      &#125;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+      this.resetPageForm()
+    &#125;
+    this.dialogFormVisible = <span class="hljs-literal">false</span>
+  &#125;
+  handlePageUploadImage(info?: any) &#123;
+    this.pageForm.imageUrl = info ? info.url : <span class="hljs-string">''</span>
+  &#125;
+  handlePageUploadAudio(info?: any) &#123;
+    this.pageForm.audioUrl = info ? info.url : <span class="hljs-string">''</span>
+  &#125;
+  handleUploadImage(info: any) &#123;
+    this.form.coverImageUrl = info ? info.url : <span class="hljs-string">''</span>
+  &#125;
+  handleUploadAudio(info: any) &#123;
+    this.form.coverAudioUrl = info ? info.url : <span class="hljs-string">''</span>
+  &#125;
+  async <span class="hljs-function"><span class="hljs-title">package</span></span>() &#123;
+    console.log(this.form)
+    this.form.resourceList = []
+    this.form.coverImageUrl &amp;&amp; this.form.resourceList.push(this.form.coverImageUrl)
+    this.form.coverAudioUrl &amp;&amp; this.form.resourceList.push(this.form.coverAudioUrl)
+    this.form.pageContents.forEach((element: IPage) =&gt; &#123;
+      element.imageUrl &amp;&amp; this.form.resourceList.push(element.imageUrl)
+      element.audioUrl &amp;&amp; this.form.resourceList.push(element.audioUrl)
+    &#125;)
+    const res = await axios.post(<span class="hljs-string">'http://localhost:3000/gw/ai/zip'</span>, this.form, &#123;
+      headers: &#123; <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span> &#125;,
+      responseType: <span class="hljs-string">'arraybuffer'</span> &#125;
+    )
+    console.log(typeof res.data)
+    console.log(res.data)
+    FileSaver.saveAs(new Blob([new Uint8Array(res.data)]), <span class="hljs-string">'story.zip'</span>)
+  &#125;
+&#125;
+&lt;/script&gt;
+
+&lt;style lang=<span class="hljs-string">"scss"</span>&gt;
+.main &#123;
+  .upload &#123;
+    line-height: 0;
+    &gt; div &#123;
+      line-height: 28px;
+      font-size: 14px;
+    &#125;
+  &#125;
+  .el-upload--picture-card  &#123;
+    border: none;
+    height: auto;
+  &#125;
+&#125;
+&lt;/style&gt;
+
+&lt;style lang=<span class="hljs-string">"scss"</span> scoped&gt;
+.main &#123;
+  padding: 20px;
+  padding: relative;
+  .submit-btn &#123;
+    position: fixed;
+    right: 30px;
+    bottom: 20px;
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+    background-color: rgb(24, 144, 255);
+    color: <span class="hljs-comment">#fff;</span>
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+    opacity: .75;
+    &amp;:hover &#123;
+      transform: rotateY(360deg);
+      opacity: 1;
+    &#125;
+    cursor: pointer;
+    i &#123;
+      font-size: 36px;
+    &#125;
+    p &#123;
+      margin: 5px 0 0 0;
+    &#125;
+  &#125;
+&#125;
+.el-input &#123;
+  width: 200px;
+&#125;
+.page-list &#123;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  audio &#123;
+    border: none;
+    outline: none
+  &#125;
+&#125;
+.page-item &#123;
+  border: 1px solid <span class="hljs-comment">#ccc;</span>
+  padding: 20px 0 15px;
+  width: 360px;
+  height: 400px;
+  text-align: center;
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  .add &#123;
+    font-size: 100px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+    cursor: pointer;
+    &amp;:hover &#123;
+      transform: rotate(180deg);
+    &#125;
+  &#125;
+  audio &#123;
+    margin-top: 15px;
+  &#125;
+  h3,p &#123;
+    margin: 0;
+  &#125;
+  .subscript &#123;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 40px;
+    background-color: rgba(<span class="hljs-variable">$color</span>: <span class="hljs-comment">#000000, $alpha: 1);</span>
+    color: <span class="hljs-comment">#fff;</span>
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  &#125;
+  .img-box &#123;
+    width:150px;
+    height:200px;
+    margin: 0 auto;
+    position: relative;
+    img &#123;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    &#125;
+    .operate &#123;
+      cursor: pointer;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      color: <span class="hljs-comment">#fff;</span>
+      transition: all .5s;
+      background-color: rgba(<span class="hljs-variable">$color</span>: <span class="hljs-comment">#000000, $alpha: 0.5);</span>
+      opacity: .75;
+      i &#123;
+        margin: 10px;
+      &#125;
+      &amp;:hover &#123;
+        background-color: rgba(<span class="hljs-variable">$color</span>: <span class="hljs-comment">#000000, $alpha: 0.75);</span>
+        opacity: 1;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+&lt;/style&gt;</code></pre>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/jszip/">jszip</a>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/koa/">koa</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/csorz/20200922-mimetype/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">mimetype 列表</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/csorz/20200911-js-bridge-sdk/">
+                        <span class="hidden-mobile">js-bridge-sdk</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.defer = false
+      s.setAttribute('repo', 'csorz/hexo-fluid-commit');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      var e = document.getElementsByTagName('script')[0];
+      e.parentNode.insertBefore(s, e);
+    }
+    createObserver(loadUtterances, 'comments')
+  </script>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "ai-story-zip，课件模板打包&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>

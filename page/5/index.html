@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200922-mimetype/" target="_self">
+          <img src="/csorz/img/003.jpg" srcset="/csorz/img/loading.gif" alt="mimetype 列表">
+          
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200922-mimetype/">mimetype 列表</a>
+
+      <a href="/csorz/20200922-mimetype/" class="index-excerpt">
+        
+        
+          
+        
+        <div>List of MIME types / Internet Media Types</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-22
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200915-ai-story-zip/" target="_self">
+          <img src="/csorz/img/002.jpg" srcset="/csorz/img/loading.gif" alt="ai-story-zip，课件模板打包">
+          
+            <div class="index-img-hover">
+              
+                jszip &nbsp; 
+              
+                koa &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200915-ai-story-zip/">ai-story-zip，课件模板打包</a>
+
+      <a href="/csorz/20200915-ai-story-zip/" class="index-excerpt">
+        
+        
+          
+        
+        <div>服务端 Koa/**
+ * 奥点云直播录制功能调整
+ */
+const router = require('koa-router')();
+const _ = require('lodash');
+const axios = require('axios');
+const moment = require('moment');
+const &#123; URL &#125; = require('</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-15
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/jszip/">jszip</a>
+            
+              <a href="/csorz/tags/koa/">koa</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200911-js-bridge-sdk/" target="_self">
+          <img src="/csorz/img/007.jpg" srcset="/csorz/img/loading.gif" alt="js-bridge-sdk">
+          
+            <div class="index-img-hover">
+              
+                js-bridge &nbsp; 
+              
+                js-sdk &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200911-js-bridge-sdk/">js-bridge-sdk</a>
+
+      <a href="/csorz/20200911-js-bridge-sdk/" class="index-excerpt">
+        
+        
+          
+        
+        <div>H5在线页面、H5离线包与APP端进行交互</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-11
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/js-bridge/">js-bridge</a>
+            
+              <a href="/csorz/tags/js-sdk/">js-sdk</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200911-course-streamlabs-obs/" target="_self">
+          <img src="/csorz/img/006.jpg" srcset="/csorz/img/loading.gif" alt="course-streamlabs-obs">
+          
+            <div class="index-img-hover">
+              
+                streamlabs-obs &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200911-course-streamlabs-obs/">course-streamlabs-obs</a>
+
+      <a href="/csorz/20200911-course-streamlabs-obs/" class="index-excerpt">
+        
+        
+          
+        
+        <div>很懒，占个坑</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-11
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/streamlabs-obs/">streamlabs-obs</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200911-course-1v1/" target="_self">
+          <img src="/csorz/img/005.jpg" srcset="/csorz/img/loading.gif" alt="course-1v1">
+          
+            <div class="index-img-hover">
+              
+                course &nbsp; 
+              
+                electron &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200911-course-1v1/">course-1v1</a>
+
+      <a href="/csorz/20200911-course-1v1/" class="index-excerpt">
+        
+        
+          
+        
+        <div>定制培训1v1、1v多、旁路直播</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-11
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/course/">course</a>
+            
+              <a href="/csorz/tags/electron/">electron</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200911-course-open/" target="_self">
+          <img src="/csorz/img/004.jpg" srcset="/csorz/img/loading.gif" alt="公开课直播">
+          
+            <div class="index-img-hover">
+              
+                course &nbsp; 
+              
+                live &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200911-course-open/">公开课直播</a>
+
+      <a href="/csorz/20200911-course-open/" class="index-excerpt">
+        
+        
+          
+        
+        <div>公开课即将下线，截图纪念一下</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-11
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/course/">course</a>
+            
+              <a href="/csorz/tags/live/">live</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200910-bing/" target="_self">
+          <img src="/csorz/img/003.jpg" srcset="/csorz/img/loading.gif" alt="bing">
+          
+            <div class="index-img-hover">
+              
+                bing &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200910-bing/">bing</a>
+
+      <a href="/csorz/20200910-bing/" class="index-excerpt">
+        
+        
+          
+        
+        <div>bing高清资源</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-10
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/bing/">bing</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200908-nat-ddns/" target="_self">
+          <img src="/csorz/img/003.jpg" srcset="/csorz/img/loading.gif" alt="nat-ddns">
+          
+            <div class="index-img-hover">
+              
+                NAT-DDNS &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200908-nat-ddns/">nat-ddns</a>
+
+      <a href="/csorz/20200908-nat-ddns/" class="index-excerpt">
+        
+        
+          
+        
+        <div>内网穿透动态域名解析服务，简称NAT-DDNS（Network Address Translation- Dynamic Domain Name Server）。NAT-DDNS技术，是一种基于动态域名服务（DDNS）和网络地址转换（NAT）的服务器内外网动态映射方法。</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-08
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/NAT-DDNS/">NAT-DDNS</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200908-debug-eruda/" target="_self">
+          <img src="/csorz/img/002.jpg" srcset="/csorz/img/loading.gif" alt="Eruda调试面板简介">
+          
+            <div class="index-img-hover">
+              
+                javascript &nbsp; 
+              
+                Eruda &nbsp; 
+              
+            </div>
+            
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200908-debug-eruda/">Eruda调试面板简介</a>
+
+      <a href="/csorz/20200908-debug-eruda/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Eruda 是一个专为手机网页前端设计的调试面板，类似 DevTools 的迷你版，其主要功能包括：捕获 console 日志、检查元素状态、捕获XHR请求、显示本地存储和 Cookie 信息等等。</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-08
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/csorz/tags/javascript/">javascript</a>
+            
+              <a href="/csorz/tags/Eruda/">Eruda</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/csorz/20200907-ai-story/" target="_self">
+          <img src="/csorz/img/001.jpg" srcset="/csorz/img/loading.gif" alt="AI课，Story模板">
+          
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/csorz/20200907-ai-story/">AI课，Story模板</a>
+
+      <a href="/csorz/20200907-ai-story/" class="index-excerpt">
+        
+        
+          
+        
+        <div>Story Demo</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-09-07
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/csorz/page/4/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/csorz/">1</a><span class="space">&hellip;</span><a class="page-number" href="/csorz/page/3/">3</a><a class="page-number" href="/csorz/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/csorz/page/6/">6</a><a class="page-number" href="/csorz/page/7/">7</a><a class="page-number" href="/csorz/page/8/">8</a><a class="extend next" rel="next" href="/csorz/page/6/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "೭(˵¯̴͒ꇴ¯̴͒˵)౨：日有所思，日有所得&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>

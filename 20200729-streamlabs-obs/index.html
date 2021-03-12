@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>streamlabs-obs - CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/csorz/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-29 16:37">
+      2020年7月29日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：21 分钟前
+                
+              </p>
+            
+            <article class="markdown-body">
+              <p>Streamlabs-obs是一款强大的直播推流客户端，使用Electron和OBS技术。Vue+Typescript进项开发。<br>本文将记录在二次开发历程。<br>Simple, powerful, and efficient live streaming software built on Electron and OBS.</p>
+<!-- -->
+
+<h2 id="核心文档"><a href="#核心文档" class="headerlink" title="核心文档"></a>核心文档</h2><p><a href="https://github.com/stream-labs/streamlabs-obs-api-docs" target="_blank" rel="noopener">https://github.com/stream-labs/streamlabs-obs-api-docs</a></p>
+<p><a href="https://stream-labs.github.io/streamlabs-obs-api-docs/docs/index.html" target="_blank" rel="noopener">https://stream-labs.github.io/streamlabs-obs-api-docs/docs/index.html</a></p>
+<p><a href="https://dev.streamlabs.com/docs" target="_blank" rel="noopener">https://dev.streamlabs.com/docs</a></p>
+<h2 id="开发调试步骤"><a href="#开发调试步骤" class="headerlink" title="开发调试步骤"></a>开发调试步骤</h2><pre><code class="hljs aspectj">yarn install  <span class="hljs-comment">// Install all node modules via yarn: 安装依赖</span>
+npm install <span class="hljs-meta">@types</span>/axios
+yarn compile  <span class="hljs-comment">// compile assets with webpack: 编译assets文件</span>
+yarn watch    <span class="hljs-comment">// 监听变动</span>
+F5            <span class="hljs-comment">// debugger调试</span>
+
+yarn <span class="hljs-keyword">package</span>  <span class="hljs-comment">// 打包exe</span></code></pre>
+
+<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><blockquote>
+<ul>
+<li>process.env</li>
+</ul>
+</blockquote>
+<pre><code class="hljs groovy"><span class="hljs-string">SLOBS_PRODUCTION_DEBUG:</span> <span class="hljs-literal">true</span>|<span class="hljs-literal">false</span> <span class="hljs-comment">//开启devTools</span>
+<span class="hljs-string">SLOBS_NO_SIGN:</span> <span class="hljs-literal">true</span>|<span class="hljs-literal">false</span> <span class="hljs-comment">//默认开启，建议关闭，否则yarn package将失败</span></code></pre>
+
+<h2 id="解决报错"><a href="#解决报错" class="headerlink" title="解决报错"></a>解决报错</h2><p>Delete <code>␍</code>eslint(prettier/prettier) 报错解决方案:</p>
+<pre><code class="hljs bash">git config --global core.autocrlf <span class="hljs-literal">false</span>
+git <span class="hljs-built_in">clone</span> x.git</code></pre>
+
+<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><blockquote>
+<ul>
+<li>场景持久化</li>
+</ul>
+</blockquote>
+<pre><code class="hljs reasonml">缓存地址：
+C:\Users\Administrator\AppData\Roaming\slobs-client\SceneCollections
+
+Parse服务持久化：scene-collections.ts、<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Login</span>.</span></span>tsx、index.ts(user模块下)
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment">* 关闭程序（缓存为登录状态）或退出登录时，上传场景信息</span>
+<span class="hljs-comment">*/</span>
+    async save<span class="hljs-constructor">ParseByYitong()</span>
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment">* 启动应用（缓存为登录状态）或登录时，加载场景数据</span>
+<span class="hljs-comment">*/</span>
+    async load<span class="hljs-constructor">ParseByYitong()</span></code></pre>
+
+
+<h2 id="页面跳转"><a href="#页面跳转" class="headerlink" title="页面跳转"></a>页面跳转</h2><p>this.navigationService.navigate(‘Studio’);</p>
+<h1 id="Main（主进程）和Renderer（渲染器进程）通信"><a href="#Main（主进程）和Renderer（渲染器进程）通信" class="headerlink" title="Main（主进程）和Renderer（渲染器进程）通信"></a>Main（主进程）和Renderer（渲染器进程）通信</h1><blockquote>
+<p>Main</p>
+</blockquote>
+<pre><code class="hljs coffeescript"><span class="hljs-keyword">import</span> &#123; ipcMain &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'electron'</span>
+ipcMain.<span class="hljs-literal">on</span>(<span class="hljs-string">'startUpdate'</span>, <span class="hljs-function"><span class="hljs-params">(e, arg)</span> =&gt;</span> &#123;
+    autoUpdater.quitAndInstall()
+&#125;)
+ipcMain.<span class="hljs-literal">on</span>(<span class="hljs-string">'asynchronous-message'</span>, <span class="hljs-function"><span class="hljs-params">(event, arg)</span> =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(arg) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"ping"</span>
+    event.reply(<span class="hljs-string">'asynchronous-reply'</span>, <span class="hljs-string">'pong'</span>)
+&#125;)
+ipcMain.<span class="hljs-literal">on</span>(<span class="hljs-string">'synchronous-message'</span>, <span class="hljs-function"><span class="hljs-params">(event, arg)</span> =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(arg) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"ping"</span>
+    event.returnValue = <span class="hljs-string">'pong'</span>
+&#125;)</code></pre>
+
+<blockquote>
+<p>Renderer</p>
+</blockquote>
+<pre><code class="hljs coffeescript">const &#123; ipcRenderer &#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">'electron'</span>) <span class="hljs-regexp">//</span> electron-vue: ipcRenderer = <span class="hljs-keyword">this</span>.$electron.ipcRenderer
+ipcRenderer.send(<span class="hljs-string">'startUpdate'</span>)
+<span class="hljs-built_in">console</span>.log(ipcRenderer.sendSync(<span class="hljs-string">'synchronous-message'</span>, <span class="hljs-string">'ping'</span>)) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"pong"</span>
+ipcRenderer.<span class="hljs-literal">on</span>(<span class="hljs-string">'asynchronous-reply'</span>, <span class="hljs-function"><span class="hljs-params">(event, arg)</span> =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(arg) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"pong"</span>
+&#125;)
+ipcRenderer.send(<span class="hljs-string">'asynchronous-message'</span>, <span class="hljs-string">'ping'</span>)</code></pre>
+
+<blockquote>
+<p>webview所在页面 <a href="https://www.electronjs.org/docs/api/webview-tag" target="_blank" rel="noopener">https://www.electronjs.org/docs/api/webview-tag</a><br>webview 调用 加载页 方法通过<webview>.executeJavaScript(code[, userGesture, callback])或者webview.send()发送，而在访客页使用ipcRenderer.on()监听<br>访客页需要调用webview所在页面的方法，则需要在webview中加上属性 nodeintegration=“true”</p>
+</blockquote>
+<pre><code class="hljs reasonml"><span class="hljs-keyword">let</span> webview=document.get<span class="hljs-constructor">ElementById('<span class="hljs-params">test</span>')</span>;
+webview.add<span class="hljs-constructor">EventListener('<span class="hljs-params">ipc</span>-<span class="hljs-params">message</span>', (<span class="hljs-params">event</span>)</span> =&gt; &#123; <span class="hljs-comment">//ipc-message监听，被webview加载页面传来的信息</span>
+  console.log(event.channel)<span class="hljs-comment">//最终收到消息输出   子页面信息</span>
+&#125;)</code></pre>
+
+<blockquote>
+<p>访客页（被webview加载的资源页面）</p>
+</blockquote>
+<pre><code class="hljs dart">切记加上<span class="hljs-built_in">window</span>.
+<span class="hljs-keyword">const</span> &#123;ipcRenderer&#125; = <span class="hljs-built_in">window</span>.require(<span class="hljs-string">'electron'</span>)
+ipcRenderer.sendToHost(<span class="hljs-string">'子页面信息'</span>) <span class="hljs-comment">//向webview所在页面发送消息</span></code></pre>
+<h2 id="兼容electron嵌入"><a href="#兼容electron嵌入" class="headerlink" title="兼容electron嵌入"></a>兼容electron嵌入</h2><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="actionscript">    <span class="hljs-comment">// 兼容electron嵌入</span></span>
+<span class="javascript">        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.require)&#123;<span class="hljs-built_in">window</span>.nodeRequire = <span class="hljs-built_in">require</span>;&#125;</span>
+<span class="javascript">        <span class="hljs-keyword">delete</span> <span class="hljs-built_in">window</span>.require;</span>
+<span class="javascript">        <span class="hljs-keyword">delete</span> <span class="hljs-built_in">window</span>.exports;</span>
+<span class="javascript">        <span class="hljs-keyword">delete</span> <span class="hljs-built_in">window</span>.module;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//public.yitong.com/libs/jquery/1.11.1/jquery.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
+<h2 id="缓存-数据持久化"><a href="#缓存-数据持久化" class="headerlink" title="缓存 数据持久化"></a>缓存 数据持久化</h2><p>@mutation()<br>SET_SETTINGS(settingsData: ISettingsState) {<br>    this.state = Object.assign({}, this.state, settingsData);<br>}</p>
+<p>// 持久化<br>obs.NodeObs.OBS_settings_saveSettings(categoryName, settingsFormData[categoryName]);</p>
+<h3 id="与obs交互"><a href="#与obs交互" class="headerlink" title="与obs交互"></a>与obs交互</h3><blockquote>
+<p>创建图片</p>
+</blockquote>
+<pre><code class="hljs prolog">this.editorCommandsService.executeCommand(<span class="hljs-string">'EditSourcePropertiesCommand'</span>, this.sourceId, [
+  properties[changedIndex],
+]);
+
+properties[<span class="hljs-number">0</span>] = &#123;
+  <span class="hljs-string">"defaultPath"</span>: <span class="hljs-string">""</span>,
+  <span class="hljs-string">"description"</span>: <span class="hljs-string">"图像文件"</span>,
+  <span class="hljs-string">"enabled"</span>: true,
+  <span class="hljs-string">"filters"</span>: [
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"bmp"</span>,
+              <span class="hljs-string">"tga"</span>,
+              <span class="hljs-string">"png"</span>,
+              <span class="hljs-string">"jpeg"</span>,
+              <span class="hljs-string">"jpg"</span>,
+              <span class="hljs-string">"gif"</span>,
+              <span class="hljs-string">"psd"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"All formats"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"bmp"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"BMP Files"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"tga"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"Targa Files"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"png"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"PNG Files"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"jpeg"</span>,
+              <span class="hljs-string">"jpg"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"JPEG Files"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"gif"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"GIF Files"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"psd"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"PSD Files"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"extensions"</span>: [
+              <span class="hljs-string">"*"</span>
+          ],
+          <span class="hljs-string">"name"</span>: <span class="hljs-string">"All Files"</span>
+      &#125;
+  ],
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"file"</span>,
+  <span class="hljs-string">"type"</span>: <span class="hljs-string">"OBS_PROPERTY_FILE"</span>,
+  <span class="hljs-string">"value"</span>: <span class="hljs-string">"https://image.yitong.com/uploads/adyt/2018-04-19/42f5f49db3a64c9ea881811344485bfc.jpg"</span>,
+  <span class="hljs-string">"visible"</span>: true
+&#125;</code></pre>
+
+<blockquote>
+<p>创建音视频</p>
+</blockquote>
+<pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"defaultPath"</span>: <span class="hljs-string">""</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"本地文件"</span>,
+    <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"filters"</span>: [
+        &#123;
+            <span class="hljs-attr">"extensions"</span>: [
+                <span class="hljs-string">"mp4"</span>,
+                <span class="hljs-string">"ts"</span>,
+                <span class="hljs-string">"mov"</span>,
+                <span class="hljs-string">"flv"</span>,
+                <span class="hljs-string">"mkv"</span>,
+                <span class="hljs-string">"avi"</span>,
+                <span class="hljs-string">"mp3"</span>,
+                <span class="hljs-string">"ogg"</span>,
+                <span class="hljs-string">"aac"</span>,
+                <span class="hljs-string">"wav"</span>,
+                <span class="hljs-string">"gif"</span>,
+                <span class="hljs-string">"webm"</span>
+            ],
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"所有媒体文件"</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"extensions"</span>: [
+                <span class="hljs-string">"mp4"</span>,
+                <span class="hljs-string">"ts"</span>,
+                <span class="hljs-string">"mov"</span>,
+                <span class="hljs-string">"flv"</span>,
+                <span class="hljs-string">"mkv"</span>,
+                <span class="hljs-string">"avi"</span>,
+                <span class="hljs-string">"gif"</span>,
+                <span class="hljs-string">"webm"</span>
+            ],
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"视频文件"</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"extensions"</span>: [
+                <span class="hljs-string">"mp3"</span>,
+                <span class="hljs-string">"aac"</span>,
+                <span class="hljs-string">"ogg"</span>,
+                <span class="hljs-string">"wav"</span>
+            ],
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"音频文件"</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"extensions"</span>: [
+                <span class="hljs-string">"*"</span>
+            ],
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"所有文件"</span>
+        &#125;
+    ],
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"local_file"</span>,
+    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"OBS_PROPERTY_FILE"</span>,
+    <span class="hljs-attr">"value"</span>: <span class="hljs-string">"F:\\我的素材\\MP4\\1.mp4"</span>,
+    <span class="hljs-attr">"visible"</span>: <span class="hljs-literal">true</span>
+&#125;</code></pre>
+
+<h3 id="setting"><a href="#setting" class="headerlink" title="setting"></a>setting</h3><p>setting.ts SET_SETTINGS 配置项：</p>
+<pre><code class="hljs json">&#123;
+<span class="hljs-attr">"General"</span>: &#123;
+<span class="hljs-attr">"WarnBeforeStartingStream"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"WarnBeforeStoppingStream"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"RecordWhenStreaming"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"KeepRecordingWhenStreamStops"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"ReplayBufferWhileStreaming"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"KeepReplayBufferStreamStops"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"SnappingEnabled"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"SnapDistance"</span>: <span class="hljs-number">10</span>,
+<span class="hljs-attr">"ScreenSnapping"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"SourceSnapping"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"CenterSnapping"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"HideProjectorCursor"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"ProjectorAlwaysOnTop"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"SaveProjectors"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"SysTrayEnabled"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"SysTrayWhenStarted"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"SysTrayMinimizeToTray"</span>: <span class="hljs-literal">false</span>
+&#125;,
+<span class="hljs-attr">"Stream"</span>: &#123;
+<span class="hljs-attr">"streamType"</span>: <span class="hljs-string">"rtmp_common"</span>,
+<span class="hljs-attr">"service"</span>: <span class="hljs-string">"Twitch"</span>,
+<span class="hljs-attr">"show_all"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"server"</span>: <span class="hljs-string">"auto"</span>,
+<span class="hljs-attr">"key"</span>: <span class="hljs-string">""</span>
+&#125;,
+<span class="hljs-attr">"Output"</span>: &#123;
+<span class="hljs-attr">"Mode"</span>: <span class="hljs-string">"Simple"</span>,
+<span class="hljs-attr">"VBitrate"</span>: <span class="hljs-number">600</span>,
+<span class="hljs-attr">"StreamEncoder"</span>: <span class="hljs-string">"x264"</span>,
+<span class="hljs-attr">"ABitrate"</span>: <span class="hljs-string">"64"</span>,
+<span class="hljs-attr">"UseAdvanced"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"FilePath"</span>: <span class="hljs-string">"C:\\Users\\chensong\\Videos"</span>,
+<span class="hljs-attr">"FileNameWithoutSpace"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"RecQuality"</span>: <span class="hljs-string">"Stream"</span>,
+<span class="hljs-attr">"RecFormat"</span>: <span class="hljs-string">"flv"</span>,
+<span class="hljs-attr">"MuxerCustom"</span>: <span class="hljs-string">""</span>,
+<span class="hljs-attr">"RecRB"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"RecRBTime"</span>: <span class="hljs-number">20</span>
+&#125;,
+<span class="hljs-attr">"Audio"</span>: &#123;
+<span class="hljs-attr">"SampleRate"</span>: <span class="hljs-number">44100</span>,
+<span class="hljs-attr">"ChannelSetup"</span>: <span class="hljs-string">"Stereo"</span>,
+<span class="hljs-attr">"Desktop Audio "</span>: <span class="hljs-string">"default"</span>,
+<span class="hljs-attr">"Desktop Audio 2"</span>: <span class="hljs-literal">null</span>,
+<span class="hljs-attr">"Mic/Aux "</span>: <span class="hljs-string">"default"</span>,
+<span class="hljs-attr">"Mic/Aux 2"</span>: <span class="hljs-literal">null</span>,
+<span class="hljs-attr">"Mic/Aux 3"</span>: <span class="hljs-literal">null</span>
+&#125;,
+<span class="hljs-attr">"Video"</span>: &#123;
+<span class="hljs-attr">"Base"</span>: <span class="hljs-string">"1920x1080"</span>,
+<span class="hljs-attr">"Output"</span>: <span class="hljs-string">"1280x720"</span>,
+<span class="hljs-attr">"ScaleType"</span>: <span class="hljs-string">"bicubic"</span>,
+<span class="hljs-attr">"FPSType"</span>: <span class="hljs-string">"Common FPS Values"</span>,
+<span class="hljs-attr">"FPSCommon"</span>: <span class="hljs-string">"30"</span>
+&#125;,
+<span class="hljs-attr">"Advanced"</span>: &#123;
+<span class="hljs-attr">"ProcessPriority"</span>: <span class="hljs-string">"Normal"</span>,
+<span class="hljs-attr">"ColorFormat"</span>: <span class="hljs-string">"NV12"</span>,
+<span class="hljs-attr">"ColorSpace"</span>: <span class="hljs-string">"601"</span>,
+<span class="hljs-attr">"ColorRange"</span>: <span class="hljs-string">"Partial"</span>,
+<span class="hljs-attr">"ForceGPUAsRenderDevice"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"MonitoringDeviceName"</span>: <span class="hljs-string">"Default"</span>,
+<span class="hljs-attr">"DisableAudioDucking"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"FilenameFormatting"</span>: <span class="hljs-string">"%CCYY-%MM-%DD %hh-%mm-%ss"</span>,
+<span class="hljs-attr">"OverwriteIfExists"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"RecRBPrefix"</span>: <span class="hljs-string">"Replay"</span>,
+<span class="hljs-attr">"RecRBSuffix"</span>: <span class="hljs-string">""</span>,
+<span class="hljs-attr">"DelayEnable"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"DelaySec"</span>: <span class="hljs-number">20</span>,
+<span class="hljs-attr">"DelayPreserve"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"Reconnect"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"RetryDelay"</span>: <span class="hljs-number">10</span>,
+<span class="hljs-attr">"MaxRetries"</span>: <span class="hljs-number">20</span>,
+<span class="hljs-attr">"BindIP"</span>: <span class="hljs-string">"default"</span>,
+<span class="hljs-attr">"NewSocketLoopEnable"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"LowLatencyEnable"</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">"browserHWAccel"</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">"fileCaching"</span>: <span class="hljs-literal">true</span>
+&#125;
+&#125;</code></pre>
+
+<h3 id="场景保存"><a href="#场景保存" class="headerlink" title="场景保存"></a>场景保存</h3><p>state.ts flushManifestFile writeDataToCollectionFile</p>
+<pre><code class="hljs clean">```
+
+### slobs缓存清除</code></pre>
+<p>C:\Users\chensong\AppData\Roaming\slobs-client<br>C:\Users\chensong\AppData\Roaming\slobs-plugins</p>
+<pre><code class="hljs jboss-cli">
+<span class="hljs-comment"># vscode settings.json</span>
+
+```hash
+&#123;
+  <span class="hljs-string">"typescript.validate.enable"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">"[javascript]"</span>: &#123;
+    <span class="hljs-string">"editor.defaultFormatter"</span>: <span class="hljs-string">"vscode.typescript-language-features"</span>
+  &#125;,
+  <span class="hljs-string">"git.autofetch"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">"update.enableWindowsBackgroundUpdates"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">"update.mode"</span>: <span class="hljs-string">"none"</span>,
+  <span class="hljs-string">"editor.parameterHints"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">"editor.quickSuggestions"</span>: &#123;
+    <span class="hljs-string">"other"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-string">"comments"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-string">"strings"</span>: <span class="hljs-literal">true</span>
+  &#125;,
+  <span class="hljs-string">"files.associations"</span>: &#123;
+    <span class="hljs-string">"*.cjson"</span>: <span class="hljs-string">"jsonc"</span>,
+    <span class="hljs-string">"*.wxss"</span>: <span class="hljs-string">"css"</span>,
+    <span class="hljs-string">"*.wxs"</span>: <span class="hljs-string">"javascript"</span>
+  &#125;,
+  <span class="hljs-string">"emmet.includeLanguages"</span>: &#123;
+    <span class="hljs-string">"wxml"</span>: <span class="hljs-string">"html"</span>
+  &#125;,
+  <span class="hljs-string">"minapp-vscode.disableAutoConfig"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">"editor.renderIndentGuides"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">"psi-header.templates"</span>: [
+    &#123;
+      <span class="hljs-string">"language"</span>: <span class="hljs-string">"*"</span>,
+      <span class="hljs-string">"template"</span>: [
+        <span class="hljs-string">"@File: &lt;&lt;filename&gt;&gt;"</span>,
+        <span class="hljs-string">"@Author: csorz"</span>,
+        <span class="hljs-string">"@Date: &lt;&lt;filecreated('YYYY-MM-DD HH:mm:ss')&gt;&gt;"</span>,
+        <span class="hljs-string">"@Last Modified by: csorz"</span>,
+        <span class="hljs-string">"@Last Modified time: &lt;&lt;dateformat('YYYY-MM-DD HH:mm:ss')&gt;&gt;"</span>
+      ]
+    &#125;,
+  ],
+  <span class="hljs-string">"background.enabled"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">"background.useDefault"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">"background.customImages"</span>: [
+    <span class="hljs-string">"file:///F:/我的素材/IMG/p1_people.png"</span>
+  ],
+  <span class="hljs-string">"background.style"</span>: &#123;
+    <span class="hljs-string">"opacity"</span>: 0.5,
+    <span class="hljs-string">"background-size"</span>: <span class="hljs-string">"20%"</span>
+  &#125;,
+  <span class="hljs-string">"background.useFront"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">"editor.wordWrap"</span>: <span class="hljs-string">"on"</span>,
+  <span class="hljs-string">//</span> vscode默认启用了根据文件类型自动设置tabsize的选项
+  <span class="hljs-string">"editor.detectIndentation"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">//</span> 重新设定tabsize
+  <span class="hljs-string">"editor.tabSize"</span>: 2,
+  <span class="hljs-string">//</span> <span class="hljs-comment">#每次保存的时候自动格式化 </span>
+  <span class="hljs-string">"editor.formatOnSave"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">//</span> <span class="hljs-comment">#每次保存的时候将代码按eslint格式进行修复</span>
+  <span class="hljs-string">"eslint.autoFixOnSave"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">//</span> 添加 vue 支持
+  <span class="hljs-string">"eslint.validate"</span>: [
+    <span class="hljs-string">"javascript"</span>,
+    <span class="hljs-string">"javascriptreact"</span>,
+    &#123;
+      <span class="hljs-string">"language"</span>: <span class="hljs-string">"vue"</span>,
+      <span class="hljs-string">"autoFix"</span>: <span class="hljs-literal">true</span>
+    &#125;
+  ],
+  <span class="hljs-string">//</span>  <span class="hljs-comment">#让prettier使用eslint的代码格式进行校验 </span>
+  <span class="hljs-string">"prettier.eslintIntegration"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">//</span>  <span class="hljs-comment">#去掉代码结尾的分号</span>
+  <span class="hljs-string">"prettier.semi"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">//</span>  <span class="hljs-comment">#使用单引号替代双引号 </span>
+  <span class="hljs-string">"prettier.singleQuote"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-string">//</span>  <span class="hljs-comment">#让函数(名)和后面的括号之间加个空格</span>
+  <span class="hljs-string">"javascript.format.insertSpaceBeforeFunctionParenthesis"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-string">//</span> <span class="hljs-comment">#这个按用户自身习惯选择 </span>
+  <span class="hljs-string">"vetur.format.defaultFormatter.html"</span>: <span class="hljs-string">"js-beautify-html"</span>,
+  <span class="hljs-string">//</span> <span class="hljs-comment">#让vue中的js按编辑器自带的ts格式进行格式化 </span>
+  <span class="hljs-string">"vetur.format.defaultFormatter.js"</span>: <span class="hljs-string">"vscode-typescript"</span>,
+  <span class="hljs-string">"vetur.format.defaultFormatterOptions"</span>: &#123;
+    <span class="hljs-string">"js-beautify-html"</span>: &#123;
+      <span class="hljs-string">"wrap_attributes"</span>: <span class="hljs-string">"force-expand-multiline"</span>
+      <span class="hljs-string">//</span> <span class="hljs-comment">#vue组件中html代码格式化样式</span>
+    &#125;
+  &#125;
+&#125;</code></pre>
+
+<h1 id="Main（主进程）和Renderer（渲染器进程）通信-1"><a href="#Main（主进程）和Renderer（渲染器进程）通信-1" class="headerlink" title="Main（主进程）和Renderer（渲染器进程）通信"></a>Main（主进程）和Renderer（渲染器进程）通信</h1><blockquote>
+<p>Main</p>
+</blockquote>
+<pre><code class="hljs coffeescript"><span class="hljs-keyword">import</span> &#123; ipcMain &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'electron'</span>
+ipcMain.<span class="hljs-literal">on</span>(<span class="hljs-string">'startUpdate'</span>, <span class="hljs-function"><span class="hljs-params">(e, arg)</span> =&gt;</span> &#123;
+    autoUpdater.quitAndInstall()
+&#125;)
+ipcMain.<span class="hljs-literal">on</span>(<span class="hljs-string">'asynchronous-message'</span>, <span class="hljs-function"><span class="hljs-params">(event, arg)</span> =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(arg) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"ping"</span>
+    event.reply(<span class="hljs-string">'asynchronous-reply'</span>, <span class="hljs-string">'pong'</span>)
+&#125;)
+ipcMain.<span class="hljs-literal">on</span>(<span class="hljs-string">'synchronous-message'</span>, <span class="hljs-function"><span class="hljs-params">(event, arg)</span> =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(arg) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"ping"</span>
+    event.returnValue = <span class="hljs-string">'pong'</span>
+&#125;)</code></pre>
+
+<blockquote>
+<p>Renderer</p>
+</blockquote>
+<pre><code class="hljs coffeescript">const &#123; ipcRenderer &#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">'electron'</span>) <span class="hljs-regexp">//</span> electron-vue: ipcRenderer = <span class="hljs-keyword">this</span>.$electron.ipcRenderer
+ipcRenderer.send(<span class="hljs-string">'startUpdate'</span>)
+<span class="hljs-built_in">console</span>.log(ipcRenderer.sendSync(<span class="hljs-string">'synchronous-message'</span>, <span class="hljs-string">'ping'</span>)) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"pong"</span>
+ipcRenderer.<span class="hljs-literal">on</span>(<span class="hljs-string">'asynchronous-reply'</span>, <span class="hljs-function"><span class="hljs-params">(event, arg)</span> =&gt;</span> &#123;
+    <span class="hljs-built_in">console</span>.log(arg) <span class="hljs-regexp">//</span> prints <span class="hljs-string">"pong"</span>
+&#125;)
+ipcRenderer.send(<span class="hljs-string">'asynchronous-message'</span>, <span class="hljs-string">'ping'</span>)</code></pre>
+<h1 id="更新组件"><a href="#更新组件" class="headerlink" title="更新组件"></a>更新组件</h1><ol>
+<li>原updater下增改文件</li>
+<li>新增依赖包</li>
+</ol>
+<ul>
+<li>yarn add @types/js-yaml</li>
+<li>yarm add electron-log</li>
+</ul>
+<ol start="3">
+<li>迁移0.17.1版updater文件</li>
+<li>main.js文件修改</li>
+</ol>
+<ul>
+<li>删除 const bootstrap = require(‘./updater/build/bootstrap.js’);</li>
+<li>新增 const bootstrap = require(‘./updater/bootstrap.js’);</li>
+<li>保留 const bundleUpdater = require(‘./updater/build/bundle-updater.js’);</li>
+<li>保留 await bundleUpdater(__dirname);  // bundleUpdater 其作用是替换index.html中cdn脚本为本地脚本</li>
+<li>updateInfo判断变更，对象字段变更</li>
+<li>新版startApp为异步方法 -&gt; await startApp();</li>
+</ul>
+<h1 id="打包注意事项："><a href="#打包注意事项：" class="headerlink" title="打包注意事项："></a>打包注意事项：</h1><ol>
+<li>关闭签名 // if (!process.env.SLOBS_NO_SIGN) base.win.certificateSubjectName = ‘Streamlabs (General Workings, Inc.)’;</li>
+</ol>
+<h1 id="Streamlabs-OBS"><a href="#Streamlabs-OBS" class="headerlink" title="Streamlabs OBS"></a>Streamlabs OBS</h1><p><a href="https://dev.azure.com/streamlabs/Streamlabs%20OBS/_build/latest?definitionId=1&branchName=staging" target="_blank" rel="noopener"><img src="https://dev.azure.com/streamlabs/Streamlabs%20OBS/_apis/build/status/stream-labs.streamlabs-obs?branchName=staging" srcset="/csorz/img/loading.gif" alt="Build Status"></a></p>
+<p>Simple, powerful, and efficient live streaming software built on Electron and OBS.</p>
+<p><img src="https://cdn.streamlabs.com/slobs/slobs-chatbox.png" srcset="/csorz/img/loading.gif" alt="Streamlabs OBS"></p>
+<p>This application currently only supports 64-bit Windows.</p>
+<h2 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h2><h3 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h3><p>Node is required for installing npm packages and for running<br>various scripts.  We recommend the current LTS release, 8.x.x:</p>
+<p><a href="https://nodejs.org" target="_blank" rel="noopener">https://nodejs.org</a></p>
+<h3 id="Yarn"><a href="#Yarn" class="headerlink" title="Yarn"></a>Yarn</h3><p>In order to ensure you are using the correct version of each<br>node module, you should use the yarn package manager.<br>Installation instructions can be found here:</p>
+<p><a href="https://yarnpkg.com/en/docs/install" target="_blank" rel="noopener">https://yarnpkg.com/en/docs/install</a></p>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><p>Install all node modules via yarn:</p>
+<pre><code class="hljs cmake">yarn <span class="hljs-keyword">install</span></code></pre>
+
+<p>Then, compile assets with webpack:</p>
+<pre><code class="hljs ebnf"><span class="hljs-attribute">yarn compile</span></code></pre>
+
+<h2 id="Starting"><a href="#Starting" class="headerlink" title="Starting"></a>Starting</h2><p>If you are using Visual Studio Code, you can start the app<br>using the built in debugger (default F5).</p>
+<p>Otherwise, you can run the app with:</p>
+<pre><code class="hljs crmsh">yarn <span class="hljs-literal">start</span></code></pre>
+
+<h2 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h2><p>These variables can be used in development to force certain behavior.</p>
+<p><code>SLOBS_FORCE_AUTO_UPDATE</code>: Force the auto-updater to run in development. Normally<br>this would only run in production.</p>
+<p><code>SLOBS_CACHE_DIR</code>: Force a different location for the user data cache directory.</p>
+<p><code>SLOBS_DISABLE_MAIN_LOGGING</code>: Disable javascript logging in the main process.</p>
+<p><code>SLOBS_REPORT_TO_SENTRY</code>: Report errors to sentry in the dev environment</p>
+<h2 id="Packaging-Distributing"><a href="#Packaging-Distributing" class="headerlink" title="Packaging / Distributing"></a>Packaging / Distributing</h2><p>Currently only Windows x64 packaging is supported.</p>
+<h3 id="Packaging"><a href="#Packaging" class="headerlink" title="Packaging"></a>Packaging</h3><p>Make sure the app is not running in your dev environment<br>before you start the packaging process.</p>
+<p>You can package the app by running:</p>
+<pre><code class="hljs actionscript">yarn <span class="hljs-class"><span class="hljs-keyword">package</span></span></code></pre>
+
+<p>This will package a distributable installer <code>.exe</code> to the <code>dist/</code><br>directory.  There is also an unpacked version in <code>dist/win-unpacked</code>.</p>
+<h3 id="Releasing"><a href="#Releasing" class="headerlink" title="Releasing"></a>Releasing</h3><p>If you want to release a new version to the update server, you will need<br>the following variables in your environment:</p>
+<pre><code class="hljs ebnf"><span class="hljs-attribute">AWS_ACCESS_KEY_ID</span>
+<span class="hljs-attribute">AWS_SECRET_ACCESS_KEY</span>
+<span class="hljs-attribute">CSC_LINK</span>
+<span class="hljs-attribute">CSC_KEY_PASSWORD</span>
+<span class="hljs-attribute">SENTRY_AUTH_TOKEN</span></code></pre>
+
+<p>Only authorized team members have permission to release new versions.<br>If you need help setting up your environment for release, you can ask<br>someone on the team for help.</p>
+<p>If your environment is properly set up, you can use the automated<br>release script to push out a new release.</p>
+<p>Simply run:</p>
+<pre><code class="hljs arduino">yarn <span class="hljs-built_in">release</span></code></pre>
+
+<p>and follow the instructions.</p>
+<h3 id="Legacy-Release-Checklist"><a href="#Legacy-Release-Checklist" class="headerlink" title="Legacy Release Checklist"></a>Legacy Release Checklist</h3><p>NOTE: This checklist is deprecated, and is only kept here in case<br>the automated deploy script isn’t working and we need to do a<br>manual deploy.</p>
+<ul>
+<li><input disabled="" type="checkbox"> Merge <code>staging</code> into <code>master</code> - DO NOT “Squash &amp; Merge”, just do a regular merge</li>
+<li><input disabled="" type="checkbox"> Check out <code>master</code></li>
+<li><input disabled="" type="checkbox"> If submodules are out of date <code>git submodule update --init --recursive</code></li>
+<li><input disabled="" type="checkbox"> Remove node modules <code>rm -rf node_modules</code></li>
+<li><input disabled="" type="checkbox"> Install fresh packages <code>yarn install</code></li>
+<li><input disabled="" type="checkbox"> Install node-obs with latest plugins <code>yarn install-node-obs</code></li>
+<li><input disabled="" type="checkbox"> Compile assets <code>yarn compile</code></li>
+<li><input disabled="" type="checkbox"> Run the test suite <code>yarn test</code></li>
+<li><input disabled="" type="checkbox"> Change the version in <code>package.json</code></li>
+<li><input disabled="" type="checkbox"> Commit and push</li>
+<li><input disabled="" type="checkbox"> Tag the repo <code>git tag &#39;v0.0.11&#39;</code> and <code>git push --tags</code></li>
+<li><input disabled="" type="checkbox"> Package the app <code>yarn package</code></li>
+<li><input disabled="" type="checkbox"> Run the packaged version in <code>dist/win-unpacked</code> and make sure it runs</li>
+<li><input disabled="" type="checkbox"> Deploy the new version <code>yarn deploy</code></li>
+<li><input disabled="" type="checkbox"> Merge master back into staging</li>
+</ul>
+<h2 id="❤-OBS-Developers"><a href="#❤-OBS-Developers" class="headerlink" title="❤ OBS Developers"></a>❤ OBS Developers</h2><p>At its core, Streamlabs OBS is powered by the <a href="https://obsproject.com/" target="_blank" rel="noopener">OBS</a><br>engine.  We want to thank all of the developers over at the OBS project for<br>their years of tireless hard work, without which Streamlabs OBS wouldn’t exist today.</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/streamlabs-obs-electron/">streamlabs-obs electron</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/csorz/20200804-nuxtjs/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">nuxtjs开发（一）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/csorz/20200728-npm/">
+                        <span class="hidden-mobile">npm发包流程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.defer = false
+      s.setAttribute('repo', 'csorz/hexo-fluid-commit');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      var e = document.getElementsByTagName('script')[0];
+      e.parentNode.insertBefore(s, e);
+    }
+    createObserver(loadUtterances, 'comments')
+  </script>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "streamlabs-obs&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>

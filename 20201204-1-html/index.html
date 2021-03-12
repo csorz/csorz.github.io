@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>html页面转image、pdf - CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/csorz/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-12-04 16:55">
+      2020年12月4日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      925 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：21 分钟前
+                
+              </p>
+            
+            <article class="markdown-body">
+              <p>接到新需求，产品希望实现下载动态网页内容的功能，用于打印或印刷。<br>生成PDF最佳，生成一组高清图片也行。本文详细记录了实现方案。</p>
+<a id="more"></a>
+
+<h2 id="html2canvas"><a href="#html2canvas" class="headerlink" title="html2canvas"></a>html2canvas</h2><ol>
+<li><p>浏览器兼容性<br>The library should work fine on the following browsers (with Promise polyfill):</p>
+<pre><code class="hljs bash">Firefox 3.5+
+Google Chrome
+Opera 12+
+IE9+
+Safari 6+</code></pre>
+</li>
+<li><p>需特别注意的是，html中图片切勿跨域，最好代理到同域下，否则图片会丢失。</p>
+</li>
+<li><p>代码示例</p>
+<pre><code class="hljs bash">const canvasList = []
+const demo1 = document.queryselect(<span class="hljs-string">'#demo1'</span>)
+const demo2 = document.queryselect(<span class="hljs-string">'#demo2'</span>)
+html2canvas(demo1).<span class="hljs-keyword">then</span>((canvas) =&gt; &#123;
+    canvasList.push(canvas);
+&#125;);
+html2canvas(demo2).<span class="hljs-keyword">then</span>((canvas) =&gt; &#123;
+    canvasList.push(canvas);
+&#125;);</code></pre>
+
+</li>
+</ol>
+<h2 id="canvas2pdf"><a href="#canvas2pdf" class="headerlink" title="canvas2pdf"></a>canvas2pdf</h2><ol>
+<li><p>浏览器兼容性<br>jsPDF requires modern browser APIs in order to function. To use jsPDF in older browsers like Internet Explorer, polyfills are required. You can load all required polyfills as follows:</p>
+<pre><code class="hljs bash">import <span class="hljs-string">"jspdf/dist/polyfills.es.js"</span>;</code></pre>
+</li>
+<li><p>与html2canvas等搭配使用<br><a href="https://github.com/MrRio/jsPDF#optional-dependencies" target="_blank" rel="noopener">–&gt;&gt;详见&lt;&lt;–</a><br><a href="http://raw.githack.com/MrRio/jsPDF/master/" target="_blank" rel="noopener">–&gt;&gt;调试&lt;&lt;–</a></p>
+<pre><code class="hljs bash">// webpack.config.js
+module.exports = &#123;
+  // ...
+  externals: &#123;
+    // only define the dependencies you are NOT using as externals!
+    canvg: <span class="hljs-string">"canvg"</span>,
+    html2canvas: <span class="hljs-string">"html2canvas"</span>,
+    dompurify: <span class="hljs-string">"dompurify"</span>
+  &#125;
+&#125;;</code></pre>
+<p>In Vue CLI projects, externals can be defined via the configureWebpack or chainWebpack properties of the vue.config.js file (needs to be created, first, in fresh projects).</p>
+</li>
+<li><p>常规代码演示</p>
+<pre><code class="hljs bash"><span class="hljs-built_in">let</span> doc = new jsPDF() // new jsPDF(<span class="hljs-string">'landscape'</span>) 横向
+canvasList.forEach((canvas, index) =&gt; &#123;
+  const imgData = canvas.toDataURL(<span class="hljs-string">'image/jpeg'</span>);
+  index &gt; 0 &amp;&amp; doc.addPage(<span class="hljs-string">"a4"</span>, <span class="hljs-string">"l"</span>);
+  doc.addImage(imgData, <span class="hljs-string">'JPEG'</span>, 0, 0, 1920, 1080)
+&#125;)
+doc.save(<span class="hljs-string">"demo.pdf"</span>);</code></pre>
+
+</li>
+</ol>
+<h2 id="FileSaver保存为图片并下载"><a href="#FileSaver保存为图片并下载" class="headerlink" title="FileSaver保存为图片并下载"></a>FileSaver保存为图片并下载</h2><ol>
+<li>兼容性</li>
+</ol>
+<p><img src="fs_1.jpg" srcset="/csorz/img/loading.gif" alt="FileSaver兼容性图表"></p>
+<p>IE &lt; 10<br>It is possible to save text files in IE &lt; 10 without Flash-based polyfills. See <a href="https://github.com/koffsyrup/FileSaver.js#examples" target="_blank" rel="noopener">ChenWenBrian and koffsyrup’s saveTextAs() </a> for more details.</p>
+<ol start="2">
+<li>示例<pre><code class="hljs bash">import &#123; saveAs &#125; from <span class="hljs-string">'file-saver'</span>;
+try &#123;
+    var isFileSaverSupported = !!new Blob;
+&#125; catch (e) &#123;&#125;
+canvasList.forEach((canvas, index) =&gt; &#123;
+  canvas.toBlob((blob) =&gt; &#123;
+      fileSaver.saveAs(blob, `<span class="hljs-variable">$&#123;index&#125;</span>.jpg`);
+  &#125;);
+&#125;)</code></pre>
+
+</li>
+</ol>
+<h2 id="JSZIP-FileSaver打包下载多张图片"><a href="#JSZIP-FileSaver打包下载多张图片" class="headerlink" title="JSZIP+FileSaver打包下载多张图片"></a>JSZIP+FileSaver打包下载多张图片</h2><ol>
+<li>兼容性</li>
+</ol>
+<p><img src="jz_1.jpg" srcset="/csorz/img/loading.gif" alt="兼容性"></p>
+<ol start="2">
+<li>示例<pre><code class="hljs bash">import JSZip from <span class="hljs-string">'jszip'</span>
+import &#123; saveAs &#125; from <span class="hljs-string">'file-saver'</span>;
+<span class="hljs-built_in">let</span> zip = new JSZip(); // 不支持win10 ie11 ，详见github
+zip.file(<span class="hljs-string">"Hello.txt"</span>, <span class="hljs-string">"Hello World\n"</span>);
+<span class="hljs-built_in">let</span> img = zip.folder(<span class="hljs-string">"images"</span>);
+canvasList.forEach((canvas, index) =&gt; &#123;
+  img.file(`<span class="hljs-variable">$&#123;index&#125;</span>.jpg`, canvas.toDataURL().split(<span class="hljs-string">','</span>)[1], &#123;base64: <span class="hljs-literal">true</span>&#125;);
+&#125;)
+zip.generateAsync(&#123;<span class="hljs-built_in">type</span>:<span class="hljs-string">"blob"</span>&#125;)
+.<span class="hljs-keyword">then</span>(<span class="hljs-keyword">function</span>(content) &#123;
+    // see FileSaver.js
+    saveAs(content, <span class="hljs-string">"学生二维码.zip"</span>);
+&#125;);</code></pre>
+
+</li>
+</ol>
+<h2 id="拓展知识"><a href="#拓展知识" class="headerlink" title="拓展知识"></a>拓展知识</h2><p>A4纸是ISO 216（纸张国际化标准尺寸），是世别界上大多数国家所使用的A4纸尺寸。目前中国采用的是ISO 216标准，以规范纸大小，与国际通用。</p>
+<h3 id="A4纸尺寸"><a href="#A4纸尺寸" class="headerlink" title="A4纸尺寸"></a>A4纸尺寸</h3><pre><code class="hljs bash">A4纸尺寸：210×297；
+A3纸尺寸：297×420；
+A2纸尺寸：420×594；
+A1纸尺寸：594×841；
+A0纸尺寸：841×1189；
+<span class="hljs-comment"># 备注：长(mm)×宽(mm) 单位：毫米（mm）</span></code></pre>
+
+<p><img src="a4.png" srcset="/csorz/img/loading.gif" alt="a4纸张尺寸"></p>
+<h3 id="A4纸大小记忆方法"><a href="#A4纸大小记忆方法" class="headerlink" title="A4纸大小记忆方法"></a>A4纸大小记忆方法</h3><p>通过上图各大小型号的纸张长宽度数据对比，我们可以看出纸张大小变化的规律，如此我们得出记忆方法如下。<br>方法：A0纸长度方向对折一半后变为A1纸；A1纸长度方向对折一半后变为A2纸；A2纸长度方向对折一半后变为A3纸，A3纸长度方向对折一半后变为A4纸。<br>A4规格的纸是我们日常生活中最常用到的，一般只要记住A4是210毫米×297毫米，我们就很快推理出其它规格纸的大小尺寸。</p>
+<h3 id="A4纸的像素和分辨率"><a href="#A4纸的像素和分辨率" class="headerlink" title="A4纸的像素和分辨率"></a>A4纸的像素和分辨率</h3><p>根据A4纸尺寸是210毫米×297毫米，而1英寸=2.54厘米，我们可以得出当分辨率是多少像素时，得出A4纸大小尺寸为多少毫米。如下是我们较长用到的规格尺寸：</p>
+<pre><code class="hljs bash">当分辨率是72像素/英寸时，A4纸像素长宽分别是842×595；
+当分辨率是120像素/英寸时，A4纸像素长宽分别是2105×1487；
+当分辨率是150像素/英寸时，A4纸像素长宽分别是1754×1240；
+当分辨率是300像素/英寸时，A4纸像素长宽分别是3508×2479；</code></pre>
+
+<h3 id="展板及印刷"><a href="#展板及印刷" class="headerlink" title="展板及印刷"></a>展板及印刷</h3><p>展板 100~120dpi<br>印刷 300dpi</p>
+<h2 id="工具及参考资料"><a href="#工具及参考资料" class="headerlink" title="工具及参考资料"></a>工具及参考资料</h2><p><a href="https://github.com/niklasvh/html2canvas" target="_blank" rel="noopener">html2canvas</a><br><a href="https://github.com/eligrey/FileSaver.js" target="_blank" rel="noopener">FileSaver</a><br><a href="https://github.com/MrRio/jsPDF" target="_blank" rel="noopener">canvas2pdf</a><br><a href="http://www.a4size.net/#ed119" target="_blank" rel="noopener">A4尺寸</a></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/canvas/">canvas</a>
+                    
+                      <a class="hover-with-bg" href="/csorz/tags/pdf/">pdf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/csorz/20201204-2-leetcode/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">leetcode算法练习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/csorz/20201204-h5-ui-design/">
+                        <span class="hidden-mobile">响应式和自适应式网页设计</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.defer = false
+      s.setAttribute('repo', 'csorz/hexo-fluid-commit');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      var e = document.getElementsByTagName('script')[0];
+      e.parentNode.insertBefore(s, e);
+    }
+    createObserver(loadUtterances, 'comments')
+  </script>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "html页面转image、pdf&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+    if(location.href.indexOf('localhost') === -1 && location.host !== "yhorz.cn") {
+      location.href = 'https://yhorz.cn' + location.pathname
+    }
+  </script>
+  <link rel="apple-touch-icon" sizes="76x76" href="/csorz/img/favicon.png">
+  <link rel="icon" type="image/png" href="/csorz/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  <title>PWA DEMO - CSorz</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/csorz/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/csorz/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/csorz/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <style type="text/css">
+    @media screen and (max-width: 750px) {
+      .full-video { display: none }
+    }
+  </style>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/csorz/">&nbsp;<strong>CSorz</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/csorz/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/csorz/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="mask full-video" style="z-index: -1; object-fit: cover;">
+            <video id="fullVideo" src="/csorz/img/1.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+          </div>
+          <script type="text/javascript">
+            try{
+              setTimeout(function(){
+                if(window.innerWidth > 750) {
+                  document.getElementById('fullVideo').play()
+                }
+              }, 1000)
+            } catch(err) {
+              
+            }
+          </script>
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-12-15 10:56">
+      2020年12月15日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：21 分钟前
+                
+              </p>
+            
+            <article class="markdown-body">
+              <p>PWA 不依赖于单个 API ，而是使用各种技术来实现提供最佳 Web 体验的目标。</p>
+<p>PWA 所需的关键要素是 service worker 支持。 值得庆幸的是，桌面和移动设备上的所有主流浏览器都支持 service worker。</p>
+<p>其他功能，如 Web App Manifest，Push，Notifications和 Add to Home Screen 功能也得到了广泛的支持。 目前，Safari 对 Web App Manifest 和 Add to Home Screen 的支持有限，并且不支持 Web 推送通知。 但是，其他主流浏览器支持所有这些功能。</p>
+<a id="more"></a>
+
+<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><ul>
+<li><p>index.html</p>
+<pre><code class="hljs bash">&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">"en"</span>&gt;
+&lt;head&gt;
+	&lt;meta charset=<span class="hljs-string">"utf-8"</span>&gt;
+	&lt;title&gt;PWA DEMO&lt;/title&gt;
+	&lt;meta name=<span class="hljs-string">"description"</span> content=<span class="hljs-string">"PWA DEMO"</span>&gt;
+	&lt;meta name=<span class="hljs-string">"author"</span> content=<span class="hljs-string">"csorz"</span>&gt;
+	&lt;meta name=<span class="hljs-string">"theme-color"</span> content=<span class="hljs-string">"#B12A34"</span>&gt;
+	&lt;meta name=<span class="hljs-string">"viewport"</span> content=<span class="hljs-string">"width=device-width, initial-scale=1"</span>&gt;
+	&lt;meta property=<span class="hljs-string">"og:image"</span> content=<span class="hljs-string">"icons/icon-512.png"</span>&gt;
+	&lt;link rel=<span class="hljs-string">"shortcut icon"</span> href=<span class="hljs-string">"favicon.ico"</span>&gt;
+	&lt;link rel=<span class="hljs-string">"stylesheet"</span> href=<span class="hljs-string">"style.css"</span>&gt;
+	&lt;link rel=<span class="hljs-string">"manifest"</span> href=<span class="hljs-string">"manifest.json"</span>&gt;
+	&lt;script src=<span class="hljs-string">"data/list.js"</span> defer&gt;&lt;/script&gt;
+	&lt;script src=<span class="hljs-string">"app.js"</span> defer&gt;&lt;/script&gt;
+	&lt;script src=<span class="hljs-string">"page.js"</span> defer&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;header&gt;
+	&lt;p&gt;&lt;a class=<span class="hljs-string">"logo"</span> href=<span class="hljs-string">"//yhorz.cn"</span>&gt;&lt;img src=<span class="hljs-string">"img/logo.png"</span> alt=<span class="hljs-string">"pwa"</span>&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/header&gt;
+&lt;main&gt;
+	&lt;h1&gt;List&lt;/h1&gt;
+	&lt;p class=<span class="hljs-string">"description"</span>&gt;List of games submitted to the &lt;a href=<span class="hljs-string">"http://js13kgames.com/aframe"</span>&gt;A-Frame category&lt;/a&gt; <span class="hljs-keyword">in</span> the &lt;a href=<span class="hljs-string">"http://2017.js13kgames.com"</span>&gt;js13kGames 2017&lt;/a&gt; competition. You can &lt;a href=<span class="hljs-string">"https://github.com/mdn/pwa-examples/blob/master/js13kpwa"</span>&gt;fork js13kPWA on GitHub&lt;/a&gt; to check its <span class="hljs-built_in">source</span> code.&lt;/p&gt;
+	&lt;button id=<span class="hljs-string">"notifications"</span>&gt;Request dummy notifications&lt;/button&gt;
+	&lt;section id=<span class="hljs-string">"content"</span>&gt;&lt;/section&gt;
+&lt;/main&gt;
+&lt;footer&gt;
+	&lt;p&gt;&amp;copy; js13kGames 2012-2018, created and maintained by &lt;a href=<span class="hljs-string">"http://end3r.com"</span>&gt;Andrzej Mazur&lt;/a&gt; from &lt;a href=<span class="hljs-string">"http://enclavegames.com"</span>&gt;Enclave Games&lt;/a&gt;.&lt;/p&gt;
+&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</li>
+<li><p>manifest.json</p>
+<pre><code class="hljs bash">&#123;
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"PWA DEMO"</span>,
+  <span class="hljs-string">"short_name"</span>: <span class="hljs-string">"PWA"</span>,
+  <span class="hljs-string">"description"</span>: <span class="hljs-string">"Progressive Web App: PWA DEMO"</span>,
+  <span class="hljs-string">"icons"</span>: [
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-32.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"32x32"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-64.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"64x64"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-96.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"96x96"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-128.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"128x128"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-168.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"168x168"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-192.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"192x192"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-256.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"256x256"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;,
+      &#123;
+          <span class="hljs-string">"src"</span>: <span class="hljs-string">"icons/icon-512.png"</span>,
+          <span class="hljs-string">"sizes"</span>: <span class="hljs-string">"512x512"</span>,
+          <span class="hljs-string">"type"</span>: <span class="hljs-string">"image/png"</span>
+      &#125;
+  ],
+  <span class="hljs-string">"start_url"</span>: <span class="hljs-string">"/demo-pwa/index.html"</span>,
+  <span class="hljs-string">"display"</span>: <span class="hljs-string">"fullscreen"</span>,
+  <span class="hljs-string">"theme_color"</span>: <span class="hljs-string">"#B12A34"</span>,
+  <span class="hljs-string">"background_color"</span>: <span class="hljs-string">"#B12A34"</span>
+&#125;</code></pre>
+</li>
+<li><p>app.js 注册 Service Workder</p>
+<pre><code class="hljs bash">/* eslint-disable*/
+// 注册 Service Workder
+// 兼容性：https://www.caniuse.com/?search=serviceWorker
+<span class="hljs-keyword">if</span> (<span class="hljs-string">'serviceWorker'</span> <span class="hljs-keyword">in</span> navigator) &#123;
+  navigator.serviceWorker.register(<span class="hljs-string">'./sw.js'</span>)
+&#125;
+
+// 请求通知授权
+// 兼容性：https://www.caniuse.com/?search=Notification
+Notification &amp;&amp; Notification.requestPermission().<span class="hljs-keyword">then</span>((result) =&gt; &#123;
+  // result:  未操作默认值<span class="hljs-string">'default'</span>、同意授权<span class="hljs-string">'granted'</span>、拒绝授权<span class="hljs-string">'denied'</span>
+  <span class="hljs-keyword">if</span> (result === <span class="hljs-string">'granted'</span>) &#123;
+    randomNotification()
+  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result === <span class="hljs-string">'denied'</span>) &#123;
+    // info
+  &#125; <span class="hljs-keyword">else</span> &#123;
+
+  &#125;
+&#125;)
+
+// 随机发送通知
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">randomNotification</span></span>() &#123;
+  const randomItem = Math.floor(Math.random() * games.length)
+  const notifTitle = games[randomItem].name
+  const notifBody = <span class="hljs-string">'Created by '</span> + games[randomItem].author + <span class="hljs-string">'.'</span>
+  const notifImg = <span class="hljs-string">'data/img/'</span> + games[randomItem].slug + <span class="hljs-string">'.jpg'</span>
+  const notifOptions = &#123;
+    body: notifBody,
+    icon: notifImg
+  &#125;
+  const notif = new Notification(notifTitle, notifOptions)
+  console.log(notif)
+  setTimeout(randomNotification, 30000)
+&#125;</code></pre>
+</li>
+<li><p>sw.js Service Workder</p>
+<pre><code class="hljs bash">/* eslint-disable*/
+// Service Worker
+
+// 加载数据
+self.importScripts(<span class="hljs-string">'data/list.js'</span>)
+
+// 文件缓存清单
+const cacheName = `cache-v202012161654`
+const appShellFiles = [
+  <span class="hljs-string">'/demo-pwa/'</span>,
+  <span class="hljs-string">'/demo-pwa/index.html'</span>,
+  <span class="hljs-string">'/demo-pwa/app.js'</span>,
+  <span class="hljs-string">'/demo-pwa/page.js'</span>,
+  <span class="hljs-string">'/demo-pwa/style.css'</span>,
+  <span class="hljs-string">'/demo-pwa/fonts/graduate.eot'</span>,
+  <span class="hljs-string">'/demo-pwa/fonts/graduate.ttf'</span>,
+  <span class="hljs-string">'/demo-pwa/fonts/graduate.woff'</span>,
+  <span class="hljs-string">'/demo-pwa/favicon.ico'</span>,
+  <span class="hljs-string">'/demo-pwa/img/logo.png'</span>,
+  <span class="hljs-string">'/demo-pwa/img/bg.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-32.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-64.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-96.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-128.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-168.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-192.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-256.png'</span>,
+  <span class="hljs-string">'/demo-pwa/icons/icon-512.png'</span>
+]
+const gamesImages = []
+<span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = 0; i &lt; games.length; i++) &#123;
+  gamesImages.push(`data/img/<span class="hljs-variable">$&#123;games[i].slug&#125;</span>.jpg`)
+&#125;
+const contentToCache = appShellFiles.concat(gamesImages)
+
+// 安装
+self.addEventListener(<span class="hljs-string">'install'</span>, (e) =&gt; &#123;
+  console.log(<span class="hljs-string">'[Service Worker] Install'</span>)
+  e.waitUntil(
+    caches.open(cacheName).<span class="hljs-keyword">then</span>((cache) =&gt; &#123;
+      console.log(<span class="hljs-string">'[Service Worker] Caching all: app shell and content'</span>)
+      <span class="hljs-built_in">return</span> cache.addAll(contentToCache)
+    &#125;)
+  )
+&#125;)
+
+// 抓取内容
+self.addEventListener(<span class="hljs-string">'fetch'</span>, (e) =&gt; &#123;
+  e.respondWith(
+    caches.match(e.request).<span class="hljs-keyword">then</span>((r) =&gt; &#123;
+      console.log(`[Service Worker] Fetching resource: <span class="hljs-variable">$&#123;e.request.url&#125;</span>`)
+      <span class="hljs-built_in">return</span> r || fetch(e.request).<span class="hljs-keyword">then</span>((response) =&gt; &#123;
+        <span class="hljs-built_in">return</span> caches.open(cacheName).<span class="hljs-keyword">then</span>((cache) =&gt; &#123;
+          console.log(`[Service Worker] Caching new resource: <span class="hljs-variable">$&#123;e.request.url&#125;</span>`)
+          cache.put(e.request, response.clone())
+          <span class="hljs-built_in">return</span> response
+        &#125;)
+      &#125;)
+    &#125;)
+  )
+&#125;)</code></pre>
+</li>
+<li><p>page.js 页面渲染</p>
+<pre><code class="hljs bash">/* eslint-disable*/
+// Generating content based on the template
+const template = <span class="hljs-string">'&lt;article&gt;&lt;img src='</span>data/img/placeholder.png<span class="hljs-string">' data-src='</span>data/img/SLUG.jpg<span class="hljs-string">' alt='</span>NAME<span class="hljs-string">'&gt;&lt;h3&gt;#POS. NAME&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;span&gt;Author:&lt;/span&gt; &lt;strong&gt;AUTHOR&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;span&gt;Twitter:&lt;/span&gt; &lt;a href='</span>https://twitter.com/TWITTER<span class="hljs-string">'&gt;@TWITTER&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;span&gt;Website:&lt;/span&gt; &lt;a href='</span>http://WEBSITE/<span class="hljs-string">'&gt;WEBSITE&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;span&gt;GitHub:&lt;/span&gt; &lt;a href='</span>https://GITHUB<span class="hljs-string">'&gt;GITHUB&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;span&gt;More:&lt;/span&gt; &lt;a href='</span>http://js13kgames.com/entries/SLUG<span class="hljs-string">'&gt;js13kgames.com/entries/SLUG&lt;/a&gt;&lt;/li&gt;</span>
+<span class="hljs-string">&lt;/ul&gt;&lt;/article&gt;'</span>
+<span class="hljs-built_in">let</span> content = <span class="hljs-string">''</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = 0; i &lt; games.length; i++) &#123;
+  <span class="hljs-built_in">let</span> entry = template.replace(/POS/g, (i + 1))
+    .replace(/SLUG/g, games[i].slug)
+    .replace(/NAME/g, games[i].name)
+    .replace(/AUTHOR/g, games[i].author)
+    .replace(/TWITTER/g, games[i].twitter)
+    .replace(/WEBSITE/g, games[i].website)
+    .replace(/GITHUB/g, games[i].github)
+  entry = entry.replace(<span class="hljs-string">'&lt;a href='</span>http:///<span class="hljs-string">'&gt;&lt;/a&gt;'</span>, <span class="hljs-string">'-'</span>)
+  content += entry
+&#125;;
+document.getElementById(<span class="hljs-string">'content'</span>).innerHTML = content
+
+// 图片懒加载
+const imagesToLoad = document.querySelectorAll(<span class="hljs-string">'img[data-src]'</span>)
+<span class="hljs-keyword">function</span> loadImages(image) &#123;
+  image.setAttribute(<span class="hljs-string">'src'</span>, image.getAttribute(<span class="hljs-string">'data-src'</span>))
+  image.onload = () =&gt; &#123;
+    image.removeAttribute(<span class="hljs-string">'data-src'</span>)
+  &#125;
+&#125;
+
+// 说明：https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API
+// 兼容性：https://www.caniuse.com/?search=IntersectionObserver
+<span class="hljs-keyword">if</span> (<span class="hljs-string">'IntersectionObserver'</span> <span class="hljs-keyword">in</span> window) &#123;
+  const observer = new IntersectionObserver((items, observer) =&gt; &#123;
+    items.forEach((item) =&gt; &#123;
+      <span class="hljs-keyword">if</span> (item.isIntersecting) &#123;
+        loadImages(item.target)
+        observer.unobserve(item.target)
+      &#125;
+    &#125;)
+  &#125;)
+  imagesToLoad.forEach((img) =&gt; &#123;
+    observer.observe(img)
+  &#125;)
+&#125; <span class="hljs-keyword">else</span> &#123;
+  imagesToLoad.forEach((img) =&gt; &#123;
+    loadImages(img)
+  &#125;)
+&#125;</code></pre>
+
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Progressive_web_apps/Introduction" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Progressive_web_apps/Introduction</a></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/csorz/20201215-vue-quasar/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">初识Quasar框架</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/csorz/20201213-linux-mongodb/">
+                        <span class="hidden-mobile">安装记录 - mongodb</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <script type="text/javascript">
+    function loadUtterances() {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.defer = false
+      s.setAttribute('repo', 'csorz/hexo-fluid-commit');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', 'github-light');
+      s.setAttribute('crossorigin', 'anonymous');
+      var e = document.getElementsByTagName('script')[0];
+      e.parentNode.insertBefore(s, e);
+    }
+    createObserver(loadUtterances, 'comments')
+  </script>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_1279460707" style="display: none"></span>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.staticfile.org/parse/2.19.0/parse.min.js" ></script>
+<script  src="/csorz/js/debouncer.js" ></script>
+<script  src="/csorz/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/csorz/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/csorz/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "PWA DEMO&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/csorz/js/local-search.js" ></script>
+  <script>
+    var path = "/csorz/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- cnzz Analytics -->
+    <script defer src="//s4.cnzz.com/z_stat.php?id=1279460707&show=pic"
+            type="text/javascript"></script>
+  
+
+
+
+
+
+</body>
+</html>
