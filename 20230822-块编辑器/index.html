@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="editorjs 块编辑器的开发核心是插件系统，本文主要介绍 inlineTool、blockTool 插件编写，以及将富文本解析为 JSON，实现跨平台渲染。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 editorjs 块编辑器开发及跨平台数据渲染">
+<meta property="og:url" content="http://example.com/20230822-%E5%9D%97%E7%BC%96%E8%BE%91%E5%99%A8/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="editorjs 块编辑器的开发核心是插件系统，本文主要介绍 inlineTool、blockTool 插件编写，以及将富文本解析为 JSON，实现跨平台渲染。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.bing.com/th?id=OHR.SoprisSunrise_ZH-CN5935701155_1920x1080.webp&qlt=50">
+<meta property="article:published_time" content="2023-08-22T02:39:07.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.949Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cn.bing.com/th?id=OHR.SoprisSunrise_ZH-CN5935701155_1920x1080.webp&qlt=50">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>基于 editorjs 块编辑器开发及跨平台数据渲染 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于 editorjs 块编辑器开发及跨平台数据渲染"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-08-22 10:39" pubdate>
+          2023年8月22日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于 editorjs 块编辑器开发及跨平台数据渲染</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>editorjs 块编辑器的开发核心是插件系统，本文主要介绍 inlineTool、blockTool 插件编写，以及将富文本解析为 JSON，实现跨平台渲染。</p>
+<span id="more"></span>
+
+<h2 id="inlineTool-插件"><a href="#inlineTool-插件" class="headerlink" title="inlineTool 插件"></a>inlineTool 插件</h2><p>每个内联工具都必须提供一个按钮（带有图标或某些布局的 HTML 元素）。按下按钮时，内联工具接收选定的文本范围作为页面上的 JavaScript 对象引用。某些工具还可能提供与用户进行其他交互的操作。</p>
+<p>内联工具必须提供三种方法才能使用编辑器：render、surround、checkState</p>
+<p>Render 方法必须返回内联工具栏按钮的 HTML 元素。当用户选择某些文本时，编辑器调用每个具有当前功能的内联工具的方法，以更新状态（如果所选文本包含一些内联标记）。</p>
+<p>插件示例：<br><img src="/inline_08281047.png" srcset="/img/loading.gif" lazyload alt="inlineTool示例"></p>
+<h3 id="插件清单"><a href="#插件清单" class="headerlink" title="插件清单"></a>插件清单</h3><p>目前支持 B（加粗）、U（下划线）、A（链接）、I（斜体），<br>本次增加了 FBGC（背景色） 插件。<br>未来将增加 FC（字体颜色）、FS（字体大小）、LH（行高）、LS（字间距）等插件。</p>
+<p>MY富文本编辑器可配置项较多，但实际应用的功能确很少。<br>如图所示：<br><img src="/ysy_text.png" srcset="/img/loading.gif" lazyload alt="MY"></p>
+<p>后期可根据具体需求增加块编辑器插件。</p>
+<h3 id="开发示例"><a href="#开发示例" class="headerlink" title="开发示例"></a>开发示例</h3><p>官方文档：<br><a target="_blank" rel="noopener" href="https://editorjs.io/inline-tool-basics/">https://editorjs.io/inline-tool-basics/</a></p>
+<p>核心函数：</p>
+<table class="block-table"><tbody><tr><td><a target="_blank" href="https://editorjs.io/inline-tools-api-1#render"><code class="inline-code">render</code></a></td><td><i><b>Required</b></i></td><td>创建交互按钮</td></tr><tr><td><a target="_blank" href="https://editorjs.io/inline-tools-api-1#surround"><code class="inline-code">surround</code></a></td><td><b><i>Required</i></b></td><td>所选范围添加或移除标签</td></tr><tr><td><a target="_blank" href="https://editorjs.io/inline-tools-api-1#checkstate"><code class="inline-code">checkState</code></a></td><td><b><i>Required</i></b></td><td>按选定范围获取工具的激活状态</td></tr>
+<tr><td><a target="_blank" href="https://editorjs.io/inline-tools-api-1#renderactions"><code class="inline-code">renderActions</code></a></td>
+<td><i>Optional</i></td><td>在按钮下方创建交互界面</td></tr><tr><td><a target="_blank" href="https://editorjs.io/inline-tools-api-1#clear"><code class="inline-code">clear</code></a></td><td><i>Optional</i></td><td>清除内联工具内容</td></tr></tbody></table>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MarkerTool</span> &#123;<br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">shortcut</span>() &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CMD+M&quot;</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">sanitize</span>() &#123;<br>    <span class="hljs-keyword">return</span> &#123;<br>      <span class="hljs-attr">mark</span>: &#123;<br>        <span class="hljs-attr">class</span>: <span class="hljs-string">&quot;cdx-marker&quot;</span>,<br>      &#125;,<br>    &#125;;<br>  &#125;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">isInline</span>() &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">get</span> <span class="hljs-title function_">state</span>() &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">_state</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">set</span> <span class="hljs-title function_">state</span>(<span class="hljs-params">state</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_state</span> = state;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">button</span>.<span class="hljs-property">classList</span>.<span class="hljs-title function_">toggle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">styles</span>.<span class="hljs-property">inlineToolButtonActive</span>, state);<br>  &#125;<br><br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">&#123; api &#125;</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span> = api;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">button</span> = <span class="hljs-literal">null</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">_state</span> = <span class="hljs-literal">false</span>;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tag</span> = <span class="hljs-string">&quot;MARK&quot;</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">class</span> = <span class="hljs-string">&quot;cdx-marker&quot;</span>;<br>  &#125;<br><br>  <span class="hljs-title function_">clear</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">hideActions</span>();<br>  &#125;<br><br>  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">button</span> = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;button&quot;</span>);<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">button</span>.<span class="hljs-property">type</span> = <span class="hljs-string">&quot;button&quot;</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">button</span>.<span class="hljs-property">innerHTML</span> =<br>      <span class="hljs-string">&#x27;&lt;svg width=&quot;20&quot; height=&quot;18&quot;&gt;&lt;path d=&quot;M10.458 12.04l2.919 1.686-.781 1.417-.984-.03-.974 1.687H8.674l1.49-2.583-.508-.775.802-1.401zm.546-.952l3.624-6.327a1.597 1.597 0 0 1 2.182-.59 1.632 1.632 0 0 1 .615 2.201l-3.519 6.391-2.902-1.675zm-7.73 3.467h3.465a1.123 1.123 0 1 1 0 2.247H3.273a1.123 1.123 0 1 1 0-2.247z&quot;/&gt;&lt;/svg&gt;&#x27;</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">button</span>.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">styles</span>.<span class="hljs-property">inlineToolButton</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">button</span>;<br>  &#125;<br><br>  <span class="hljs-title function_">surround</span>(<span class="hljs-params">range</span>) &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>) &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">unwrap</span>(range);<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">wrap</span>(range);<br>  &#125;<br><br>  <span class="hljs-title function_">wrap</span>(<span class="hljs-params">range</span>) &#123;<br>    <span class="hljs-keyword">const</span> selectedText = range.<span class="hljs-title function_">extractContents</span>();<br>    <span class="hljs-keyword">const</span> mark = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">tag</span>);<br><br>    mark.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">class</span>);<br>    mark.<span class="hljs-title function_">appendChild</span>(selectedText);<br>    range.<span class="hljs-title function_">insertNode</span>(mark);<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">selection</span>.<span class="hljs-title function_">expandToTag</span>(mark);<br>  &#125;<br><br>  <span class="hljs-title function_">unwrap</span>(<span class="hljs-params">range</span>) &#123;<br>    <span class="hljs-keyword">const</span> mark = <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">selection</span>.<span class="hljs-title function_">findParentTag</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">tag</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">class</span>);<br>    <span class="hljs-keyword">const</span> text = range.<span class="hljs-title function_">extractContents</span>();<br><br>    mark.<span class="hljs-title function_">remove</span>();<br><br>    range.<span class="hljs-title function_">insertNode</span>(text);<br>  &#125;<br><br>  <span class="hljs-title function_">checkState</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">const</span> mark = <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">selection</span>.<span class="hljs-title function_">findParentTag</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">tag</span>);<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = !!mark;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>) &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">showActions</span>(mark);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">hideActions</span>();<br>    &#125;<br>  &#125;<br><br>  <span class="hljs-title function_">renderActions</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span> = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;input&quot;</span>);<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">type</span> = <span class="hljs-string">&quot;color&quot;</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">value</span> = <span class="hljs-string">&quot;#f5f1cc&quot;</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">hidden</span> = <span class="hljs-literal">true</span>;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>;<br>  &#125;<br><br>  <span class="hljs-title function_">showActions</span>(<span class="hljs-params">mark</span>) &#123;<br>    <span class="hljs-keyword">const</span> &#123; backgroundColor &#125; = mark.<span class="hljs-property">style</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">value</span> = backgroundColor<br>      ? <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">convertToHex</span>(backgroundColor)<br>      : <span class="hljs-string">&quot;#f5f1cc&quot;</span>;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">onchange</span> = <span class="hljs-function">() =&gt;</span> &#123;<br>      mark.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">value</span>;<br>    &#125;;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">hidden</span> = <span class="hljs-literal">false</span>;<br>  &#125;<br><br>  <span class="hljs-title function_">hideActions</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">onchange</span> = <span class="hljs-literal">null</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">colorPicker</span>.<span class="hljs-property">hidden</span> = <span class="hljs-literal">true</span>;<br>  &#125;<br><br>  <span class="hljs-title function_">convertToHex</span>(<span class="hljs-params">color</span>) &#123;<br>    <span class="hljs-keyword">const</span> rgb = color.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/(\d+)/g</span>);<br><br>    <span class="hljs-keyword">let</span> hexr = <span class="hljs-built_in">parseInt</span>(rgb[<span class="hljs-number">0</span>]).<span class="hljs-title function_">toString</span>(<span class="hljs-number">16</span>);<br>    <span class="hljs-keyword">let</span> hexg = <span class="hljs-built_in">parseInt</span>(rgb[<span class="hljs-number">1</span>]).<span class="hljs-title function_">toString</span>(<span class="hljs-number">16</span>);<br>    <span class="hljs-keyword">let</span> hexb = <span class="hljs-built_in">parseInt</span>(rgb[<span class="hljs-number">2</span>]).<span class="hljs-title function_">toString</span>(<span class="hljs-number">16</span>);<br><br>    hexr = hexr.<span class="hljs-property">length</span> === <span class="hljs-number">1</span> ? <span class="hljs-string">&quot;0&quot;</span> + hexr : hexr;<br>    hexg = hexg.<span class="hljs-property">length</span> === <span class="hljs-number">1</span> ? <span class="hljs-string">&quot;0&quot;</span> + hexg : hexg;<br>    hexb = hexb.<span class="hljs-property">length</span> === <span class="hljs-number">1</span> ? <span class="hljs-string">&quot;0&quot;</span> + hexb : hexb;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;#&quot;</span> + hexr + hexg + hexb;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="blockTool-插件"><a href="#blockTool-插件" class="headerlink" title="blockTool 插件"></a>blockTool 插件</h2><p>该插件包含 BlockAPI、MenuConfig、BlockTunesAPI 三个部分，</p>
+<ul>
+<li>BlockAPI 提供了区块的渲染、保存、验证等功能。</li>
+<li>MenuConfig 提供了区块的菜单配置，包括图标、名称等。</li>
+<li>BlockTunesAPI 提供了区块的配置，包括是否可拉伸、是否可选中等。</li>
+</ul>
+<p>插件示例：<br><img src="/api_image.jpg" srcset="/img/loading.gif" lazyload alt="api示例"></p>
+<h3 id="插件清单-1"><a href="#插件清单-1" class="headerlink" title="插件清单"></a>插件清单</h3><p>目前支持 Text（普通文本）、Heading（标题）、List（列表）、Delimiter（分隔）、Table（表格），<br>本次增加了 Image（图片） 插件。<br>未来将增加 音频、视频、融合出版应用 等插件。</p>
+<p><img src="/block_08281105.png" srcset="/img/loading.gif" lazyload alt="blockTool示例"></p>
+<h3 id="开发示例-1"><a href="#开发示例-1" class="headerlink" title="开发示例"></a>开发示例</h3><p>官方文档：<br><a target="_blank" rel="noopener" href="https://editorjs.io/the-first-plugin/">https://editorjs.io/the-first-plugin/</a></p>
+<p>核心函数：</p>
+<table class="block-table"><tbody>
+<tr><td><code class="inline-code">call(methodName:string,param?:object):void</code></td><td>调用工具的实例方法 <code class="inline-code">save</code>, <code class="inline-code">validate</code>, <code class="inline-code">render</code>, etc.)&nbsp;</td></tr>
+<tr><td><code class="inline-code">save(): Promise&lt;void|SavedData&gt;</code></td><td>保存块数据</td></tr>
+<tr><td><code class="inline-code">validate(data: BlockToolData): Promise&lt;boolean&gt;</code></td><td>验证块数据<code class="inline-code">call('validate',data)</code></td></tr>
+<tr><td><code class="inline-code">dispatchChange()</code></td><td>块已更改触发编辑器的回调<code class="inline-code">onChange</code> callback.&nbsp;</td></tr></tbody></table>
+<table class="block-table"><tbody><td><code class="inline-code">config:ToolConfig</code></td><td>块初始化配置</td></tr>
+<tr><td><code class="inline-code">holder:HTMLElement</code></td><td>块是否包换html标签</td></tr>
+<tr><td><code class="inline-code">isEmpty: boolean</code></td><td>块的内容是否为空</td></tr>
+<tr><td><code class="inline-code">selected:boolean</code></td><td>块是否被选中</td></tr>
+<tr><td><code class="inline-code">stretched:boolean</code></td><td>块是否被拉伸</td></tr>
+</tbody></table>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SimpleImage</span> &#123;<br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">toolbox</span>() &#123;<br>    <span class="hljs-keyword">return</span> &#123;<br>      <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Image&quot;</span>,<br>      <span class="hljs-attr">icon</span>: <span class="hljs-string">&#x27;&lt;svg width=&quot;17&quot; height=&quot;15&quot; viewBox=&quot;0 0 336 276&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;path d=&quot;M291 150V79c0-19-15-34-34-34H79c-19 0-34 15-34 34v42l67-44 81 72 56-29 42 30zm0 52l-43-30-56 30-81-67-66 39v23c0 19 15 34 34 34h178c17 0 31-13 34-29zM79 0h178c44 0 79 35 79 79v118c0 44-35 79-79 79H79c-44 0-79-35-79-79V79C0 35 35 0 79 0z&quot;/&gt;&lt;/svg&gt;&#x27;</span>,<br>    &#125;;<br>  &#125;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">pasteConfig</span>() &#123;<br>    <span class="hljs-keyword">return</span> &#123;<br>      <span class="hljs-attr">tags</span>: [<span class="hljs-string">&quot;IMG&quot;</span>],<br>      <span class="hljs-attr">files</span>: &#123;<br>        <span class="hljs-attr">mimeTypes</span>: [<span class="hljs-string">&quot;image/*&quot;</span>],<br>        <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&quot;gif&quot;</span>, <span class="hljs-string">&quot;jpg&quot;</span>, <span class="hljs-string">&quot;png&quot;</span>, <span class="hljs-string">&quot;jpeg&quot;</span>],<br>      &#125;,<br>      <span class="hljs-attr">patterns</span>: &#123;<br>        <span class="hljs-attr">image</span>: <span class="hljs-regexp">/https?:\/\/\S+\.(gif|jpe?g|tiff|png)$/i</span>,<br>      &#125;,<br>    &#125;;<br>  &#125;<br><br>  <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> <span class="hljs-title function_">sanitize</span>() &#123;<br>    <span class="hljs-keyword">return</span> &#123;<br>      <span class="hljs-attr">url</span>: <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">caption</span>: &#123;&#125;,<br>    &#125;;<br>  &#125;<br><br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">&#123; data, api, config &#125;</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span> = api;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span> = config || &#123;&#125;;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span> = &#123;<br>      <span class="hljs-attr">url</span>: data.<span class="hljs-property">url</span> || <span class="hljs-string">&quot;&quot;</span>,<br>      <span class="hljs-attr">caption</span>: data.<span class="hljs-property">caption</span> || <span class="hljs-string">&quot;&quot;</span>,<br>      <span class="hljs-attr">withBorder</span>: data.<span class="hljs-property">withBorder</span> !== <span class="hljs-literal">undefined</span> ? data.<span class="hljs-property">withBorder</span> : <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">withBackground</span>:<br>        data.<span class="hljs-property">withBackground</span> !== <span class="hljs-literal">undefined</span> ? data.<span class="hljs-property">withBackground</span> : <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">stretched</span>: data.<span class="hljs-property">stretched</span> !== <span class="hljs-literal">undefined</span> ? data.<span class="hljs-property">stretched</span> : <span class="hljs-literal">false</span>,<br>    &#125;;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span> = <span class="hljs-literal">undefined</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">settings</span> = [<br>      &#123;<br>        <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;withBorder&quot;</span>,<br>        <span class="hljs-attr">icon</span>: <span class="hljs-string">`&lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 20 20&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;path d=&quot;M15.8 10.592v2.043h2.35v2.138H15.8v2.232h-2.25v-2.232h-2.4v-2.138h2.4v-2.28h2.25v.237h1.15-1.15zM1.9 8.455v-3.42c0-1.154.985-2.09 2.2-2.09h4.2v2.137H4.15v3.373H1.9zm0 2.137h2.25v3.325H8.3v2.138H4.1c-1.215 0-2.2-.936-2.2-2.09v-3.373zm15.05-2.137H14.7V5.082h-4.15V2.945h4.2c1.215 0 2.2.936 2.2 2.09v3.42z&quot;/&gt;&lt;/svg&gt;`</span>,<br>      &#125;,<br>      &#123;<br>        <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;stretched&quot;</span>,<br>        <span class="hljs-attr">icon</span>: <span class="hljs-string">`&lt;svg width=&quot;17&quot; height=&quot;10&quot; viewBox=&quot;0 0 17 10&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;path d=&quot;M13.568 5.925H4.056l1.703 1.703a1.125 1.125 0 0 1-1.59 1.591L.962 6.014A1.069 1.069 0 0 1 .588 4.26L4.38.469a1.069 1.069 0 0 1 1.512 1.511L4.084 3.787h9.606l-1.85-1.85a1.069 1.069 0 1 1 1.512-1.51l3.792 3.791a1.069 1.069 0 0 1-.475 1.788L13.514 9.16a1.125 1.125 0 0 1-1.59-1.591l1.644-1.644z&quot;/&gt;&lt;/svg&gt;`</span>,<br>      &#125;,<br>      &#123;<br>        <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;withBackground&quot;</span>,<br>        <span class="hljs-attr">icon</span>: <span class="hljs-string">`&lt;svg width=&quot;20&quot; height=&quot;20&quot; viewBox=&quot;0 0 20 20&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;path d=&quot;M10.043 8.265l3.183-3.183h-2.924L4.75 10.636v2.923l4.15-4.15v2.351l-2.158 2.159H8.9v2.137H4.7c-1.215 0-2.2-.936-2.2-2.09v-8.93c0-1.154.985-2.09 2.2-2.09h10.663l.033-.033.034.034c1.178.04 2.12.96 2.12 2.089v3.23H15.3V5.359l-2.906 2.906h-2.35zM7.951 5.082H4.75v3.201l3.201-3.2zm5.099 7.078v3.04h4.15v-3.04h-4.15zm-1.1-2.137h6.35c.635 0 1.15.489 1.15 1.092v5.13c0 .603-.515 1.092-1.15 1.092h-6.35c-.635 0-1.15-.489-1.15-1.092v-5.13c0-.603.515-1.092 1.15-1.092z&quot;/&gt;&lt;/svg&gt;`</span>,<br>      &#125;,<br>    ];<br>  &#125;<br>  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span> = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>);<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;simple-image&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>?.<span class="hljs-property">data</span>?.<span class="hljs-property">url</span>) &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_createImage</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">url</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">caption</span>);<br>      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;input&quot;</span>);<br><br>    input.<span class="hljs-property">placeholder</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">placeholder</span> || <span class="hljs-string">&quot;Paste an image URL...&quot;</span>;<br>    input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;paste&quot;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_createImage</span>(event.<span class="hljs-property">clipboardData</span>.<span class="hljs-title function_">getData</span>(<span class="hljs-string">&quot;text&quot;</span>));<br>    &#125;);<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>.<span class="hljs-title function_">appendChild</span>(input);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>;<br>  &#125;<br><br>  <span class="hljs-title function_">_createImage</span>(<span class="hljs-params">url, captionText</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(url);<br>    <span class="hljs-keyword">const</span> image = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;img&quot;</span>);<br>    <span class="hljs-keyword">const</span> caption = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>);<br><br>    image.<span class="hljs-property">src</span> = url;<br>    caption.<span class="hljs-property">contentEditable</span> = <span class="hljs-literal">true</span>;<br>    caption.<span class="hljs-property">innerHTML</span> = captionText || <span class="hljs-string">&quot;&quot;</span>;<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>.<span class="hljs-title function_">appendChild</span>(image);<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>.<span class="hljs-title function_">appendChild</span>(caption);<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_acceptTuneView</span>();<br>  &#125;<br><br>  <span class="hljs-title function_">save</span>(<span class="hljs-params">blockContent</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(blockContent);<br>    <span class="hljs-keyword">const</span> image = blockContent.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;img&quot;</span>);<br>    <span class="hljs-keyword">const</span> caption = blockContent.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;[contenteditable]&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>, &#123;<br>      <span class="hljs-attr">url</span>: image.<span class="hljs-property">src</span>,<br>      <span class="hljs-attr">caption</span>: caption.<span class="hljs-property">innerHTML</span> || <span class="hljs-string">&quot;&quot;</span>,<br>    &#125;);<br><br>    <span class="hljs-comment">// const sanitizerConfig = &#123;</span><br>    <span class="hljs-comment">//   b: true,</span><br>    <span class="hljs-comment">//   a: &#123;</span><br>    <span class="hljs-comment">//     href: true,</span><br>    <span class="hljs-comment">//   &#125;,</span><br>    <span class="hljs-comment">//   i: true</span><br>    <span class="hljs-comment">// &#125;</span><br><br>    <span class="hljs-comment">// return Object.assign(this.data, &#123;</span><br>    <span class="hljs-comment">//   url: image.src,</span><br>    <span class="hljs-comment">//   caption: this.api.sanitizer.clean(caption.innerHTML || &#x27;&#x27;, sanitizerConfig)</span><br>    <span class="hljs-comment">// &#125;);</span><br>  &#125;<br>  <span class="hljs-title function_">validate</span>(<span class="hljs-params">saveData</span>) &#123;<br>    <span class="hljs-comment">// 验证url</span><br>    <span class="hljs-keyword">return</span> !!saveData.<span class="hljs-property">url</span>.<span class="hljs-title function_">trim</span>();<br>  &#125;<br><br>  <span class="hljs-title function_">renderSettings</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">const</span> wrapper = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;dev&quot;</span>);<br><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">settings</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">tune</span>) =&gt;</span> &#123;<br>      <span class="hljs-keyword">let</span> button = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>);<br><br>      button.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">styles</span>.<span class="hljs-property">settingsButton</span>);<br>      button.<span class="hljs-property">classList</span>.<span class="hljs-title function_">toggle</span>(<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">styles</span>.<span class="hljs-property">settingsButtonActive</span>,<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>[tune.<span class="hljs-property">name</span>]<br>      );<br>      button.<span class="hljs-property">innerHTML</span> = tune.<span class="hljs-property">icon</span>;<br>      wrapper.<span class="hljs-title function_">appendChild</span>(button);<br><br>      button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_toggleTune</span>(tune.<span class="hljs-property">name</span>);<br>        button.<span class="hljs-property">classList</span>.<span class="hljs-title function_">toggle</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">styles</span>.<span class="hljs-property">settingsButtonActive</span>);<br>      &#125;);<br>    &#125;);<br><br>    <span class="hljs-keyword">return</span> wrapper;<br>  &#125;<br><br>  <span class="hljs-title function_">_toggleTune</span>(<span class="hljs-params">tune</span>) &#123;<br>    <span class="hljs-comment">// console.log(&#x27;Image tune clicked&#x27;, tune)</span><br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>[tune] = !<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>[tune];<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_acceptTuneView</span>();<br>  &#125;<br><br>  <span class="hljs-title function_">_acceptTuneView</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">settings</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">tune</span>) =&gt;</span> &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapper</span>.<span class="hljs-property">classList</span>.<span class="hljs-title function_">toggle</span>(tune.<span class="hljs-property">name</span>, !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>[tune.<span class="hljs-property">name</span>]);<br><br>      <span class="hljs-keyword">if</span> (tune.<span class="hljs-property">name</span> === <span class="hljs-string">&quot;stretched&quot;</span>) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">blocks</span>.<span class="hljs-title function_">stretchBlock</span>(<br>          <span class="hljs-variable language_">this</span>.<span class="hljs-property">api</span>.<span class="hljs-property">blocks</span>.<span class="hljs-title function_">getCurrentBlockIndex</span>(),<br>          !!<span class="hljs-variable language_">this</span>.<span class="hljs-property">data</span>.<span class="hljs-property">stretched</span><br>        );<br>      &#125;<br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-title function_">onPaste</span>(<span class="hljs-params">event</span>) &#123;<br>    <span class="hljs-keyword">switch</span> (event.<span class="hljs-property">type</span>) &#123;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;tag&quot;</span>:<br>        <span class="hljs-keyword">const</span> imgTag = event.<span class="hljs-property">detail</span>.<span class="hljs-property">data</span>;<br><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_createImage</span>(imgTag.<span class="hljs-property">src</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;file&quot;</span>:<br>        <span class="hljs-keyword">const</span> file = event.<span class="hljs-property">detail</span>.<span class="hljs-property">file</span>;<br>        <span class="hljs-keyword">const</span> reader = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>();<br><br>        reader.<span class="hljs-property">onload</span> = <span class="hljs-function">(<span class="hljs-params">loadEvent</span>) =&gt;</span> &#123;<br>          <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_createImage</span>(loadEvent.<span class="hljs-property">target</span>.<span class="hljs-property">result</span>);<br>        &#125;;<br><br>        reader.<span class="hljs-title function_">readAsDataURL</span>(file);<br><br>        <span class="hljs-keyword">break</span>;<br><br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;pattern&quot;</span>:<br>        <span class="hljs-keyword">const</span> src = event.<span class="hljs-property">detail</span>.<span class="hljs-property">data</span>;<br><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_createImage</span>(src);<br><br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="数据转换"><a href="#数据转换" class="headerlink" title="数据转换"></a>数据转换</h2><p>editorjs 的数据格式为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&#123;<br>  <span class="hljs-attr">time</span>: <span class="hljs-number">1693200794419</span>,<br>  <span class="hljs-attr">blocks</span>: [<br>    &#123;<br>      <span class="hljs-attr">id</span>: <span class="hljs-string">&quot;mhTl6ghSkV&quot;</span>,<br>      <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;paragraph&quot;</span>,<br>      <span class="hljs-attr">data</span>: &#123;<br>        <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hey. &lt;b&gt;Meet the new Editor.&lt;/b&gt; &lt;b&gt;On this &lt;i&gt;picture &lt;mark class=\&quot;cdx-marker\&quot;&gt;you can &lt;/mark&gt;see&lt;/i&gt; it in action.&lt;/b&gt; &lt;i&gt;Then, &lt;/i&gt;&lt;u class=\&quot;cdx-underline\&quot;&gt;try a demo&lt;/u&gt; 🤓&quot;&#x27;</span><br>      &#125;<br>    &#125;<br>  ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实际上 text 字段为富文本，需要将其解析为 JSON 格式，以便跨平台渲染。</p>
+<p>解析后的数据结构如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript">[<br>  &#123;<span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Hey. &#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [&#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;B&#x27;</span>&#125;], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Meet the new Editor.&#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">text</span>: <span class="hljs-string">&#x27; &#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [&#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;B&#x27;</span>&#125;,], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;On this &#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [&#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;B&#x27;</span>&#125;, &#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;I&#x27;</span>&#125;], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;picture &#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [&#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;B&#x27;</span>&#125;, &#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;I&#x27;</span>&#125;, &#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;FBGC&#x27;</span>, <span class="hljs-attr">class</span>: [<span class="hljs-string">&#x27;cdx-fbgc&#x27;</span>], <span class="hljs-attr">style</span>: &#123;<span class="hljs-attr">backgroundColor</span>: <span class="hljs-string">&#x27;rgb(208, 189, 22)&#x27;</span>&#125;&#125;], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;you can &#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [&#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;B&#x27;</span>&#125;, &#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;I&#x27;</span>&#125;], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;see&#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [&#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;B&#x27;</span>&#125;,], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27; it in action.&#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">text</span>: <span class="hljs-string">&#x27; &#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [&#123;<span class="hljs-attr">tag</span>: <span class="hljs-string">&#x27;I&#x27;</span>&#125;], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;Then, &#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">tags</span>: [<span class="hljs-string">&#x27;U&#x27;</span>], <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;try a demo&#x27;</span>&#125;,<br>  &#123;<span class="hljs-attr">text</span>: <span class="hljs-string">&#x27; 🤓&#x27;</span>&#125;<br>]<br></code></pre></td></tr></table></figure>
+<p>这个数据结构清晰，在标签数量较少的情况下使用较为合适</p>
+<p>还有一种将html转json数据结构，由于html标签很多，用树形结构较为合适<br><img src="/tree_node.png" srcset="/img/loading.gif" lazyload alt="MY"></p>
+<h3 id="转换基本原理"><a href="#转换基本原理" class="headerlink" title="转换基本原理"></a>转换基本原理</h3><p>节点常量类型：</p>
+<table>
+  <thead>
+    <tr>
+      <th>常量</th>
+      <th>值</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Node.ELEMENT_NODE</code></td>
+      <td><code>1</code></td>
+      <td>一个 <a href="/zh-CN/docs/Web/API/Element" title="元素"><code>元素</code></a> 节点，例如 <a href="/zh-CN/docs/Web/HTML/Element/p"><code>&lt;p&gt;</code></a> 和 <a href="/zh-CN/docs/Web/HTML/Element/div"><code>&lt;div&gt;</code></a>。</td>
+    </tr>
+    <tr>
+      <td><code>Node.ATTRIBUTE_NODE</code></td>
+      <td>2</td>
+      <td><a href="/zh-CN/docs/Web/API/Element" title="元素"><code>元素</code></a> 的耦合 <a href="/zh-CN/docs/Web/API/Attr" title="属性"><code>属性</code></a>。</td>
+    </tr>
+    <tr>
+      <td><code>Node.TEXT_NODE</code></td>
+      <td><code>3</code></td>
+      <td><a href="/zh-CN/docs/Web/API/Element"><code>Element</code></a> 或者 <a href="/zh-CN/docs/Web/API/Attr"><code>Attr</code></a> 中实际的 <a class="only-in-en-us" title="Currently only available in English (US)" href="/en-US/docs/Web/API/Text"><code>文字</code> <small>(en-US)</small></a></td>
+    </tr>
+    <tr>
+      <td><code>Node.CDATA_SECTION_NODE</code></td>
+      <td><code>4</code></td>
+      <td>一个 <a href="/zh-CN/docs/Web/API/CDATASection"><code>CDATASection</code></a>，例如 <code>&lt;!CDATA[[ … ]]&gt;</code>。</td>
+    </tr>
+    <tr>
+      <td><code>Node.PROCESSING_INSTRUCTION_NODE</code></td>
+      <td><code>7</code></td>
+      <td>一个用于 XML 文档的 <a class="only-in-en-us" title="Currently only available in English (US)" href="/en-US/docs/Web/API/ProcessingInstruction"><code>ProcessingInstruction</code> <small>(en-US)</small></a> ，例如 <code>&lt;?xml-stylesheet ... ?&gt;</code> 声明。</td>
+    </tr>
+    <tr>
+      <td><code>Node.COMMENT_NODE</code></td>
+      <td><code>8</code></td>
+      <td>一个 <a href="/zh-CN/docs/Web/API/Comment"><code>Comment</code></a> 节点。</td>
+    </tr>
+    <tr>
+      <td><code>Node.DOCUMENT_NODE</code></td>
+      <td><code>9</code></td>
+      <td>一个 <a href="/zh-CN/docs/Web/API/Document"><code>Document</code></a> 节点。</td>
+    </tr>
+    <tr>
+      <td><code>Node.DOCUMENT_TYPE_NODE</code></td>
+      <td><code>10</code></td>
+      <td>描述文档类型的 <a href="/zh-CN/docs/Web/API/DocumentType"><code>DocumentType</code></a> 节点。例如 <code>&lt;!DOCTYPE html&gt;</code> 就是用于 HTML5 的。</td>
+    </tr>
+    <tr>
+      <td><code>Node.DOCUMENT_FRAGMENT_NODE</code></td>
+      <td><code>11</code></td>
+      <td>一个 <a href="/zh-CN/docs/Web/API/DocumentFragment"><code>DocumentFragment</code></a> 节点</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>在项目中我们只需处理 ELEMENT_NODE 和 TEXT_NODE</p>
+<p>参考文档：<br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType#%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8B%E5%B8%B8%E9%87%8F">https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType#%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8B%E5%B8%B8%E9%87%8F</a></p>
+<h3 id="递归函数解析各-childNode"><a href="#递归函数解析各-childNode" class="headerlink" title="递归函数解析各 childNode"></a>递归函数解析各 childNode</h3><p>使用递归函数将节点解析为JSON格式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">childNodesToJson</span>(<span class="hljs-params">richText: string</span>) &#123;<br>  <span class="hljs-keyword">const</span> dom = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>);<br>  <span class="hljs-keyword">const</span> <span class="hljs-title function_">recursive</span> = (<span class="hljs-params">dom: any, arr: any[] = [], tags: any[] = []</span>) =&gt; &#123;<br>    dom.<span class="hljs-property">childNodes</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item: any</span>) =&gt;</span> &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(item.<span class="hljs-property">nodeName</span>, item.<span class="hljs-property">nodeType</span>, item.<span class="hljs-property">textContent</span>, item.<span class="hljs-property">nodeValue</span>);<br>      <span class="hljs-keyword">if</span> (item.<span class="hljs-property">nodeType</span> === <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">const</span> getClass = item.<span class="hljs-property">className</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">item: string</span>) =&gt;</span> !!item)<br>        <span class="hljs-keyword">let</span> <span class="hljs-attr">newTag</span>: any = &#123; <br>          <span class="hljs-attr">node</span>: item.<span class="hljs-property">nodeName</span>,<br>          <span class="hljs-attr">class</span>: getClass.<span class="hljs-property">length</span> ? getClass : <span class="hljs-literal">undefined</span>,<br>        &#125;<br>        <span class="hljs-comment">// TODO</span><br>        <span class="hljs-comment">// 不同插件需配置不同tag属性。例如：fontBackgroundColor插件需配置backgroundColor属性</span><br>        <span class="hljs-keyword">if</span> (item.<span class="hljs-property">nodeName</span> === <span class="hljs-string">&#x27;FBGC&#x27;</span>) &#123;<br>          newTag.<span class="hljs-property">style</span> = &#123;<br>            <span class="hljs-attr">backgroundColor</span>: item.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span><br>          &#125;<br>        &#125;<br>        <span class="hljs-title function_">recursive</span>(item, arr, [...tags, newTag]);<br>      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (item.<span class="hljs-property">nodeType</span> === <span class="hljs-number">3</span>) &#123;<br>        arr.<span class="hljs-title function_">push</span>(&#123;<br>          <span class="hljs-attr">tags</span>: tags.<span class="hljs-property">length</span> ? tags : <span class="hljs-literal">undefined</span>,<br>          <span class="hljs-attr">text</span>: item.<span class="hljs-property">textContent</span>,<br>        &#125;);<br>      &#125;<br>    &#125;);<br>    dom.<span class="hljs-title function_">remove</span>();<br>    <span class="hljs-keyword">return</span> arr<br>  &#125;<br>  dom.<span class="hljs-property">innerHTML</span> = richText;<br>  <span class="hljs-keyword">return</span> <span class="hljs-title function_">recursive</span>(dom);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="跨平台数据渲染"><a href="#跨平台数据渲染" class="headerlink" title="跨平台数据渲染"></a>跨平台数据渲染</h2><h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><p>可以直接使用 text 字段及已定义的css样式进行渲染</p>
+<h3 id="Uniapp"><a href="#Uniapp" class="headerlink" title="Uniapp"></a>Uniapp</h3><p>开发 json-to-dom 组件，根据 ‘B’、’I’、’MARK’ 等 tag 定义不同view样式，实现Uniapp跨端渲染。</p>
+<p>如果是自定义块，通过BlockType找到对应 标签或应用组件<br>例如：<br>BlockType &#x3D; ‘audio’ 音频组件<br>BlockType &#x3D; ‘video’ 视频组件<br>BlockType &#x3D; ‘container_game’ 容器游戏组件<br>答题、电子书组件等等等等</p>
+<h3 id="其它平台（Android、Ios）"><a href="#其它平台（Android、Ios）" class="headerlink" title="其它平台（Android、Ios）"></a>其它平台（Android、Ios）</h3><p>开发各自渲染组件</p>
+<h2 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h2><p>初始化、数据解析、保存</p>
+<h3 id="初始化-editorjs-编辑器"><a href="#初始化-editorjs-编辑器" class="headerlink" title="初始化 editorjs 编辑器"></a>初始化 editorjs 编辑器</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./simple-image/simple-image.css&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./marker/marker.css&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">EditorJS</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/editorjs&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">Header</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/header&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">Paragraph</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/paragraph&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">Delimiter</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/delimiter&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">Table</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/table&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">RawTool</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/raw&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">NestedList</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/nested-list&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">Underline</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/underline&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">CodeTool</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/code&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">FootnotesTune</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/footnotes&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">TextVariantTune</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@editorjs/text-variant-tune&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">SimpleImage</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./simple-image/simple-image.js&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">MarkerTool</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./marker/marker.js&quot;</span>;<br><span class="hljs-keyword">import</span> data <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./data&quot;</span>;<br><span class="hljs-keyword">const</span> editor = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EditorJS</span>(&#123;<br>  <span class="hljs-attr">onReady</span>: <span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Editor.js is ready to work!&quot;</span>);<br>  &#125;,<br>  <span class="hljs-attr">onChange</span>: <span class="hljs-function">(<span class="hljs-params">api, event</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Now I know that Editor&#x27;s content changed!&quot;</span>, api, event);<br>  &#125;,<br>  <span class="hljs-attr">placeholder</span>: <span class="hljs-string">&quot;Let`s write an awesome story!&quot;</span>,<br>  <span class="hljs-attr">autofocus</span>: <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">holder</span>: <span class="hljs-string">&quot;editorjs&quot;</span>,<br>  <span class="hljs-attr">data</span>: data,<br>  <span class="hljs-attr">inlineToolbar</span>: <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">tools</span>: &#123;<br>    <span class="hljs-attr">paragraph</span>: &#123;<br>      <span class="hljs-attr">class</span>: <span class="hljs-title class_">Paragraph</span>,<br>      <span class="hljs-attr">inlineToolbar</span>: <span class="hljs-literal">true</span>,<br>      <span class="hljs-attr">tunes</span>: [<span class="hljs-string">&quot;textVariant&quot;</span>, <span class="hljs-string">&quot;footnotes&quot;</span>],<br>    &#125;,<br>    <span class="hljs-attr">header</span>: &#123;<br>      <span class="hljs-attr">class</span>: <span class="hljs-title class_">Header</span>,<br>      <span class="hljs-attr">inlineToolbar</span>: <span class="hljs-literal">true</span>,<br>      <span class="hljs-attr">config</span>: &#123;<br>        <span class="hljs-attr">placeholder</span>: <span class="hljs-string">&quot;Enter a header&quot;</span>,<br>        <span class="hljs-attr">levels</span>: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>],<br>        <span class="hljs-attr">defaultLevel</span>: <span class="hljs-number">3</span>,<br>      &#125;,<br>    &#125;,<br>    <span class="hljs-attr">raw</span>: <span class="hljs-title class_">RawTool</span>,<br>    <span class="hljs-attr">image</span>: &#123;<br>      <span class="hljs-attr">class</span>: <span class="hljs-title class_">SimpleImage</span>,<br>      <span class="hljs-attr">inlineToolbar</span>: <span class="hljs-literal">true</span>,<br>      <span class="hljs-attr">config</span>: &#123;<br>        <span class="hljs-attr">placeholder</span>: <span class="hljs-string">&quot;Paste image URL&quot;</span>,<br>      &#125;,<br>    &#125;,<br>    <span class="hljs-attr">list</span>: &#123;<br>      <span class="hljs-attr">class</span>: <span class="hljs-title class_">NestedList</span>,<br>      <span class="hljs-attr">inlineToolbar</span>: <span class="hljs-literal">true</span>,<br>      <span class="hljs-attr">config</span>: &#123;<br>        <span class="hljs-attr">defaultStyle</span>: <span class="hljs-string">&quot;unordered&quot;</span>,<br>      &#125;,<br>      <span class="hljs-attr">tunes</span>: [<span class="hljs-string">&quot;textVariant&quot;</span>, <span class="hljs-string">&quot;footnotes&quot;</span>],<br>    &#125;,<br>    <span class="hljs-attr">delimiter</span>: <span class="hljs-title class_">Delimiter</span>,<br>    <span class="hljs-attr">table</span>: &#123;<br>      <span class="hljs-attr">class</span>: <span class="hljs-title class_">Table</span>,<br>      <span class="hljs-attr">inlineToolbar</span>: <span class="hljs-literal">true</span>,<br>      <span class="hljs-attr">config</span>: &#123;<br>        <span class="hljs-attr">rows</span>: <span class="hljs-number">2</span>,<br>        <span class="hljs-attr">cols</span>: <span class="hljs-number">3</span>,<br>      &#125;,<br>    &#125;,<br>    <span class="hljs-attr">underline</span>: <span class="hljs-title class_">Underline</span>,<br>    <span class="hljs-attr">code</span>: <span class="hljs-title class_">CodeTool</span>,<br>    <span class="hljs-attr">marker</span>: &#123;<br>      <span class="hljs-attr">class</span>: <span class="hljs-title class_">MarkerTool</span>,<br>      <span class="hljs-attr">shortcut</span>: <span class="hljs-string">&quot;CMD+M&quot;</span>,<br>    &#125;,<br>    <span class="hljs-attr">footnotes</span>: &#123;<br>      <span class="hljs-attr">class</span>: <span class="hljs-title class_">FootnotesTune</span>,<br>      <span class="hljs-attr">config</span>: &#123;<br>        <span class="hljs-attr">placeholder</span>: <span class="hljs-string">&quot;Your placeholder for footnotes popover&quot;</span>,<br>        <span class="hljs-attr">shortcut</span>: <span class="hljs-string">&quot;CMD+SHIFT+F&quot;</span>,<br>      &#125;,<br>    &#125;,<br>    <span class="hljs-attr">textVariant</span>: <span class="hljs-title class_">TextVariantTune</span>,<br>  &#125;,<br>  <span class="hljs-attr">tunes</span>: [<span class="hljs-string">&quot;textVariant&quot;</span>],<br>&#125;);<br><br>editor.<span class="hljs-property">isReady</span><br>  .<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Editor.js is ready to work!&quot;</span>);<br>  &#125;)<br>  .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">reason</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Editor.js initialization failed because of <span class="hljs-subst">$&#123;reason&#125;</span>`</span>);<br>  &#125;);<br></code></pre></td></tr></table></figure>
+
+<h3 id="保存数据"><a href="#保存数据" class="headerlink" title="保存数据"></a>保存数据</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 节点解析为JSON</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">childNodesToJson</span>(<span class="hljs-params">richText: string</span>) &#123;<br>  <span class="hljs-keyword">const</span> dom = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>);<br>  <span class="hljs-keyword">const</span> <span class="hljs-title function_">recursive</span> = (<span class="hljs-params">dom: any, arr: any[] = [], tags: any[] = []</span>) =&gt; &#123;<br>    dom.<span class="hljs-property">childNodes</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item: any</span>) =&gt;</span> &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(item.<span class="hljs-property">nodeName</span>, item.<span class="hljs-property">nodeType</span>, item.<span class="hljs-property">textContent</span>, item.<span class="hljs-property">nodeValue</span>);<br>      <span class="hljs-keyword">if</span> (item.<span class="hljs-property">nodeType</span> === <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-keyword">const</span> getClass = item.<span class="hljs-property">className</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">item: string</span>) =&gt;</span> !!item)<br>        <span class="hljs-keyword">let</span> <span class="hljs-attr">newTag</span>: any = &#123; <br>          <span class="hljs-attr">node</span>: item.<span class="hljs-property">nodeName</span>,<br>          <span class="hljs-attr">class</span>: getClass.<span class="hljs-property">length</span> ? getClass : <span class="hljs-literal">undefined</span>,<br>        &#125;<br>        <span class="hljs-comment">// TODO</span><br>        <span class="hljs-comment">// 不同插件需配置不同tag属性。例如：fontBackgroundColor插件需配置backgroundColor属性</span><br>        <span class="hljs-keyword">if</span> (item.<span class="hljs-property">nodeName</span> === <span class="hljs-string">&#x27;FBGC&#x27;</span>) &#123;<br>          newTag.<span class="hljs-property">style</span> = &#123;<br>            <span class="hljs-attr">backgroundColor</span>: item.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span><br>          &#125;<br>        &#125;<br>        <span class="hljs-title function_">recursive</span>(item, arr, [...tags, newTag]);<br>      &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (item.<span class="hljs-property">nodeType</span> === <span class="hljs-number">3</span>) &#123;<br>        arr.<span class="hljs-title function_">push</span>(&#123;<br>          <span class="hljs-attr">tags</span>: tags.<span class="hljs-property">length</span> ? tags : <span class="hljs-literal">undefined</span>,<br>          <span class="hljs-attr">text</span>: item.<span class="hljs-property">textContent</span>,<br>        &#125;);<br>      &#125;<br>    &#125;);<br>    dom.<span class="hljs-title function_">remove</span>();<br>    <span class="hljs-keyword">return</span> arr<br>  &#125;<br>  dom.<span class="hljs-property">innerHTML</span> = richText;<br>  <span class="hljs-keyword">return</span> <span class="hljs-title function_">recursive</span>(dom);<br>&#125;<br><br><span class="hljs-comment">// 保存数据</span><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">onSave</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>  editor<br>    .<span class="hljs-title function_">save</span>()<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">outputData</span>) =&gt;</span> &#123;<br>      outputData.<span class="hljs-property">blocks</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item: any</span>) =&gt;</span> &#123;<br>        <span class="hljs-keyword">if</span> ([<span class="hljs-string">&quot;paragraph&quot;</span>, <span class="hljs-string">&quot;heading&quot;</span>].<span class="hljs-title function_">includes</span>(item.<span class="hljs-property">type</span>)) &#123;<br>          item.<span class="hljs-property">data</span>.<span class="hljs-property">json</span> = <span class="hljs-title function_">childNodesToJson</span>(item.<span class="hljs-property">data</span>.<span class="hljs-property">text</span>);<br>        &#125;<br>      &#125;);<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Article data: &quot;</span>, outputData);<br>    &#125;)<br>    .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Saving failed: &quot;</span>, error);<br>    &#125;);<br>&#125;;<br><br>(<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;saveBtn&quot;</span>) <span class="hljs-keyword">as</span> any).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, onSave);<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于 editorjs 块编辑器开发及跨平台数据渲染</div>
+      <div>http://example.com/20230822-块编辑器/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年8月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20230911-%E6%A1%8C%E9%9D%A2%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84/" title="桌面客户端插件可扩展架构">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">桌面客户端插件可扩展架构</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20230619-%E4%BD%BF%E7%94%A8WSL%E5%9C%A8Windows%E4%B8%8A%E5%AE%89%E8%A3%85Linux/" title="使用WSL在Windows上安装Linux">
+                        <span class="hidden-mobile">使用WSL在Windows上安装Linux</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

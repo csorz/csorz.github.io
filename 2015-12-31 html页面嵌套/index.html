@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="这个在做网页中常要用到，有些通用的内容可集中放在一个页面文件中，其它要用到这些内容的页面只需要包含（引用）这个通用文件即可。这样便于维护，如果有很多网页，当通用内容需要修改时，只改一个文件就可以了，不需要每个文件单独修改。 最典型的应用比如页脚的版权信息等内容可以放在一个叫做footer.html文件里， 然后其他页面文件在页面内容的最后包含这个文件就可以了，具体例子下面有。 要html文件嵌套，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML页面嵌套">
+<meta property="og:url" content="http://example.com/2015-12-31%20html%E9%A1%B5%E9%9D%A2%E5%B5%8C%E5%A5%97/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="这个在做网页中常要用到，有些通用的内容可集中放在一个页面文件中，其它要用到这些内容的页面只需要包含（引用）这个通用文件即可。这样便于维护，如果有很多网页，当通用内容需要修改时，只改一个文件就可以了，不需要每个文件单独修改。 最典型的应用比如页脚的版权信息等内容可以放在一个叫做footer.html文件里， 然后其他页面文件在页面内容的最后包含这个文件就可以了，具体例子下面有。 要html文件嵌套，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-12-31T02:33:05.000Z">
+<meta property="article:modified_time" content="2024-03-01T07:04:02.261Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>HTML页面嵌套 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HTML页面嵌套"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2015-12-31 10:33" pubdate>
+          2015年12月31日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">HTML页面嵌套</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这个在做网页中常要用到，有些通用的内容可集中放在一个页面文件中，其它要用到这些内容的页面只需要包含（引用）这个通用文件即可。这样便于维护，如果有很多网页，当通用内容需要修改时，只改一个文件就可以了，不需要每个文件单独修改。 最典型的应用比如页脚的版权信息等内容可以放在一个叫做footer.html文件里， 然后其他页面文件在页面内容的最后包含这个文件就可以了，具体例子下面有。 要html文件嵌套，最简单的办法是使用SSI（Server Side Include)技术，也就是在服务器端两个文件就被合并了。除了少数免费网页寄存服务外，几乎所有的网页寄存服务器都支持 SSI。这也是一个比较推荐的方法，它与ASP和ASP.NET网页使用的语法一模一样。如果网站管理员偏向使用PHP或JSP的话，语法会稍有不同。 对于不能使用SSI、ASP、ASP.NET、PHP和JSP等服务器端动态页面语言的情况，这里还将介绍两种客户端镶嵌的办法：JavaScript和iframe的方法。当这两种客户端的方法都有很大的弊病，一般不推荐使用。 下面对各种方法单独具体介绍。</p>
+<h3 id="1、SSI-Server-Side-Include"><a href="#1、SSI-Server-Side-Include" class="headerlink" title="1、SSI (Server Side Include)"></a>1、SSI (Server Side Include)</h3><p>SSI是一种简单的动态网页制作技术，但是有些服务器要求网页文件扩展名为.shtml才能识别文件中SSI命令。所以如果你的SSI命令看起来不工作，先别放弃，试着把文件扩展名改为.shtml，也许会成功。如果知道自己的服务器是否支持SSI，请看另一篇文章。 使用SSI一个局限性是页面一定要放在网页服务器上才能看到效果，在本地是不好调试的。当然，如果非要在本地调试，就本地装一个Apache服务器好了。 比如你想在每个网页的底部加上同样的版权信息，像</p>
+<blockquote>
+<p>© 2009 程序员实验室 版权所有</p>
+</blockquote>
+<p>可以把这行信息放到一个叫做footer.html的文件里，footer.html的内容为：</p>
+<blockquote>
+<center> &copy; 程序员实验室 版权所有</center>;
+</blockquote>
+<p>这样同一路径下的其他页面文件要包含footer.html的SSI命令是： <code>&lt;!- #include virtual=&quot;footer.html&quot; -&gt;（常用）</code> 或者 <code>&lt;!- #include file=&quot;footer.html&quot; -&gt;</code> 这两者的几乎是一样的，不同之处在于include virtual后面取的是一个URL形式的路径，甚至还可以执行一个CGI程序并包含其输出结果，如果你的服务器支持CGI的话。而include file后面取的是一个文件系统路径，并且不能执行CGI程序。两者都可以接受相对路径，所以对上面这个简单例子，两者的效果是一样的。如果你不知道URL路径与文件系统路径两者的区别的话，就用include virtual 更多关于SSI的介绍，请看<a target="_blank" rel="noopener" href="http://www.prglab.com/blog/p/83">这篇SSI的介绍文章</a>。</p>
+<h3 id="2、PHP"><a href="#2、PHP" class="headerlink" title="2、PHP"></a>2、PHP</h3><p>如果你的服务器支持PHP的话，用PHP引用footer.html文件的写法如下： <code>&lt;?php include(&quot;footer.html&quot;); ?&gt;</code> 这句命令所在的文件扩展名必须被为.php。 除了引用本服务器上的文件，PHP的include命令还可以用来引用其它网站上的html文件，比如： <code>&lt;?php include([http://www.csorz.com/examples/footer.html](http://www.csorz.com/examples/footer.html)); ?&gt;</code> 当然你要得到其它网站的允许才能引用别人的文件。</p>
+<h3 id="3、ASP和ASP-NET"><a href="#3、ASP和ASP-NET" class="headerlink" title="3、ASP和ASP.NET"></a>3、ASP和ASP.NET</h3><p>如果你使用的是老式的ASP，则语法是与上面SSI一样的，不需要任何修改，只要把命令所在文件的扩展名改为.asp即可。 对于ASP.NET，也是类似，不同之处在于，因为SSI命令是在ASP命令运行之前被首先编译，所以文件名中不能够使用ASP.NET的变量。如果一定要用的话，就用ASP.NET的命令来做文件嵌套吧。 比如：</p>
+<figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs erlang-repl"><br>&lt;<span class="hljs-comment">%</span><br>    Response.WriteFile (<span class="hljs-string">&quot;footer.html&quot;</span>)<br><span class="hljs-comment">%&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>更多关于怎样在ASP.NET中实现动态文件嵌套，请参考<a target="_blank" rel="noopener" href="http://support.microsoft.com/kb/306575/EN-US/">微软的这篇文章</a>。</p>
+<h3 id="4、JSP-（Java-Server-Page"><a href="#4、JSP-（Java-Server-Page" class="headerlink" title="4、JSP （Java Server Page)"></a>4、JSP （Java Server Page)</h3><p>JSP文件需要在基于Java的服务器上运行，比如<a target="_blank" rel="noopener" href="http://tomcat.apache.org/">Apache Tomcat</a>。JSP包含文件的语法是： <code>&lt;%@ include file=&quot;footer.html&quot; %&gt;</code></p>
+<h3 id="5、客户端包含"><a href="#5、客户端包含" class="headerlink" title="5、客户端包含"></a>5、客户端包含</h3><h4 id="5-1-客户端包含的利弊"><a href="#5-1-客户端包含的利弊" class="headerlink" title="5.1 客户端包含的利弊"></a>5.1 客户端包含的利弊</h4><p>客户端包含有两种方式：JavaScript和iframe。让我们先看看两种方法各有什么利弊。 两种方法中Javascript生成的页面格式比较好，Javascript可以从一个URL取到页面片断然后镶嵌在另一个页面的任何位置 。其结果与服务器端包含的结果基本上一样，但弊端是客户端必须开启Javascript功能（目前大多数人是选择开启的，但也有少数出于安全方面的考虑不开启）。另一个弊端是搜索引擎是看不到由Javascript包含的页面的内容的，这对你的网站推广比较不利。 使用iframe比较简单，它可以强制一个HTML页面镶嵌在另一个页面中，类似于是用 object控件将Flash电影、录像、或者MP3播放器嵌入一个页面中。使用iframe，用户端不需要开启Javascript功能。但不利的方面是iframe有固定的高度和宽度，不能随着被嵌入页面的大小而改变。当被嵌入页面大于给定高宽度时，会显示滚动条(当然你也可以使用 scrolling &#x3D; “no” 来强制滚动条不显示，但这样页面内容会显示不完整)，影响页面美观。另外就是搜索引擎可能不收录iframe引用的页面，不利网站推广。</p>
+<h4 id="5-2-使用JavaScript的客户端包含"><a href="#5-2-使用JavaScript的客户端包含" class="headerlink" title="5.2 使用JavaScript的客户端包含"></a>5.2 使用JavaScript的客户端包含</h4><p>这个方法主要适用于Firefox浏览器(任何操作系统)、IE5以上(Windows)、苹果的Safari浏览器(MacOS X），可以使用一项叫做<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/">XMLHTTP</a> 的API技术来通过Javascript程序读取一个动态读取一个XML文件。这种方法也可以用来读取一个HTML文件，并放到当前网页文件的指定位置。</p>
+<blockquote>
+<p>专业网站设计者：不要用这个！ 也许在某些情况下你不得不用JavaScript来实现网页嵌套，但是这只是一种转弯抹角的替代方法。当你的服务器可以支持前面讲的服务器端嵌套方法时，尤其是专业人士，应尽可能避免使用这种方法，因为你的客户可能会投诉你做的网页内容无法被Google搜索到，或不能在某些浏览器中正常显示。</p>
+</blockquote>
+<p>记住这种方法做的网页只能在Firefox，Safari,和IE5以上版本的浏览器中正常显示。大部分人都是用这几种浏览器的，但是不是所有人，而且有些用户因为安全因素考虑会关闭Javascript功能。</p>
+<blockquote>
+<p>重要提示：如果你是在本地电脑上调试网页而不是在服务器上浏览，最新版本的ＩＥ浏览器会自动屏蔽Javascript动态生成的部分，并显示警告信息，你必须选择”允许显示动态内容”网页才能正常显示。当你把这些网页文件放到服务器上去的时候这个问题就会自动消失的，因为IE会辨别出主页和被包含的网页内容都来自同一个服务器。</p>
+</blockquote>
+<p>好了，说了够多了，下面是具体怎么做。把以下代码放在网页的<head>里面：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">function</span> <span class="hljs-title function_">clientSideInclude</span>(<span class="hljs-params">id, url</span>) &#123;</span><br><span class="language-javascript">        <span class="hljs-keyword">var</span> req = <span class="hljs-literal">false</span>;</span><br><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">// Safari, Firefox, 及其他非微软浏览器</span></span><br><span class="language-javascript">        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">XMLHttpRequest</span>) &#123;</span><br><span class="language-javascript">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="language-javascript">                req = <span class="hljs-keyword">new</span> <span class="hljs-title class_">XMLHttpRequest</span>();</span><br><span class="language-javascript">            &#125; <span class="hljs-keyword">catch</span> (e) &#123;</span><br><span class="language-javascript">                req = <span class="hljs-literal">false</span>;</span><br><span class="language-javascript">            &#125;</span><br><span class="language-javascript">        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">ActiveXObject</span>) &#123;</span><br><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">// For Internet Explorer on Windows</span></span><br><span class="language-javascript">            <span class="hljs-keyword">try</span> &#123;</span><br><span class="language-javascript">                req = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ActiveXObject</span>(<span class="hljs-string">&quot;Msxml2.XMLHTTP&quot;</span>);</span><br><span class="language-javascript">            &#125; <span class="hljs-keyword">catch</span> (e) &#123;</span><br><span class="language-javascript">                <span class="hljs-keyword">try</span> &#123;</span><br><span class="language-javascript">                    req = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ActiveXObject</span>(<span class="hljs-string">&quot;Microsoft.XMLHTTP&quot;</span>);</span><br><span class="language-javascript">                &#125; <span class="hljs-keyword">catch</span> (e) &#123;</span><br><span class="language-javascript">                    req = <span class="hljs-literal">false</span>;</span><br><span class="language-javascript">                &#125;</span><br><span class="language-javascript">            &#125;</span><br><span class="language-javascript">        &#125;</span><br><span class="language-javascript">        <span class="hljs-keyword">var</span> element = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(id);</span><br><span class="language-javascript">        <span class="hljs-keyword">if</span> (!element) &#123;</span><br><span class="language-javascript">            <span class="hljs-title function_">alert</span>(<span class="hljs-string">&quot;函数clientSideInclude无法找到id &quot;</span> + id + <span class="hljs-string">&quot;。&quot;</span> +<span class="hljs-string">&quot;你的网页中必须有一个含有这个id的div 或 span 标签。&quot;</span>);</span><br><span class="language-javascript">            <span class="hljs-keyword">return</span>;</span><br><span class="language-javascript">        &#125;</span><br><span class="language-javascript">        <span class="hljs-keyword">if</span> (req) &#123;</span><br><span class="language-javascript">            <span class="hljs-comment">// 同步请求，等待收到全部内容</span></span><br><span class="language-javascript">            req.<span class="hljs-title function_">open</span>(’<span class="hljs-variable constant_">GET</span>’, url, <span class="hljs-literal">false</span>);</span><br><span class="language-javascript">            req.<span class="hljs-title function_">send</span>(<span class="hljs-literal">null</span>);</span><br><span class="language-javascript">            element.<span class="hljs-property">innerHTML</span> = req.<span class="hljs-property">responseText</span>;</span><br><span class="language-javascript">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="language-javascript">                element.<span class="hljs-property">innerHTML</span> =</span><br><span class="language-javascript">                <span class="hljs-string">&quot;对不起，你的浏览器不支持&quot;</span> +</span><br><span class="language-javascript">                <span class="hljs-string">&quot;XMLHTTPRequest 对象。这个网页的显示要求&quot;</span> +</span><br><span class="language-javascript">                <span class="hljs-string">&quot;Internet Explorer 5 以上版本, &quot;</span> +</span><br><span class="language-javascript">                <span class="hljs-string">&quot;或 Firefox 或 Safari 浏览器，也可能会有其他可兼容的浏览器存在。&quot;</span>;</span><br><span class="language-javascript">        &#125;</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>有了这段代码我们就可以在网页的任何位置插入另一个页面了。首先我们要生成一个作为”容器”的HTML控件，比如<span>，并给这个”容器”控件一个ID，比如includefooter，然后把这个ID和要包含的页面的URL地址传递给前面写的这个js函数clientSideInclude就可以了。 一个需要注意的地方是函数clientSideInclude只有在页面被完全加载后才能工作，所以我们需要在<body>标签的onload事件上来调用这个函数，这是最保险的调用时机，因为这个事件触发的时候浏览器肯定已经完全解析了页面中所有HTML了。 所以，具体代码是： 在需要插入另一页面的地方写： <code>&lt;span id=&quot;includefooter&quot; &gt; &lt;/span&gt;</code> 在页面开始处标签里写： <code>&lt;body onLoad=&quot;clientSideInclude(&#39;includefooter&#39;, &#39;footer.html&#39;);&gt;</code> 当然，你也可以把函数clientSideInclude放在一个单独的文件里面，比如命名为clientSideInclude.js，然后在你的页面<head>标签中插入下面这<script>标签以便可以调用这个函数： <code>&lt;script src=&quot;clientSideInclude.js&quot; language=&quot;JavaScript&quot;&gt; &lt;/script&gt;</code></p>
+<h4 id="5-3-使用iframe的客户端包含"><a href="#5-3-使用iframe的客户端包含" class="headerlink" title="5.3 使用iframe的客户端包含"></a>5.3 使用iframe的客户端包含</h4><p>客户端页面嵌套还可以使用iframe的方法，弊端是必须事先想好被嵌套的页面在首页中要占多大的位置。如果被嵌套页面太大，超过事先定义的宽度或高度，则首页会出现滚动条。这也许正是你所需要的，但也许会完全破坏主页的设计。 iframe的使用很简单，下面的例子会在你的页面中嵌入另一个叫做include.html的页面：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><br>&lt;iframe src<span class="hljs-operator">=</span><span class="hljs-string">&quot;included.html&quot;</span> width<span class="hljs-operator">=</span><span class="hljs-string">&quot;450&quot;</span> height<span class="hljs-operator">=</span><span class="hljs-string">&quot;400&quot;</span> &gt;<br>    &lt;a href<span class="hljs-operator">=</span><span class="hljs-string">&quot;included.html&quot;</span>&gt;你的浏览器不支持iframe页面嵌套，请点击这里访问页面内容。&lt;/a&gt;<br>&lt;/iframe&gt;<br></code></pre></td></tr></table></figure>
+
+<p>这里主页中定义了要插入的页面将显示的高度为400的像素，宽度为450个像素。 我们为什么要在 iframe的里面插入一个普通的超级链接元素<a>呢？这是因为老版本的浏览器和搜索引擎不支持iframe，虽然现在已经很少有人还会使用Netscape 4这样老的浏览器了，但是几乎所有人都会使用象Google这样的搜索引擎。在iframe里面加上超级链接可以帮助搜索引擎找到网页的内容。 另外我们可以定义iframe的一些属性来控制网页的显示效果 ，除了前面用到的最常用宽度(width)和高度(height)的定义外，如果在任何情况下都不希望出现滚动条的话，可以定义iframe的scrolling属性等于"no"。如果不希望镶嵌页面的周围出现边框的话，可以将frameborder属性设置为0。下面这个例子显示了scrolling和frameborder属性的使用：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><br>&lt;iframe src<span class="hljs-operator">=</span><span class="hljs-string">&quot;included.html&quot;</span> width<span class="hljs-operator">=</span><span class="hljs-string">&quot;450&quot;</span> height<span class="hljs-operator">=</span><span class="hljs-string">&quot;400&quot;</span> frameborder<span class="hljs-operator">=</span><span class="hljs-string">&quot;0&quot;</span> scrolling<span class="hljs-operator">=</span><span class="hljs-string">&quot;no&quot;</span>&gt;<br>      &lt;a href<span class="hljs-operator">=</span><span class="hljs-string">&quot;included.html&quot;</span>&gt;你的浏览器不支持iframe页面嵌套，请点击这里访问页面内容。&lt;/a&gt;<br>&lt;/iframe&gt;<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="让wampserver支持包含shtml-html-htm类型文件"><a href="#让wampserver支持包含shtml-html-htm类型文件" class="headerlink" title="让wampserver支持包含shtml,html,htm类型文件"></a>让wampserver支持包含shtml,html,htm类型文件</h3><p>打开httpd.conf 搜索“AddType text/html .shtml” 搜索结果： <code>AddType text/html .shtml .html .htm</code> <code>AddOutputFilter INCLUDES .shtml .html .htm</code> 把这两行前面的#去掉。 然后搜索<code>“Options Indexes FollowSymLinks”</code> 在搜索到的那一行后面添加“ Includes” 即将该行改变为 <code>Options Indexes FollowSymLinks Includes</code> 保存httpd.conf，重起即可。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%88%B1%E5%88%86%E4%BA%AB/" class="category-chain-item">爱分享</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HTML页面嵌套</div>
+      <div>http://example.com/2015-12-31 html页面嵌套/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2015年12月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2016-01-04%20nodejs/" title="nodejs(上)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">nodejs(上)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2015-12-31%20%E6%99%BA%E5%9B%BE-%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E5%B9%B3%E5%8F%B0/" title="智图--图片优化平台">
+                        <span class="hidden-mobile">智图--图片优化平台</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

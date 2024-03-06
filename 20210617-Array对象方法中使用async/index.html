@@ -1,0 +1,851 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="这篇文章主要介绍了Array.map、Array.filter、Array.reduce中如何正确使用Async。在写网关接口处理复杂数据场景（串行、并行、异步过滤）时很有帮助。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Array对象方法中使用Async">
+<meta property="og:url" content="http://example.com/20210617-Array%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95%E4%B8%AD%E4%BD%BF%E7%94%A8async/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="这篇文章主要介绍了Array.map、Array.filter、Array.reduce中如何正确使用Async。在写网关接口处理复杂数据场景（串行、并行、异步过滤）时很有帮助。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bing.com/th?id=OHR.AtlanticPuffin_ZH-CN8523220989_800x480.jpg">
+<meta property="article:published_time" content="2021-06-17T11:00:48.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.941Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bing.com/th?id=OHR.AtlanticPuffin_ZH-CN8523220989_800x480.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Array对象方法中使用Async - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Array对象方法中使用Async"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-06-17 19:00" pubdate>
+          2021年6月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Array对象方法中使用Async</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这篇文章主要介绍了Array.map、Array.filter、Array.reduce中如何正确使用Async。<br>在写网关接口处理复杂数据场景（串行、并行、异步过滤）时很有帮助。</p>
+<span id="more"></span>
+
+<h2 id="Array-对象方法"><a href="#Array-对象方法" class="headerlink" title="Array 对象方法"></a>Array 对象方法</h2><table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">concat()</td>
+<td align="left">连接两个或更多的数组，并返回结果。</td>
+</tr>
+<tr>
+<td align="left">copyWithin()</td>
+<td align="left">从数组的指定位置拷贝元素到数组的另一个指定位置中。</td>
+</tr>
+<tr>
+<td align="left">entries()</td>
+<td align="left">返回数组的可迭代对象。</td>
+</tr>
+<tr>
+<td align="left">every()</td>
+<td align="left">检测数值元素的每个元素是否都符合条件。</td>
+</tr>
+<tr>
+<td align="left">fill()</td>
+<td align="left">使用一个固定值来填充数组。</td>
+</tr>
+<tr>
+<td align="left"><b>filter()</b></td>
+<td align="left">检测数值元素，并返回符合条件所有元素的数组。</td>
+</tr>
+<tr>
+<td align="left">find()</td>
+<td align="left">返回符合传入测试（函数）条件的数组元素。</td>
+</tr>
+<tr>
+<td align="left">findIndex()</td>
+<td align="left">返回符合传入测试（函数）条件的数组元素索引。</td>
+</tr>
+<tr>
+<td align="left">forEach()</td>
+<td align="left">数组每个元素都执行一次回调函数。</td>
+</tr>
+<tr>
+<td align="left">from()</td>
+<td align="left">通过给定的对象中创建一个数组。</td>
+</tr>
+<tr>
+<td align="left">includes()</td>
+<td align="left">判断一个数组是否包含一个指定的值。</td>
+</tr>
+<tr>
+<td align="left">indexOf()</td>
+<td align="left">搜索数组中的元素，并返回它所在的位置。</td>
+</tr>
+<tr>
+<td align="left">isArray()</td>
+<td align="left">判断对象是否为数组。</td>
+</tr>
+<tr>
+<td align="left">join()</td>
+<td align="left">把数组的所有元素放入一个字符串。</td>
+</tr>
+<tr>
+<td align="left">keys()</td>
+<td align="left">返回数组的可迭代对象，包含原始数组的键(key)。</td>
+</tr>
+<tr>
+<td align="left">lastIndexOf()</td>
+<td align="left">搜索数组中的元素，并返回它最后出现的位置。</td>
+</tr>
+<tr>
+<td align="left"><b>map()</b></td>
+<td align="left">通过指定函数处理数组的每个元素，并返回处理后的数组。</td>
+</tr>
+<tr>
+<td align="left">pop()</td>
+<td align="left">删除数组的最后一个元素并返回删除的元素。</td>
+</tr>
+<tr>
+<td align="left">push()</td>
+<td align="left">向数组的末尾添加一个或更多元素，并返回新的长度。</td>
+</tr>
+<tr>
+<td align="left"><b>reduce()</b></td>
+<td align="left">将数组元素计算为一个值（从左到右）。</td>
+</tr>
+<tr>
+<td align="left">reduceRight()</td>
+<td align="left">将数组元素计算为一个值（从右到左）。</td>
+</tr>
+<tr>
+<td align="left">reverse()</td>
+<td align="left">反转数组的元素顺序。</td>
+</tr>
+<tr>
+<td align="left">shift()</td>
+<td align="left">删除并返回数组的第一个元素。</td>
+</tr>
+<tr>
+<td align="left">slice()</td>
+<td align="left">选取数组的一部分，并返回一个新数组。</td>
+</tr>
+<tr>
+<td align="left">some()</td>
+<td align="left">检测数组元素中是否有元素符合指定条件。</td>
+</tr>
+<tr>
+<td align="left">sort()</td>
+<td align="left">对数组的元素进行排序。</td>
+</tr>
+<tr>
+<td align="left">splice()</td>
+<td align="left">从数组中添加或删除元素。</td>
+</tr>
+<tr>
+<td align="left">toString()</td>
+<td align="left">把数组转换为字符串，并返回结果。</td>
+</tr>
+<tr>
+<td align="left">unshift()</td>
+<td align="left">向数组的开头添加一个或更多元素，并返回新的长度。</td>
+</tr>
+<tr>
+<td align="left">valueOf()</td>
+<td align="left">返回数组对象的原始值。</td>
+</tr>
+</tbody></table>
+<h2 id="串行"><a href="#串行" class="headerlink" title="串行"></a>串行</h2><p>数组和模拟请求，后面都会用到</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">const arr = [1, 2, 3, 4, 5];<br>const delay = async (time) =&gt; &#123;<br>  await new Promise(resolve =&gt; &#123;<br>    setTimeout(() =&gt; &#123;<br>      resolve()<br>    &#125;, time)<br>  &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>简单处理串行请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">const arraySequentially = async (arr) =&gt; &#123;<br>  const result = await arr.reduce(async (total, item, index) =&gt; &#123;<br>    await total<br>    await delay(100)<br>    console.log(item)<br>    <span class="hljs-built_in">return</span> arr.length !== (index + 1) ? Promise.resolve() : <span class="hljs-string">&#x27;end&#x27;</span><br>  &#125;, Promise.resolve())<br>  <span class="hljs-built_in">return</span> result<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h2><h3 id="map-并行"><a href="#map-并行" class="headerlink" title="map 并行"></a>map 并行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">const asyncMap = async () =&gt; &#123;<br>  const result = await Promise.all(arr.map(async item =&gt; &#123;<br>    await delay(100)<br>    console.log(item)<br>    <span class="hljs-built_in">return</span> item<br>  &#125;))<br>  <span class="hljs-built_in">return</span> result<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="filter-结合-map-使用"><a href="#filter-结合-map-使用" class="headerlink" title="filter 结合 map 使用"></a>filter 结合 map 使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">const asyncFilter = async (arr, predicate) =&gt; &#123;<br>  const results = await Promise.all(arr.map(predicate));<br>  <span class="hljs-built_in">return</span> arr.filter((_v, index) =&gt; results[index]);<br>&#125;<br>const asyncRes = await asyncFilter(arr, async (i) =&gt; &#123;<br>  await delay(<span class="hljs-number">100</span>)<br>  return i % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>;<br>&#125;);<br> <br>console.log(asyncRes);<br>// <span class="hljs-number">2</span>,<span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<p>改为单行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">const asyncFilter = async (arr, predicate) =&gt; Promise.all(arr.map(predicate)).<span class="hljs-keyword">then</span>((results) =&gt; arr.filter((_v, index) =&gt; results[index]));<br></code></pre></td></tr></table></figure>
+
+<h3 id="filter-结合-reduce-使用"><a href="#filter-结合-reduce-使用" class="headerlink" title="filter 结合 reduce 使用"></a>filter 结合 reduce 使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">// concurrently 并行<br>const asyncFilter = async (arr, predicate) =&gt; <br>  arr.reduce(async (memo, e) =&gt;<br>      await predicate(e) ? [...await memo, e] : memo<br>  , []);<br><br>const asyncRes = await asyncFilter(arr, async (i) =&gt; &#123;<br>  await delay(100)<br>  <span class="hljs-built_in">return</span> i % 2 === 0;<br>&#125;);<br><br>console.log(asyncRes);<br>// 2,4<br></code></pre></td></tr></table></figure>
+
+<p>要在调用下一个谓词函数之前等待其结束，请更改await 的顺序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">// sequentially 串行<br>const asyncFilter = async (arr, predicate) =&gt; <br>    arr.reduce(async (memo, e) =&gt; <br>        [...await memo, ...await predicate(e) ? [e] : []]<br>    , []);<br><br>const asyncRes = await asyncFilter(arr, async (i) =&gt; &#123;<br>  await delay(100)<br>  <span class="hljs-built_in">return</span> i % 2 === 0;<br>&#125;);<br><br>console.log(asyncRes);<br>// 2,4<br></code></pre></td></tr></table></figure>
+
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>1.线程是系统调度的最小单位，所以下面的“下一个任务”的说法是指下一个线程，而不是指比线程更小或更大的事物;</p>
+<p>2.进程是系统分配资源的基本单位。比如某进程有T1，T2两个线程，T2申请某块内存，操作系统分配时并不是分给T2，而是分给整个进程，这样T1也可以去使用这块内存；</p>
+<p>3.为了利用CPU的多核资源，引入多线程概念。多核CPU本质上还是只有一个CPU，每个时刻只能处理一个进程，如果该进程当中有多个线程，那么就可以发挥多核CPU的作用，同时处理多个线程。由于时间片轮转，处理该进程的时间片用完之后就会去处理下一个进程，以达到并发的效果；</p>
+<p>4.“串行，并行，并发，同步，异步，顺序”的概念：<br>串行：多任务中某时刻只能有一个任务被运行(并没有指定任务间的先后顺序，跟口语中的串行不一样)；<br>并行：相对于串行，某时刻有多个任务同时被执行，如多核分别独立执行线程时各个任务刚好在某个时间段有时间上的重叠；<br>并发：引入时间片和抢占之后才有了并发的说法，某个时间片只有一个任务在执行，执行完时间片后进行资源抢占，到下一个任务去执行，即“微观串行，宏观并发”，所以这种情况下只有一个空闲的某核，多核空闲就又可以实现并行运行了；<br>同步：函数会阻塞直到任务完成返回才能进行其它操作；<br>异步：在任务执行完成之前先将函数值返回；<br>顺序:  就是平常理解的时间先后;</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-obj-array.html">https://www.runoob.com/jsref/jsref-obj-array.html</a><br><a target="_blank" rel="noopener" href="https://www.jb51.net/article/198959.htm">https://www.jb51.net/article/198959.htm</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/61755696">https://www.zhihu.com/question/61755696</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Array对象方法中使用Async</div>
+      <div>http://example.com/20210617-Array对象方法中使用async/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年6月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20210702-webgis/" title="Webgis">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Webgis</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20210531-%E9%9F%B3%E8%A7%86%E9%A2%91%E5%8A%A0%E5%AF%86/" title="音视频加密">
+                        <span class="hidden-mobile">音视频加密</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="今天是 2017 年 7 月 7 日，es2015 正式发布已经两年了。但最新的浏览器们逼近 100% 的支持率对我们好像并没有什么卵用，为了少数用户的体验，我们很可能需要兼容 IE9。感谢 babel 的编译，让我们完美的提前使用上了 const，let 和 arrow function。可也许你还是面对着不敢直接使用 fetch 或是 Object.assign 的难题？ babel 和 po">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端 Polyfill 方案">
+<meta property="og:url" content="http://example.com/2017-08-25%20%E5%89%8D%E7%AB%AF-polyfill-%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="今天是 2017 年 7 月 7 日，es2015 正式发布已经两年了。但最新的浏览器们逼近 100% 的支持率对我们好像并没有什么卵用，为了少数用户的体验，我们很可能需要兼容 IE9。感谢 babel 的编译，让我们完美的提前使用上了 const，let 和 arrow function。可也许你还是面对着不敢直接使用 fetch 或是 Object.assign 的难题？ babel 和 po">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-25T02:12:08.000Z">
+<meta property="article:modified_time" content="2024-03-01T07:04:02.369Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>前端 Polyfill 方案 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="前端 Polyfill 方案"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2017-08-25 10:12" pubdate>
+          2017年8月25日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">前端 Polyfill 方案</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>今天是 2017 年 7 月 7 日，es2015 正式发布已经两年了。但最新的浏览器们逼近 100% 的支持率对我们好像并没有什么卵用，为了少数用户的体验，我们很可能需要兼容 IE9。感谢 babel 的编译，让我们完美的提前使用上了 const，let 和 arrow function。可也许你还是面对着不敢直接使用 fetch 或是 Object.assign 的难题？ <strong>babel 和 polyfill</strong> 刚接触 babel 的同学一开始可能都认为在使用了 babel 后就可以无痛的使用 es2015 了，之后被各种 undefined 的报错无情打脸。一句话概括, babel 的编译不会做 polyfill。那么 polyfill 是指什么呢? <code>const foo = (a, b) =&gt; &#123; return Object.assign(a, b); &#125;;</code> 当我们写出上面这样的代码，交给 babel 编译时，我们得到了： <code>&quot;use strict&quot;; var foo = function foo(a, b) &#123; return Object.assign(a, b); &#125;;</code> arrow function 被编译成了普通的函数，但仔细一看 Object.assign 还牢牢的站在那里，而它作为 es2015 的新方法，并不能运行在相当多的浏览器上。为什么不把 Object.assign 编译成 (Object.assignfunction() { &#x2F;*…*&#x2F;}) 这样的替代方法呢？好问题！编译为了保证正确的语义，只能转换语法而不是去增加或修改原有的属性和方法。所以 babel 不处理 Object.assign 反倒是最正确的做法。而处理这些方法的方案则被称为 polyfill。 <strong>babel-plugin-transform-xxx</strong> 解决这个问题最原始的思路是缺什么补什么，babel 提供了一系列 transform 的插件来解决这个问题，例如针对 Object.assign，我们可以使用 babel-plugin-transform-object-assign： <code>yarn add babel-plugin-transform-object-assign # in .babelrc &#123; &quot;presets&quot;: [&quot;latest&quot;], &quot;plugins&quot;: [&quot;transform-object-assign&quot;] &#125;</code> 方便你尝试，这里准备了一些测试的代码。编译之前的代码，我们得到了： <code>var _extends = Object.assign function (target) &#123; for (var i = 1; i &lt; arguments.length; i++) &#123; var source = arguments[i]; for (var key in source) &#123; if (Object.prototype.hasOwnProperty.call(source, key)) &#123; target[key] = source[key]; &#125; &#125; &#125; return target; &#125;; var foo = exports.foo = function foo(a, b) &#123; return _extends(a, b); &#125;;</code> babel-plugin-transform-object-assign 在 module 之前替换了我们用到的 Object.assign 方法。看上去效果不错，但细细考究一下会发现这样的问题： <code>// another.js export const bar = (a, b) =&gt; Object.assign(a, b); // index.js import &#123; bar &#125; from &#39;./another&#39;; export const foo = (a, b) =&gt; Object.assign(a, b);</code> 被编译成了： <code>/***/ 211: /***/ (function(module, exports, __webpack_require__) &#123; &quot;use strict&quot;; Object.defineProperty(exports, &quot;__esModule&quot;, &#123; value: true &#125;); exports.foo = undefined; var _extends = Object.assign function (target) &#123; for (var i = 1; i &lt; arguments.length; i++) &#123; var source = arguments[i]; for (var key in source) &#123; if (Object.prototype.hasOwnProperty.call(source, key)) &#123; target[key] = source[key]; &#125; &#125; &#125; return target; &#125;; var _another = __webpack_require__(212); var foo = exports.foo = function foo(a, b) &#123; return _extends(a, b); &#125;; /***/ &#125;), /***/ 212: /***/ (function(module, exports, __webpack_require__) &#123; &quot;use strict&quot;; Object.defineProperty(exports, &quot;__esModule&quot;, &#123; value: true &#125;); var _extends = Object.assign function (target) &#123; for (var i = 1; i &lt; arguments.length; i++) &#123; var source = arguments[i]; for (var key in source) &#123; if (Object.prototype.hasOwnProperty.call(source, key)) &#123; target[key] = source[key]; &#125; &#125; &#125; return target; &#125;; var bar = exports.bar = function bar(a, b) &#123; return _extends(a, b); &#125;; /***/ &#125;)</code> transform 的引用是 module 级别的，这意味着在多个 module 使用时会带来重复的引用，这在多文件的项目里可能带来灾难。另外，你可能也并不想一个个的去添加自己要用的 plugin，如果能自动引入该多好。 <strong>babel-runtime &amp; babel-plugin-transform-runtime</strong> 前面提到问题主要在于方法的引入方式是内联的，直接插入了一行代码从而无法优化。鉴于这样的考虑，babel 提供了 babel-plugin-transform-runtime，从一个统一的地方 core-js 自动引入对应的方法。 安装和使用的方法同样不复杂： <code>yarn add -D babel-plugin-transform-runtime yarn add babel-runtime</code> <code># .babelrc &#123; &quot;presets&quot;: [&quot;latest&quot;], &quot;plugins&quot;: [&quot;transform-runtime&quot;] &#125;</code> 首先需要安装开发时的依赖 babel-plugin-transform-runtime。同时还需要安装生产环境的依赖 babel-runtime。是否要在生产环境也依赖它取决于你发布代码的方式，简单点直接放在 dependency 里总没错。一切就绪，编译时它会自动引入你用到的方法。但自动就意味着不一定精确： <code>export const foo = (a, b) =&gt; Object.assign(a, b); export const bar = (a, b) =&gt; &#123; const o = Object; const c = [1, 2, 3].includes(3); return c &amp;&amp; o.assign(a, b); &#125;;</code> 会编译成： <code>var _assign = __webpack_require__(214); var _assign2 = _interopRequireDefault(_assign); function _interopRequireDefault(obj) &#123; return obj &amp;&amp; obj.__esModule ? obj : &#123; default: obj &#125;; &#125; var foo = exports.foo = function foo(a, b) &#123; return (0, _assign2.default)(a, b); &#125;; var bar = exports.bar = function bar(a, b) &#123; var o = Object; var c = [1, 2, 3].includes(3); return c &amp;&amp; o.assign(a, b); &#125;;</code> foo 中的 assign 会被替换成 require 来的方法，而 bar 中这样非直接调用的方式则无能为力了。同时，因为 babel-plugin-transform-runtime 依然不是全局生效的，因此实例化的对象方法则不能被 polyfill，比如 [1,2,3].includes 这样依赖于全局 Array.prototype.includes 的调用依然无法使用。 <strong>babel-polyfill</strong> 上面两种 polyfill 方案共有的缺陷在于作用域。因此 babel 直接提供了通过改变全局来兼容 es2015 所有方法的 babel-polyfill，安装 babel-polyfill 后你只需要在所有代码的最前面加一句 import ‘babel-polyfill’ 便可引入它，如果使用了 webpack 也可以直接在 entry 中添加 babel-polyfill 的入口。 <code>import &#39;babel-polyfill&#39;; export const foo = (a, b) =&gt; Object.assign(a, b);</code> 加入 babel-polyfill 后，打包好的 pollyfill.js 一下子增加到了 251kb（未压缩），（建议感兴趣的同学把代码拉下来运行一下，之后提到的所有方式也都可以看到打包结果）搜索一下 polyfill.js 不难找到这样的全局修改： &#x2F;&#x2F;polyfill `$export($export.S + $export.F, ‘Object’, {assign: __webpack_require__(79)}); babel-polyfill 在项目代码前插入所有的 polyfill 代码，为你的程序打造一个完美的 es2015 运行环境。babel 建议在网页应用程序里使用 babel-polyfill，只要不在意它略有点大的体积（min 后 86kb），直接用它肯定是最稳妥的。值得注意的是，因为 babel-polyfill 带来的改变是全局的，所以无需多次引用，也有可能因此产生冲突，所以最好还是把它抽成一个 common module，放在项目 的 vendor 里，或者干脆直接抽成一个文件放在 cdn 上。 如果你是在开发一个库或者框架，那么 babel-polyfill 的体积就有点大了，尤其是在你实际使用的只有一个 Object.assign 的情况下。更可怕的是对于一个库来说，改变全局环境是使不得的。谁也不希望使用了你的库，还附带了一家老小的 polyfill 改变了全局对象。这时不污染全局环境的 babel-plugin-transform-runtime 才是最合适的。 **babel-preset-env** 回到应用开发。通过自动识别代码引入 polyfill 来优化看来是不太靠谱的，那是不是就无从优化了呢？并不是。还记得 babel 推荐使用的 babel-preset-env 么？它可以根据指定目标环境判断需要做哪些编译。而在张克炎大神的建议下，babel-preset-env 也支持针对指定目标环境选择需要的 polyfill 了，只需引入 babel-polyfill，并在 babelrc 中声明 useBuiltIns，babel 会将引入的 babel-polyfill 自动替换为所需的 polyfill。 <code># .babelrc &#123; &quot;presets&quot;: [ [&quot;env&quot;, &#123; &quot;targets&quot;: &#123; &quot;browsers&quot;: [&quot;IE &gt;= 9&quot;] &#125;, &quot;useBuiltIns&quot;: true &#125;] ] &#125;</code> 对比 “IE &gt;&#x3D; 9” 和 “chrome &gt;&#x3D; 59” 环境下编译后的文件大小: <code>Asset Size Chunks polyfill.js 252 kB 0 [emitted] [big] ie9.js 189 kB 1 [emitted] chrome.js 30.5 kB 2 [emitted] transform-runtime.js 17.3 kB 3 [emitted] transform-plugins.js 3.48 kB 4 [emitted]</code> 在目前 IE9 的需求下能节省到将近 30%，但想不到浏览器之神 chrome 也还需要 30kb 的 polyfill，可能是为了修正那些 v8 的一些细小的规范问题吧。（当我尝试调大浏览器范围时，发现始终停留在 189kb 以内，还没细究相比完整的 polyfill 少掉了什么，如果有高手知道的欢迎解答） <strong>polyfill.io</strong> 以上这样对你来说应该已经够用了，但本质上还是让那些愿意使用最新浏览器的优质用户们做了牺牲。聪明的你可能已经想到了一种优化方案，针对浏览器来选择 polyfill。没错！polyfill.io 便是基于这个思路给出的一项服务。 你可以尝试在不同的浏览器下请求 <a target="_blank" rel="noopener" href="https://cdn.polyfill.io/v2/polyfill.js">https://cdn.polyfill.io/v2/polyfill.js</a> 这个文件，服务器会判断浏览器 UA 返回不同的 polyfill 文件，你所要做的仅仅是在页面上引入这个文件，polyfill 这件事就自动以最优雅的方式解决了。更加让人喜悦的是，polyfill.io 不旦提供了 cdn 的服务，也开源了自己的实现方案 polyfill-service。简单配置一下，便可拥有自己的 polyfill service 了。 看上去一切都很美好，但在使用之前还请你多考虑一下。polyfill.io 面对国内奇葩的浏览器环境能不能把 UA 算准，如果缺失了 polyfill 还有没有什么补救方案，也许都是你需要考虑的。但无论如何，这是个优秀的想法和方案，我想未来也会有更多的网站采用 polyfill.io 的思路的。比如 theguardian 和 redux 作者 Dan 在 create-react-app 上的提议（虽然没被接受哈~）。 转自：<a target="_blank" rel="noopener" href="https://www.sitixi.com/blog/14994835126345.html?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io">https://www.sitixi.com/blog/14994835126345.html?hmsr=toutiao.io&utm_medium&#x3D;toutiao.io&amp;utm_source&#x3D;toutiao.io</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/uncategorized/" class="category-chain-item">uncategorized</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>前端 Polyfill 方案</div>
+      <div>http://example.com/2017-08-25 前端-polyfill-方案/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2017年8月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2017-08-25%20%E4%BD%A0%E8%BE%93%E5%AF%86%E7%A0%81%EF%BC%8C%E6%88%91%E4%B8%8D%E7%9C%8B/" title="你输密码，我不看">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">你输密码，我不看</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2017-08-18%20xzs-%E7%A7%BB%E5%8A%A8%E7%AB%AF/" title="xzs-移动端">
+                        <span class="hidden-mobile">xzs-移动端</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

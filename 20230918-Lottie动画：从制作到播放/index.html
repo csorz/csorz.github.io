@@ -1,0 +1,762 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Lottie 是由 Airbnb 开源，适用于 iOS、Android 和 React Native 的移动库。它解析 Adobe After Effects 动画，使用 Bodymovin 将这些动画导出为 json，并在移动设备上本地渲染它们！这里主要介绍如何制作 lottie 动画，通过脚本动态修改动画内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lottie动画：从制作到播放">
+<meta property="og:url" content="http://example.com/20230918-Lottie%E5%8A%A8%E7%94%BB%EF%BC%9A%E4%BB%8E%E5%88%B6%E4%BD%9C%E5%88%B0%E6%92%AD%E6%94%BE/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="Lottie 是由 Airbnb 开源，适用于 iOS、Android 和 React Native 的移动库。它解析 Adobe After Effects 动画，使用 Bodymovin 将这些动画导出为 json，并在移动设备上本地渲染它们！这里主要介绍如何制作 lottie 动画，通过脚本动态修改动画内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.bing.com/th?id=OHR.JohnDayFossil_ZH-CN6265838332_1920x1080.webp&qlt=50">
+<meta property="article:published_time" content="2023-09-18T01:17:40.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.953Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cn.bing.com/th?id=OHR.JohnDayFossil_ZH-CN6265838332_1920x1080.webp&qlt=50">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Lottie动画：从制作到播放 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Lottie动画：从制作到播放"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-18 09:17" pubdate>
+          2023年9月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Lottie动画：从制作到播放</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Lottie 是由 Airbnb 开源，适用于 iOS、Android 和 React Native 的移动库。它解析 Adobe After Effects 动画，使用 Bodymovin 将这些动画导出为 json，并在移动设备上本地渲染它们！这里主要介绍如何制作 lottie 动画，通过脚本动态修改动画内容。</p>
+<span id="more"></span>
+<h1 id="基本流程"><a href="#基本流程" class="headerlink" title="基本流程"></a>基本流程</h1><p><img src="/%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B.png" srcset="/img/loading.gif" lazyload alt="基本流程"></p>
+<h1 id="Bodymovin插件的安装与使用"><a href="#Bodymovin插件的安装与使用" class="headerlink" title="Bodymovin插件的安装与使用"></a>Bodymovin插件的安装与使用</h1><ul>
+<li>关闭AE</li>
+<li>下载并安装ZXP installer<br><a target="_blank" rel="noopener" href="https://aescripts.com/learn/zxp-installer/">https://aescripts.com/learn/zxp-installer/</a></li>
+<li>下载最新版bodymovin插件<br><a target="_blank" rel="noopener" href="https://github.com/airbnb/lottie-web/blob/master/build/extension/bodymovin.zxp">https://github.com/airbnb/lottie-web/blob/master/build/extension/bodymovin.zxp</a></li>
+<li>把下载好的bodymovin.zxp拖到ZXP installer</li>
+<li>启动AE（以2020为例），在菜单 编辑-&gt;首选项-&gt;常规-&gt;脚本和表达式 中勾选：允许脚本写入文件和访问网络（否则输出JSON文件时会失败）</li>
+</ul>
+<p><img src="/%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE.png" srcset="/img/loading.gif" lazyload alt="插件配置"></p>
+<h1 id="动画的制作与导出"><a href="#动画的制作与导出" class="headerlink" title="动画的制作与导出"></a>动画的制作与导出</h1><h3 id="新建合成"><a href="#新建合成" class="headerlink" title="新建合成"></a>新建合成</h3><p>合成名称最好是英文或简拼，调整宽高、帧率（越大越流畅，最大建议60）、持续时间<br><img src="/%E6%96%B0%E5%BB%BA%E5%90%88%E6%88%90.png" srcset="/img/loading.gif" lazyload alt="新建合成"></p>
+<h3 id="增加关键帧"><a href="#增加关键帧" class="headerlink" title="增加关键帧"></a>增加关键帧</h3><p>导入图片或视频资源，右键资源添加效果，增加关键帧并调整交换或效果<br><img src="/%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C.png" srcset="/img/loading.gif" lazyload alt="动画效果"><br><img src="/%E5%9C%A8%E4%BA%A4%E6%8D%A2%E6%88%96%E6%95%88%E6%9E%9C%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%85%B3%E9%94%AE%E5%B8%A7.png" srcset="/img/loading.gif" lazyload alt="在交换或效果中添加关键帧"></p>
+<h3 id="导出动画"><a href="#导出动画" class="headerlink" title="导出动画"></a>导出动画</h3><p>打开菜单 窗口-&gt;拓展-&gt;Bodymovin，勾选要输出的动画，并设置输出文件目录，点击render，这时候我们得到JSON文件和资源文件夹<br><img src="/%E6%8F%92%E4%BB%B6%E5%AF%BC%E5%87%BA.png" srcset="/img/loading.gif" lazyload alt="插件导出"></p>
+<h1 id="JSON-字段含义"><a href="#JSON-字段含义" class="headerlink" title="JSON 字段含义"></a>JSON 字段含义</h1><p>字段都是简称，我们只需搞清楚文本和资源如何修改，不必全部了解。<br>例如：<br>assets[0].p 表示图片资源<br>assets[1].nm 表示文本信息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> lottieJson = &#123;<br>  <span class="hljs-attr">v</span>: <span class="hljs-string">&quot;5.6.10&quot;</span>, <span class="hljs-comment">// 使用bodymovie插件的版本</span><br>  <span class="hljs-attr">fr</span>: <span class="hljs-number">32</span>, <span class="hljs-comment">// 帧速率</span><br>  <span class="hljs-attr">ip</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 合成开始时间</span><br>  <span class="hljs-attr">op</span>: <span class="hljs-number">64</span>, <span class="hljs-comment">// 合成持续时间</span><br>  <span class="hljs-attr">w</span>: <span class="hljs-number">750</span>, <span class="hljs-comment">// 合成宽度</span><br>  <span class="hljs-attr">h</span>: <span class="hljs-number">1334</span>, <span class="hljs-comment">// 合成高度</span><br>  <span class="hljs-attr">nm</span>: <span class="hljs-string">&quot;合成 1&quot;</span>, <span class="hljs-comment">// 合成名</span><br>  <span class="hljs-attr">ddd</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 是否3d图层</span><br>  <span class="hljs-attr">assets</span>: [<br>    <span class="hljs-comment">// 使用的资源</span><br>    &#123;<br>      <span class="hljs-attr">id</span>: <span class="hljs-string">&quot;image_0&quot;</span>, <span class="hljs-comment">// 使用的资源id</span><br>      <span class="hljs-attr">w</span>: <span class="hljs-number">750</span>, <span class="hljs-comment">// 当前图片资源的宽</span><br>      <span class="hljs-attr">h</span>: <span class="hljs-number">1334</span>, <span class="hljs-comment">// 当前图片资源的高</span><br>      <span class="hljs-attr">u</span>: <span class="hljs-string">&quot;images/&quot;</span>, <span class="hljs-comment">// 当前图片导出后在使用bodymovie导出后的文件夹</span><br>      <span class="hljs-attr">p</span>: <span class="hljs-string">&quot;img_0.jpg&quot;</span>, <span class="hljs-comment">// 当前图片资源路径</span><br>      <span class="hljs-attr">e</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// e=0 后将拼接u+p作为图片路径，e=1 不使用u，直接使用p的路径。</span><br>    &#125;,<br>  ],<br>  <span class="hljs-attr">layers</span>: [<br>    <span class="hljs-comment">// 图层</span><br>    &#123;<br>      <span class="hljs-attr">ddd</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 是否是3d图层</span><br>      <span class="hljs-attr">ind</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// 当前图层所在的索引</span><br>      <span class="hljs-attr">ty</span>: <span class="hljs-number">2</span>, <span class="hljs-comment">// 2代表图片图层</span><br>      <span class="hljs-attr">nm</span>: <span class="hljs-string">&quot;img_0.jpg&quot;</span>, <span class="hljs-comment">// 源名称</span><br>      <span class="hljs-attr">cl</span>: <span class="hljs-string">&quot;jpg&quot;</span>, <span class="hljs-comment">// 后缀</span><br>      <span class="hljs-attr">refId</span>: <span class="hljs-string">&quot;image_0&quot;</span>, <span class="hljs-comment">// 使用assets中的id</span><br>      <span class="hljs-attr">sr</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// 图层 =&gt;时间=&gt;时间伸缩</span><br>      <span class="hljs-attr">ks</span>: &#123;<br>        <span class="hljs-comment">// 图层 =&gt; 变换</span><br>        <span class="hljs-attr">o</span>: &#123;<br>          <span class="hljs-comment">// 透明度</span><br>          <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// 是否是关键帧</span><br>          <span class="hljs-attr">k</span>: [<br>            <span class="hljs-comment">// 如果是关键帧时是数组</span><br>            &#123;<br>              <span class="hljs-comment">// 每一个关键帧位置的配置信息</span><br>              <span class="hljs-attr">i</span>: &#123; <span class="hljs-attr">x</span>: [<span class="hljs-number">0.833</span>], <span class="hljs-attr">y</span>: [<span class="hljs-number">0.833</span>] &#125;, <span class="hljs-comment">// 当前贝塞尔曲线的入值，这个是在lottie中写死的值</span><br>              <span class="hljs-attr">o</span>: &#123; <span class="hljs-attr">x</span>: [<span class="hljs-number">0.167</span>], <span class="hljs-attr">y</span>: [<span class="hljs-number">0.167</span>] &#125;, <span class="hljs-comment">// 当前贝塞尔曲线的出值，这个是在lottie中写死的值</span><br>              <span class="hljs-attr">t</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 当前关键帧开始时间</span><br>              <span class="hljs-attr">s</span>: [<span class="hljs-number">60</span>], <span class="hljs-comment">// 开始的opacity</span><br>            &#125;,<br>            &#123;<br>              <span class="hljs-comment">// 第二个关键帧的配置信息</span><br>              <span class="hljs-attr">i</span>: &#123; <span class="hljs-attr">x</span>: [<span class="hljs-number">0.833</span>], <span class="hljs-attr">y</span>: [<span class="hljs-number">0.833</span>] &#125;,<br>              <span class="hljs-attr">o</span>: &#123; <span class="hljs-attr">x</span>: [<span class="hljs-number">0.167</span>], <span class="hljs-attr">y</span>: [<span class="hljs-number">0.167</span>] &#125;,<br>              <span class="hljs-attr">t</span>: <span class="hljs-number">25</span>,<br>              <span class="hljs-attr">s</span>: [<span class="hljs-number">100</span>],<br>            &#125;, <span class="hljs-comment">// 第三个关键帧的配置信息</span><br>            &#123;<br>              <span class="hljs-attr">i</span>: &#123; <span class="hljs-attr">x</span>: [<span class="hljs-number">0.833</span>], <span class="hljs-attr">y</span>: [<span class="hljs-number">0.833</span>] &#125;,<br>              <span class="hljs-attr">o</span>: &#123; <span class="hljs-attr">x</span>: [<span class="hljs-number">0.167</span>], <span class="hljs-attr">y</span>: [<span class="hljs-number">0.167</span>] &#125;,<br>              <span class="hljs-attr">t</span>: <span class="hljs-number">30</span>,<br>              <span class="hljs-attr">s</span>: [<span class="hljs-number">100</span>],<br>            &#125;, <span class="hljs-comment">// 第四个关键帧的配置信息</span><br>            &#123; <span class="hljs-attr">t</span>: <span class="hljs-number">50</span>, <span class="hljs-attr">s</span>: [<span class="hljs-number">50</span>] &#125;,<br>          ],<br>          <span class="hljs-attr">ix</span>: <span class="hljs-number">11</span>, <span class="hljs-comment">// Property Index. Used for expressions。表达式标记。还没研究到这个怎么用</span><br>        &#125;,<br>        <span class="hljs-attr">r</span>: &#123;<br>          <span class="hljs-comment">// 旋转</span><br>          <span class="hljs-attr">a</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 是否是关键帧， 0代表不是关键帧</span><br>          <span class="hljs-attr">k</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 不是关键帧时为number，旋转角度为0</span><br>          <span class="hljs-attr">ix</span>: <span class="hljs-number">10</span>, <span class="hljs-comment">// Property Index. Used for expressions。表达式标记</span><br>        &#125;,<br>        <span class="hljs-attr">p</span>: &#123;<br>          <span class="hljs-comment">// 位置</span><br>          <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// 是关键帧</span><br>          <span class="hljs-attr">k</span>: [<br>            &#123;<br>              <span class="hljs-attr">i</span>: &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">0.833</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0.833</span> &#125;, <span class="hljs-comment">// 当前贝塞尔曲线的入值，这个是在lottie中写死的值</span><br>              <span class="hljs-attr">o</span>: &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">0.167</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0.167</span> &#125;, <span class="hljs-comment">// 当前贝塞尔曲线的出值，这个是在lottie中写死的值</span><br>              <span class="hljs-attr">t</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 开始时间</span><br>              <span class="hljs-attr">s</span>: [-<span class="hljs-number">375</span>, <span class="hljs-number">675</span>, <span class="hljs-number">0</span>], <span class="hljs-comment">// 当前关键帧位置，横坐标-375，纵坐标675， 不是3d图层，z方向为0</span><br>              <span class="hljs-attr">to</span>: [<span class="hljs-number">125</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], <span class="hljs-comment">// In Spatial Tangent. Only for spatial properties. Array of numbers. 入值 还不知道空间切线在AE中是个什么鬼</span><br>              <span class="hljs-attr">ti</span>: [-<span class="hljs-number">125</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], <span class="hljs-comment">// Out Spatial Tangent. Only for spatial properties. Array of numbers. 出值 还不知道空间切线在AE中是个什么鬼</span><br>            &#125;,<br>            &#123;<br>              <span class="hljs-attr">i</span>: &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">0.833</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0.833</span> &#125;,<br>              <span class="hljs-attr">o</span>: &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">0.167</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0.167</span> &#125;,<br>              <span class="hljs-attr">t</span>: <span class="hljs-number">25</span>,<br>              <span class="hljs-attr">s</span>: [<span class="hljs-number">375</span>, <span class="hljs-number">675</span>, <span class="hljs-number">0</span>],<br>              <span class="hljs-attr">to</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>              <span class="hljs-attr">ti</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>            &#125;,<br>            &#123;<br>              <span class="hljs-attr">i</span>: &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">0.833</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0.833</span> &#125;,<br>              <span class="hljs-attr">o</span>: &#123; <span class="hljs-attr">x</span>: <span class="hljs-number">0.167</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0.167</span> &#125;,<br>              <span class="hljs-attr">t</span>: <span class="hljs-number">30</span>,<br>              <span class="hljs-attr">s</span>: [<span class="hljs-number">375</span>, <span class="hljs-number">675</span>, <span class="hljs-number">0</span>],<br>              <span class="hljs-attr">to</span>: [<span class="hljs-number">125.167</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>              <span class="hljs-attr">ti</span>: [-<span class="hljs-number">125.167</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>            &#125;,<br>            &#123; <span class="hljs-attr">t</span>: <span class="hljs-number">50</span>, <span class="hljs-attr">s</span>: [<span class="hljs-number">1126</span>, <span class="hljs-number">675</span>, <span class="hljs-number">0</span>] &#125;,<br>          ],<br>          <span class="hljs-attr">ix</span>: <span class="hljs-number">2</span>, <span class="hljs-comment">// Property Index. Used for expressions.</span><br>        &#125;,<br>        <span class="hljs-attr">a</span>: &#123;<br>          <span class="hljs-comment">// 锚点</span><br>          <span class="hljs-attr">a</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 不是关键帧</span><br>          <span class="hljs-attr">k</span>: [<span class="hljs-number">375</span>, <span class="hljs-number">667</span>, <span class="hljs-number">0</span>], <span class="hljs-comment">// 锚点值</span><br>          <span class="hljs-attr">ix</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// Property Index. Used for expressions.</span><br>        &#125;,<br>        <span class="hljs-attr">s</span>: &#123;<br>          <span class="hljs-comment">// 缩放比例</span><br>          <span class="hljs-attr">a</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 不是关键帧</span><br>          <span class="hljs-attr">k</span>: [<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">100</span>], <span class="hljs-comment">// // 缩放比例值</span><br>          <span class="hljs-attr">ix</span>: <span class="hljs-number">6</span>, <span class="hljs-comment">// Property Index. Used for expressions.</span><br>        &#125;,<br>      &#125;,<br>      <span class="hljs-attr">ao</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 是否自动跟踪</span><br>      <span class="hljs-attr">ip</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 开始帧</span><br>      <span class="hljs-attr">op</span>: <span class="hljs-number">64</span>, <span class="hljs-comment">// 持续帧长</span><br>      <span class="hljs-attr">st</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 开始时间</span><br>      <span class="hljs-attr">bm</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 混合模式</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;ddd&quot;</span>: <span class="hljs-number">0</span>,<br>      <span class="hljs-string">&quot;ind&quot;</span>: <span class="hljs-number">1</span>,<br>      <span class="hljs-string">&quot;ty&quot;</span>: <span class="hljs-number">5</span>,<br>      <span class="hljs-string">&quot;nm&quot;</span>: <span class="hljs-string">&quot;中华宝藏&quot;</span>,<br>      <span class="hljs-string">&quot;sr&quot;</span>: <span class="hljs-number">1</span>,<br>      <span class="hljs-string">&quot;ks&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;o&quot;</span>: &#123; <span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;k&quot;</span>: <span class="hljs-number">100</span>, <span class="hljs-string">&quot;ix&quot;</span>: <span class="hljs-number">11</span> &#125;,<br>        <span class="hljs-string">&quot;r&quot;</span>: &#123; <span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;k&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;ix&quot;</span>: <span class="hljs-number">10</span> &#125;,<br>        <span class="hljs-string">&quot;p&quot;</span>: &#123; <span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;k&quot;</span>: [<span class="hljs-number">136</span>, <span class="hljs-number">112</span>, <span class="hljs-number">0</span>], <span class="hljs-string">&quot;ix&quot;</span>: <span class="hljs-number">2</span>, <span class="hljs-string">&quot;l&quot;</span>: <span class="hljs-number">2</span> &#125;,<br>        <span class="hljs-string">&quot;a&quot;</span>: &#123; <span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;k&quot;</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], <span class="hljs-string">&quot;ix&quot;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&quot;l&quot;</span>: <span class="hljs-number">2</span> &#125;,<br>        <span class="hljs-string">&quot;s&quot;</span>: &#123; <span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;k&quot;</span>: [<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">100</span>], <span class="hljs-string">&quot;ix&quot;</span>: <span class="hljs-number">6</span>, <span class="hljs-string">&quot;l&quot;</span>: <span class="hljs-number">2</span> &#125;<br>      &#125;,<br>      <span class="hljs-string">&quot;ao&quot;</span>: <span class="hljs-number">0</span>,<br>      <span class="hljs-string">&quot;t&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;d&quot;</span>: &#123;<br>          <span class="hljs-string">&quot;k&quot;</span>: [<br>            &#123;<br>              <span class="hljs-string">&quot;s&quot;</span>: &#123;<br>                <span class="hljs-string">&quot;s&quot;</span>: <span class="hljs-number">36</span>,<br>                <span class="hljs-string">&quot;f&quot;</span>: <span class="hljs-string">&quot;MicrosoftYaHeiLight&quot;</span>,<br>                <span class="hljs-string">&quot;t&quot;</span>: <span class="hljs-string">&quot;中华宝藏&quot;</span>,<br>                <span class="hljs-string">&quot;ca&quot;</span>: <span class="hljs-number">0</span>,<br>                <span class="hljs-string">&quot;j&quot;</span>: <span class="hljs-number">0</span>,<br>                <span class="hljs-string">&quot;tr&quot;</span>: <span class="hljs-number">0</span>,<br>                <span class="hljs-string">&quot;lh&quot;</span>: <span class="hljs-number">43.2000007629395</span>,<br>                <span class="hljs-string">&quot;ls&quot;</span>: <span class="hljs-number">0</span>,<br>                <span class="hljs-string">&quot;fc&quot;</span>: [<span class="hljs-number">0.922</span>, <span class="hljs-number">0.922</span>, <span class="hljs-number">0.922</span>]<br>              &#125;,<br>              <span class="hljs-string">&quot;t&quot;</span>: <span class="hljs-number">0</span><br>            &#125;<br>          ]<br>        &#125;,<br>        <span class="hljs-string">&quot;p&quot;</span>: &#123;&#125;,<br>        <span class="hljs-string">&quot;m&quot;</span>: &#123; <span class="hljs-string">&quot;g&quot;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&quot;a&quot;</span>: &#123; <span class="hljs-string">&quot;a&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;k&quot;</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], <span class="hljs-string">&quot;ix&quot;</span>: <span class="hljs-number">2</span> &#125; &#125;,<br>        <span class="hljs-string">&quot;a&quot;</span>: []<br>      &#125;,<br>      <span class="hljs-string">&quot;ip&quot;</span>: <span class="hljs-number">0</span>,<br>      <span class="hljs-string">&quot;op&quot;</span>: <span class="hljs-number">900</span>,<br>      <span class="hljs-string">&quot;st&quot;</span>: <span class="hljs-number">0</span>,<br>      <span class="hljs-string">&quot;ct&quot;</span>: <span class="hljs-number">1</span>,<br>      <span class="hljs-string">&quot;bm&quot;</span>: <span class="hljs-number">0</span><br>    &#125;,<br>  ],<br>  <span class="hljs-attr">markers</span>: [],<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h1 id="动画可控制"><a href="#动画可控制" class="headerlink" title="动画可控制"></a>动画可控制</h1><p>通过API控制动画开始和暂停，指定动画执行范围（playSegments）<br>详情见文档：<br><a target="_blank" rel="noopener" href="https://github.com/airbnb/lottie-web#lottie-has-several-global-methods-that-will-affect-all-animations">https://github.com/airbnb/lottie-web#lottie-has-several-global-methods-that-will-affect-all-animations</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 初始化</span><br><span class="hljs-keyword">const</span> animation = lottie.<span class="hljs-title function_">loadAnimation</span>(&#123;<br>  <span class="hljs-attr">container</span>: element,<br>  <span class="hljs-attr">loop</span>: <span class="hljs-literal">true</span>,<br>  <span class="hljs-attr">autoplay</span>: <span class="hljs-literal">false</span>,<br>  <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;https://*.json&quot;</span>,<br>&#125;);<br>animation.<span class="hljs-title function_">goToAndStop</span>(<span class="hljs-number">1</span>, <span class="hljs-literal">true</span>);<br><br><span class="hljs-comment">// 抽奖</span><br>btn.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  animation.<span class="hljs-title function_">play</span>();<br>  <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;/trigger&quot;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    animation.<span class="hljs-title function_">stop</span>();<br>    <span class="hljs-comment">// 展示抽奖结果</span><br>  &#125;);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h1 id="动画可交互"><a href="#动画可交互" class="headerlink" title="动画可交互"></a>动画可交互</h1><p>由于 Lottie 的 JSON 内描述了动画的各种细节如关键帧、位移轨迹等等，因此如果在动画播放时，根据用户的交互去动态改变这些参数，就可以实现可交互的动画，比如下面这个著名的变色龙吃鼠标的 Lottie，眼睛会随着鼠标而移动，并且不时会吐出舌头「吃掉」鼠标<br><img src="/%E4%BA%A4%E4%BA%92%E5%8A%A8%E7%94%BBDEMO.gif" srcset="/img/loading.gif" lazyload alt="交互动画DEMO"></p>
+<p>其它示例：<br><a target="_blank" rel="noopener" href="https://lottiefiles.com/search?q=Frog&category=animations">https://lottiefiles.com/search?q=Frog&amp;category=animations</a></p>
+<h1 id="用-async-await-优雅地控制-Lottie-播放"><a href="#用-async-await-优雅地控制-Lottie-播放" class="headerlink" title="用 async&#x2F;await 优雅地控制 Lottie 播放"></a>用 async&#x2F;await 优雅地控制 Lottie 播放</h1><p>三段动画分别控制执行<br>0<del>25帧 掷骰子<br>26</del>35帧 骰子旋转<br>36~36</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 播放掷骰子的动画</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">playRoll</span>(<span class="hljs-params">animation, isPending</span>) &#123;<br>  <span class="hljs-keyword">await</span> <span class="hljs-title function_">playAnimation</span>(animation, [<span class="hljs-number">0</span>, <span class="hljs-number">25</span>]);<br>  <span class="hljs-keyword">while</span> (<span class="hljs-title function_">isPending</span>()) &#123;<br>    <span class="hljs-keyword">await</span> <span class="hljs-title function_">playAnimation</span>(animation, [<span class="hljs-number">26</span>, <span class="hljs-number">35</span>]);<br>  &#125;<br>&#125;<br><br>btn.<span class="hljs-property">onclick</span> = <span class="hljs-keyword">async</span> () =&gt; &#123;<br>  <span class="hljs-keyword">let</span> number;<br>  <span class="hljs-comment">// 并发 ajax 与掷骰子动画</span><br>  <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>([<br>    <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;/*.json&quot;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> (number = data.<span class="hljs-property">number</span>)),<br>    <span class="hljs-title function_">playRoll</span>(animation, <span class="hljs-function">() =&gt;</span> !number),<br>  ]);<br><br>  <span class="hljs-comment">// 两者都完成后，播放筛子点数动画</span><br>  <span class="hljs-keyword">const</span> segementStart = <span class="hljs-number">36</span> + (number - <span class="hljs-number">1</span>) * <span class="hljs-number">4</span>; <span class="hljs-comment">// 根据点数换算起始帧</span><br>  <span class="hljs-title function_">playAnimation</span>(animation, [segementStart, segementStart + <span class="hljs-number">4</span>]);<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h1 id="动态替换文本"><a href="#动态替换文本" class="headerlink" title="动态替换文本"></a>动态替换文本</h1><h2 id="修改-lottie-json"><a href="#修改-lottie-json" class="headerlink" title="修改 lottie.json"></a>修改 lottie.json</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title function_">fetch</span>(<br>  <span class="hljs-string">&quot;https://*.json&quot;</span><br>)<br>  .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">resp</span>) =&gt;</span> resp.<span class="hljs-title function_">text</span>())<br>  .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">text</span>) =&gt;</span> &#123;<br>    <span class="hljs-comment">// 简单演示替换</span><br>    <span class="hljs-keyword">const</span> newJSON = text.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;$&#123;文本&#125;&quot;</span>, <span class="hljs-string">&quot;拾亿&quot;</span>);<br>    lottie.<span class="hljs-title function_">loadAnimation</span>(&#123;<br>      <span class="hljs-attr">animationData</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(newJSON),<br>      <span class="hljs-attr">container</span>: <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;app&quot;</span>),<br>      <span class="hljs-attr">loop</span>: <span class="hljs-literal">true</span>,<br>    &#125;);<br>  &#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="修改-JS-对象"><a href="#修改-JS-对象" class="headerlink" title="修改 JS 对象"></a>修改 JS 对象</h2><p>通过 getKeyPath 获取元素，comp1 指合成名称，textnode 指的是文本节点</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">anim.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;DOMLoaded&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> api = lottie_api.<span class="hljs-title function_">createAnimationApi</span>(anim);<br>  <span class="hljs-keyword">const</span> elements = api.<span class="hljs-title function_">getKeyPath</span>(<span class="hljs-string">&quot;comp1,textnode&quot;</span>); <span class="hljs-comment">// 查找对象</span><br>  elements.<span class="hljs-title function_">getElements</span>()[<span class="hljs-number">0</span>].<span class="hljs-title function_">setText</span>(<span class="hljs-string">&quot;拾亿&quot;</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="修改-svg-元素"><a href="#修改-svg-元素" class="headerlink" title="修改 svg 元素"></a>修改 svg 元素</h2><p>如果设计师在 AE 图层命名时尾部加入 #xxx ，那么生成的 svg 元素就会有一个 id 属性为 xxx<br>于是根据这个黑科技，我们可以这么写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript">anim.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;DOMLoaded&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> element = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;J_txt&quot;</span>);<br>  element.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;tspan&quot;</span>).<span class="hljs-property">innerHTML</span> = <span class="hljs-string">&quot;拾亿&quot;</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>在导出 json 时抽取字体库中的字形（Glyphs）路径放入文件，canvas 模式下通过路径绘图来画出文本</p>
+<p>所以上述方案中的 C 肯定无法支持 canvas 模式，而 A&#x2F;B 要支持则依赖于导出 JSON 时，要替换的文本字形是否已经存在于 JSON 中，因此从实际出发，一般 canvas 模式下就比较难实现替换文本了</p>
+<p>另外根据上面的原理，上面所有例子中，从 AE 导出 lottie 时都记得去掉「Glyphs」这个选项，并且指定具体的 font family，记得把这件事告诉你的设计师小伙伴</p>
+<p>综合比较三种方式，我更喜欢修改 JS 对象，因为基于中间产物的修改方式扩展性是最强的，比如能够支持运行期，还可以修改大小、颜色、替换指定关键帧等等</p>
+<h1 id="动态替换图片"><a href="#动态替换图片" class="headerlink" title="动态替换图片"></a>动态替换图片</h1><p>assets 中资源 p 可以是 dataURL、图片相对路径、远端地址</p>
+<h2 id="修改-lottie-json-1"><a href="#修改-lottie-json-1" class="headerlink" title="修改 lottie.json"></a>修改 lottie.json</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> resp = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<br>  <span class="hljs-string">&quot;https://*.json&quot;</span><br>);<br><span class="hljs-keyword">const</span> json = <span class="hljs-keyword">await</span> resp.<span class="hljs-title function_">json</span>();<br><br><span class="hljs-comment">// 找到对应 json 节点直接替换 p 属性</span><br><span class="hljs-keyword">const</span> asset = json.<span class="hljs-property">assets</span>.<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">a</span>) =&gt;</span> a.<span class="hljs-property">id</span> === <span class="hljs-string">&quot;7&quot;</span>);<br>asset.<span class="hljs-property">p</span> =<br>  <span class="hljs-string">&quot;https://*.jpg&quot;</span>;<br><br>lottie.<span class="hljs-title function_">loadAnimation</span>(&#123;<br>  <span class="hljs-attr">container</span>: mountNode,<br>  <span class="hljs-attr">animationData</span>: json,<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="修改-JS-对象-1"><a href="#修改-JS-对象-1" class="headerlink" title="修改 JS 对象"></a>修改 JS 对象</h2><p>相比修改文本，要修改图片略麻烦一些，主要是 lottie-web 本身并没有直接提供类似 updateDocumentData 这样的方法，不过只要知道实现原理，找到解法并不难</p>
+<p>通过阅读 lottie-web 源码，可以发现 svg 和 canvas 模式下，图片的实现不一样（svg, canvas），所以我们的修改方案也需要判断先判断 renderer 模式</p>
+<p>示例代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript">anim.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;DOMLoaded&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-keyword">if</span> (anim.<span class="hljs-property">renderer</span>.<span class="hljs-property">rendererType</span> === <span class="hljs-string">&#x27;canvas&#x27;</span>) &#123;<br>    <span class="hljs-comment">// canvas 模式下的图片替换</span><br>    anim.<span class="hljs-property">renderer</span>.<span class="hljs-property">elements</span>[<span class="hljs-number">0</span>].<span class="hljs-property">elements</span>[<span class="hljs-number">8</span>].<span class="hljs-property">img</span>.<span class="hljs-property">src</span> = 「<span class="hljs-string">&#x27;https://*.jpg&#x27;</span>;<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-comment">// svg 模式下的图片替换，前两个参数为固定值</span><br>    anim.<span class="hljs-property">renderer</span>.<span class="hljs-property">elements</span>[<span class="hljs-number">0</span>].<span class="hljs-property">elements</span>[<span class="hljs-number">8</span>].<span class="hljs-property">innerElem</span>.<span class="hljs-title function_">setAttributeNS</span>(<br>      <span class="hljs-string">&#x27;http://www.w3.org/1999/xlink&#x27;</span>,<br>      <span class="hljs-string">&#x27;href&#x27;</span>,<br>      <span class="hljs-string">&#x27;https://*.jpg&#x27;</span><br>    );<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="修改-svg-元素-1"><a href="#修改-svg-元素-1" class="headerlink" title="修改 svg 元素"></a>修改 svg 元素</h2><p>与文本同理，仅限于 svg 渲染模式，只需要设计师在图层命名时，尾部加入 #xxx 即可，这样生成的 svg 元素就会有一个 id 属性为 xxx，比如<br>那么通过 DOM API 找到元素修改属性即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">anim.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;DOMLoaded&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> element = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;xxx&quot;</span>);<br>  element.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;image&quot;</span>).<span class="hljs-property">href</span> =<br>    <span class="hljs-string">&quot;https://*.jpg&quot;</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>动态修改 lottie 中的图片，与动态修改文本大同小异，只是 JSON 结构的属性、JS 对象的 API 有所不同，另外图片不像文本，在 canvas 模式下可以正常使用，lottie 导出时也没有特殊的要求</p>
+<h1 id="动画转视频"><a href="#动画转视频" class="headerlink" title="动画转视频"></a>动画转视频</h1><ol>
+<li>使用 canvas.captureStream 将 canvas 转为 stream</li>
+<li>使用 MediaRecorder 录制 stream 并转 blob</li>
+<li>使用 ffmpeg.wasm 将 mp3 音频与视频 blob 混合并输出 mp4</li>
+</ol>
+<p>源码如下：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Options</span>, <span class="hljs-title class_">Deferred</span>, <span class="hljs-title class_">CanvasElement</span>, <span class="hljs-title class_">MediaRecorderEvent</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./type&#x27;</span>;<br><br><span class="hljs-keyword">declare</span> <span class="hljs-keyword">var</span> <span class="hljs-title class_">MediaRecorder</span>: <span class="hljs-built_in">any</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-attr">defaultOptions</span>: <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Options</span>&gt; = &#123;<br>  <span class="hljs-attr">mimeType</span>: <span class="hljs-string">&#x27;video/webm;codecs=h264&#x27;</span>,<br>  <span class="hljs-attr">outVideoType</span>: <span class="hljs-string">&#x27;mp4&#x27;</span>,<br>  <span class="hljs-attr">transcodeOptions</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>  <span class="hljs-attr">concatDemuxerOptions</span>: <span class="hljs-string">&#x27;-c:v copy -af apad -map 0:v -map 1:a -shortest&#x27;</span><br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Canvas2Video</span> &#123;<br>  <span class="hljs-keyword">private</span> <span class="hljs-attr">deferred</span>: <span class="hljs-title class_">Deferred</span>;<br>  <span class="hljs-keyword">private</span> <span class="hljs-attr">recorder</span>: <span class="hljs-built_in">any</span>;<br>  <span class="hljs-attr">config</span>: <span class="hljs-title class_">Options</span>;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">config: Options</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span> = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(&#123;&#125;, defaultOptions, config);<br>  &#125;<br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * start to record canvas stream</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-title function_">startRecord</span>(): <span class="hljs-built_in">void</span> &#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-attr">deferred</span>: <span class="hljs-title class_">Deferred</span> = &#123;&#125;;<br>    deferred.<span class="hljs-property">promise</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>      deferred.<span class="hljs-property">resolve</span> = resolve;<br>      deferred.<span class="hljs-property">reject</span> = reject;<br>    &#125;)<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">deferred</span> = deferred;<br>    <span class="hljs-keyword">const</span> stream = (&lt;<span class="hljs-title class_">CanvasElement</span>&gt;<span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">canvas</span>).<span class="hljs-title function_">captureStream</span>();<br>    <span class="hljs-keyword">const</span> recorder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MediaRecorder</span>(stream, &#123; <span class="hljs-attr">mimeType</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">mimeType</span> &#125;);<br>    <span class="hljs-keyword">const</span> <span class="hljs-attr">data</span>: <span class="hljs-built_in">any</span>[] = [];<br>    recorder.<span class="hljs-property">ondataavailable</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">event: MediaRecorderEvent</span>) &#123;<br>      <span class="hljs-keyword">if</span> (event.<span class="hljs-property">data</span> &amp;&amp; event.<span class="hljs-property">data</span>.<span class="hljs-property">size</span>) &#123;<br>        data.<span class="hljs-title function_">push</span>(event.<span class="hljs-property">data</span>);<br>      &#125;<br>    &#125;;<br>    recorder.<span class="hljs-property">onstop</span> = <span class="hljs-function">() =&gt;</span> &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">deferred</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>(data, &#123; <span class="hljs-attr">type</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">mimeType</span> &#125;));<br>    &#125;;<br>    recorder.<span class="hljs-title function_">start</span>();<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">recorder</span> = recorder;<br>  &#125;<br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * stop to record canvas stream</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-title function_">stopRecord</span>(): <span class="hljs-built_in">void</span> &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">recorder</span>.<span class="hljs-title function_">stop</span>();<br>  &#125;<br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * merge audio and convert video type</span><br><span class="hljs-comment">   * <span class="hljs-doctag">@param</span> url </span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> <span class="hljs-title function_">convertVideo</span>(<span class="hljs-attr">blob</span>: <span class="hljs-title class_">Blob</span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; &#123;<br>    <span class="hljs-keyword">const</span> &#123; audio, outVideoType, mimeType, workerOptions, transcodeOptions, concatDemuxerOptions &#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>;<br>    <span class="hljs-keyword">const</span> &#123; createFFmpeg, fetchFile &#125; = <span class="hljs-variable language_">window</span>.<span class="hljs-property">FFmpeg</span>;<br>    <span class="hljs-keyword">const</span> ffmpeg = <span class="hljs-title function_">createFFmpeg</span>(workerOptions || &#123;&#125;);<br>    <span class="hljs-keyword">await</span> ffmpeg.<span class="hljs-title function_">load</span>();<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">type</span> = mimeType.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;;&#x27;</span>)[<span class="hljs-number">0</span>].<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;/&#x27;</span>)[<span class="hljs-number">1</span>];<br>    <span class="hljs-keyword">const</span> buffer = <span class="hljs-keyword">await</span> blob.<span class="hljs-title function_">arrayBuffer</span>();<br>    <span class="hljs-keyword">await</span> ffmpeg.<span class="hljs-title function_">FS</span>(<span class="hljs-string">&#x27;writeFile&#x27;</span>, <span class="hljs-string">`video.<span class="hljs-subst">$&#123;<span class="hljs-keyword">type</span>&#125;</span>`</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Uint8Array</span>(buffer));<br><br>    <span class="hljs-keyword">if</span> (audio) &#123;<br>      <span class="hljs-keyword">const</span> audioData = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchFile</span>(audio);<br>      <span class="hljs-keyword">const</span> audioType = audio.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>).<span class="hljs-title function_">pop</span>();<br>      <span class="hljs-keyword">await</span> ffmpeg.<span class="hljs-title function_">FS</span>(<span class="hljs-string">&#x27;writeFile&#x27;</span>, <span class="hljs-string">`1.<span class="hljs-subst">$&#123;audioType&#125;</span>`</span>, audioData);<br>      <span class="hljs-keyword">const</span> items = concatDemuxerOptions.<span class="hljs-title function_">split</span>(<span class="hljs-regexp">/\s+/</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item);<br>      <span class="hljs-keyword">await</span> ffmpeg.<span class="hljs-title function_">run</span>(...[<span class="hljs-string">&#x27;-i&#x27;</span>, <span class="hljs-string">`video.<span class="hljs-subst">$&#123;<span class="hljs-keyword">type</span>&#125;</span>`</span>, <span class="hljs-string">&#x27;-i&#x27;</span>, <span class="hljs-string">`1.<span class="hljs-subst">$&#123;audioType&#125;</span>`</span>, ...items, <span class="hljs-string">`out.<span class="hljs-subst">$&#123;outVideoType&#125;</span>`</span>]);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> !== outVideoType) &#123;<br>        <span class="hljs-keyword">const</span> items = transcodeOptions.<span class="hljs-title function_">split</span>(<span class="hljs-regexp">/\s+/g</span>).<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item);<br>        <span class="hljs-keyword">await</span> ffmpeg.<span class="hljs-title function_">run</span>(...[<span class="hljs-string">&#x27;-i&#x27;</span>, <span class="hljs-string">`video.<span class="hljs-subst">$&#123;<span class="hljs-keyword">type</span>&#125;</span>`</span>, ...items, <span class="hljs-string">`out.<span class="hljs-subst">$&#123;outVideoType&#125;</span>`</span>]);<br>      &#125;<br>    &#125;<br>    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> ffmpeg.<span class="hljs-title function_">FS</span>(<span class="hljs-string">&#x27;readFile&#x27;</span>, <span class="hljs-string">`out.<span class="hljs-subst">$&#123;outVideoType&#125;</span>`</span>);<br>    <span class="hljs-keyword">const</span> b = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Blob</span>([data.<span class="hljs-property">buffer</span>], &#123; <span class="hljs-attr">type</span>: <span class="hljs-string">`video/<span class="hljs-subst">$&#123;outVideoType&#125;</span>`</span> &#125;)<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">createObjectURL</span>(b);<br>  &#125;<br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * get canvas stream url, created by URL.createObjectURL &amp; Blob</span><br><span class="hljs-comment">   */</span><br>  <span class="hljs-keyword">async</span> <span class="hljs-title function_">getStreamURL</span>(): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt; &#123;<br>    <span class="hljs-keyword">const</span> blob = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">deferred</span>.<span class="hljs-property">promise</span>;<br>    <span class="hljs-keyword">const</span> &#123; mimeType, audio, outVideoType &#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">type</span> = mimeType.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;;&#x27;</span>)[<span class="hljs-number">0</span>].<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;/&#x27;</span>)[<span class="hljs-number">1</span>];<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === outVideoType &amp;&amp; !audio) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">createObjectURL</span>(blob);<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">window</span>.<span class="hljs-property">FFmpeg</span>) &#123;<br>      <span class="hljs-keyword">const</span> err = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;please load FFmpeg script file like https://unpkg.com/@ffmpeg/ffmpeg@0.7.0/dist/ffmpeg.min.js&#x27;</span>);<br>      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">reject</span>(err);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">convertVideo</span>(blob);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="http://airbnb.io/lottie/#/web">Lottie-web 官方文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/100594139">Lottie 能做哪些事情？</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6992014666159357989">lottie-web 系列之一：如何看懂 json 参数</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342477231">剖析 lottie-web 动画实现原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67869546">插件安装及 AE 动画实现</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GD4y1t7iF/?vd_source=9e77e6f7a42f88fae2bc5789ec4e3b48">哔哩哔哩 AE 纯代码动画实现方法</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/welefen/canvas2video">canvas to video, convert to mp4, merge audio</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Lottie动画：从制作到播放</div>
+      <div>http://example.com/20230918-Lottie动画：从制作到播放/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20231011-%E7%94%B3%E8%AF%B7SSL%E8%AF%81%E4%B9%A6/" title="申请SSL证书">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">申请SSL证书</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20230911-%E6%A1%8C%E9%9D%A2%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8F%92%E4%BB%B6%E5%8F%AF%E6%89%A9%E5%B1%95%E6%9E%B6%E6%9E%84/" title="桌面客户端插件可扩展架构">
+                        <span class="hidden-mobile">桌面客户端插件可扩展架构</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

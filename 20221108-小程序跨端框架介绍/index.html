@@ -1,0 +1,756 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="跨端技术产生背景应用多平台投放自微信推出小程序开始，各大厂商都针对自己的平台推出了相应的小程序的方案，可以说是层出不穷，基本上每一个厂都有一个对应的小程序的一个方案（如下图所示）。但是很多第三方开发者或者厂商开发的应用不只是投放至单一平台的。很多时候有一码多投的需求，在这种情况下，开发者不得不需寻求跨端解决方案。 代码高可复用如何做到代码高可复用是开发者痛点之一 比较典型的反面案例是：  同步课模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序跨端框架介绍">
+<meta property="og:url" content="http://example.com/20221108-%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%A8%E7%AB%AF%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="跨端技术产生背景应用多平台投放自微信推出小程序开始，各大厂商都针对自己的平台推出了相应的小程序的方案，可以说是层出不穷，基本上每一个厂都有一个对应的小程序的一个方案（如下图所示）。但是很多第三方开发者或者厂商开发的应用不只是投放至单一平台的。很多时候有一码多投的需求，在这种情况下，开发者不得不需寻求跨端解决方案。 代码高可复用如何做到代码高可复用是开发者痛点之一 比较典型的反面案例是：  同步课模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s.cn.bing.net/th?id=OHR.BadLightning_ZH-CN1049646409_1920x1080.jpg&rf=LaDigue_1920x1080.jpg">
+<meta property="article:published_time" content="2022-11-08T06:01:45.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.941Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s.cn.bing.net/th?id=OHR.BadLightning_ZH-CN1049646409_1920x1080.jpg&rf=LaDigue_1920x1080.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>小程序跨端框架介绍 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="小程序跨端框架介绍"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-08 14:01" pubdate>
+          2022年11月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">小程序跨端框架介绍</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="跨端技术产生背景"><a href="#跨端技术产生背景" class="headerlink" title="跨端技术产生背景"></a>跨端技术产生背景</h1><h2 id="应用多平台投放"><a href="#应用多平台投放" class="headerlink" title="应用多平台投放"></a>应用多平台投放</h2><p>自微信推出小程序开始，各大厂商都针对自己的平台推出了相应的小程序的方案，可以说是层出不穷，基本上每一个厂都有一个对应的小程序的一个方案（如下图所示）。<br><img src="/%E5%B0%8F%E7%A8%8B%E5%BA%8F.jpg" srcset="/img/loading.gif" lazyload><br>但是很多第三方开发者或者厂商开发的应用不只是投放至单一平台的。很多时候有一码多投的需求，在这种情况下，开发者不得不需寻求跨端解决方案。</p>
+<h2 id="代码高可复用"><a href="#代码高可复用" class="headerlink" title="代码高可复用"></a>代码高可复用</h2><p>如何做到代码高可复用是开发者痛点之一</p>
+<p>比较典型的反面案例是：</p>
+<ol>
+<li><p>同步课模块我们做了三个版本<br>分别是xyAPP版、xy小程序版、wxAPP-H5版</p>
+</li>
+<li><p>wxAPP与小程序版本差距过大<br>wxAPP即将迭代到6.0版本，首页和课程课程板块改动较大，<br>而wx小程序在最近一年才不疼不痒修复若干BUG，这些BUG还是因为版本相差过大导致…</p>
+</li>
+</ol>
+<h2 id="使用现代技术提升效率"><a href="#使用现代技术提升效率" class="headerlink" title="使用现代技术提升效率"></a>使用现代技术提升效率</h2><p>大家知道，通过这些年的发展，高效的前端框架层出不穷。<br>反观微信传统的小程序开发模式，是非常低效且痛苦的。<br>每个页面由html、css、js、json4个文件。<br>无法使用双向数据绑定和状态管理，编写代码非常低效。<br>很多开发者想着使用现代前端框架来解决开发体验的问题，所以也会去使用跨端框架，比如基于Vue或基于React的第三方跨端框架。</p>
+<p>上述三个痛点总结下来就是两个词：”跨端和效率”<br>“跨端 &amp; 效率 需求催生大量跨端框架”<br>这也是大厂为什么都要开发跨端框架的原因。<br>目前我们选择的跨端方案是uni-app。关于具体选型，这里就不讲了。</p>
+<h1 id="跨端框架的特点"><a href="#跨端框架的特点" class="headerlink" title="跨端框架的特点"></a>跨端框架的特点</h1><p>如何做到跨端和提效，以及他有什么优势呢，下面让我们来看下 跨端框架的技术特点</p>
+<h2 id="write-once-run-everywhere"><a href="#write-once-run-everywhere" class="headerlink" title="write once, run everywhere"></a>write once, run everywhere</h2><p>一处编写，多端运行<br>我们知道跨端框架能过够编译打包成H5以及各种小程序</p>
+<blockquote>
+<p>对于大前端来说，使用现代前端框架，开发更快<br>对于服务端来说，只用出一套接口即可<br>站在开发者角度：降低开发成本、提升研发效率、代码重用<br>站在企业角度：支持多平台、触及更广的市场、降低前期成本</p>
+</blockquote>
+<p>那么他是如何做到 一处编写 处处运行的呢？<br>我们看第一张图，各端常用组件和API都有交叉的部分。<br>跨端框架将常用的组件、JS API 进行封装如第二张图所示，开发者只要按照标准规范开发就能满足大部分业务需求 并 保证兼容性。</p>
+<p>对于一些平台特性以及定制化业务需求，我们可以通过条件编译的方式来解决。</p>
+<p>条件编译简单点说就是通过标记，不同平台编译不同代码，一个工程里优雅的完成了平台个性化实现。条件编译最早出现在 C 语言中，解决 windows、mac 等不同系统编译问题。</p>
+<p>条件编译可以用在组件上，不同平台显示不同内容。可以用在样式上，不同平台呈现不同效果。用在脚本上，不同平台执行不同逻辑或调用专有api。</p>
+<p>相比同时开发多端，跨端在效率上至少可以提升50%。</p>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><p>微信等原生框架耗时主要在 数据变动及渲染 上，开发者若不单独优化，则每次都会传递大量数据。之前做过的xy小程序，每个页面数据渲染前，都需要花较多时间在数据合并优化上。<br>而 Uni-app、Taro 等跨端框架都在 赋值渲染前 做diff对比计算，每次仅传递变动的数据。</p>
+<p>如图所示<br><img src="/test-frame.png" srcset="/img/loading.gif" lazyload><br>随着 列表数量不断增加，页面渲染列表花费时间也越来越长。我们看到使用跨端框架后渲染性能强于 优化前的原生框架。<br>这里可能有人会问，性能真的优于原生吗？其实并不是，针对每个场景，我们都可以用原生写出性能最佳的代码。但是这样做工作量太大，实际项目开发中需要掌握效率与优化之间的平衡。跨端框架的优势在于能让我们在书写更有效率的代码、拥有更丰富的生态的同时，还带来了不错的性能。</p>
+<h2 id="跨端UI框架支持"><a href="#跨端UI框架支持" class="headerlink" title="跨端UI框架支持"></a>跨端UI框架支持</h2><p>大家可以打开钉钉，查看“内部小程序DEV” 体验一下</p>
+<p>UI框架，可以避免我们重复造轮子。<br>关于高性能上面已经说了，不再赘述。<br>第二点，组件都是多端自适应的，底层磨平了很多小程序平台的差异及BUG。<br>第三点，可以自定义主题风格，并在此基础上扩展我们自己的业务组件<br>最后一项是实时免打点，在后续开发中我们再深入研究</p>
+<p>站在开发者角度，使用现代前端框架，让我们开发更高效，跨端框架集成了大量高效前端工具</p>
+<p>直接使用工具预编译样式<br>支持最新ES新标准，如Asncy&#x2F;Await、Object.values、Promise<br>状态管理，参考Vuex和Redux<br>双向数据绑定<br>过滤器<br>不用将WXSS、WXML和JS代码分离到3个不同的文件中</p>
+<p>确保效果一致性<br>站在产品角度和设计角度<br>保证各平台小程序、H5在UI上一致性，设计稿无论是1080px还是750px进行设计，通过少量配置后框架可自动转换比例，页面可等比缩放，还原度更高</p>
+<p>这也是我们目前 前端H5项目 采用的主流方案。</p>
+<p>业务增强</p>
+<ol>
+<li><p>灵活编译，功能增强<br>  a. 框架提供小程序SDK ，让APP能快速获取小程序的能力，如右图所示<br>  我们知道小程序体验优于H5，后期产品可以考虑下部分模块使用此功能<br>  b. 交互体验增强<br>  特别是可以有效减少白屏、弱网体验较差的问题<br>  c. 定位、相册、水印以及其它系统API增强<br>   对于培训会签到以及定位功能</p>
+<ul>
+<li>钉钉小程序、H5微应用都支持定位</li>
+<li>微信小程序（非特定类目）不支持定位。可以灵活编译成H5，使用微信js-sdk支持<br>   H5微应用中调用相机和相册以及添加水印等API已不再支持，很有可能突然哪一天就无法使用，而小程序API支持</li>
+</ul>
+</li>
+<li><p>技能延展，高效协作，提升业务能力<br>轻量且强大的IDE，类Vue简单语法，前端和移动应用开发人员很容易上手，框架支持编译成小程序、H5、Android、IOS。让开发人员技能得到延展，也让前端与移动端组加交流深，可以更高效协作开发</p>
+</li>
+</ol>
+<h1 id="项目应用"><a href="#项目应用" class="headerlink" title="项目应用"></a>项目应用</h1><p>跨端框架可以应用在很多地方<br>应用产品：<br>wxAPP6.0即将启动开发，wx小程序微信版、钉钉版也将在之后由移动应用组进行全面升级<br>同时wx中例如：园所模块、同步课、线下培训等等在后期迭代过程中也可逐步替换成小程序以增强体验</p>
+<p>面向家庭的ytxy<br>新的家庭产品（数字资源）项目，未来是否有 应用多投 的需求，我们也需早做准备。</p>
+<p>管理产品：<br>企业H5微应用逐步迁移到企业内部小程序<br>目前部分模块准备使用跨端框架开发，编译成小程序程序<br>最新的开发文档，11月1日才更新 支持小程序嵌入已有的H5微应用这项功能，在我写PPT之前还没有，我们可以平滑的过渡。<br>小程序相比微应用有什么有点呢？<br>一个是性能上，首次加载略慢，后续加载快<br>二是体验上接近Native，弱网体验也更好，不会出现弱网白屏<br>三是调试方便，涉及到钉钉API，不用真机调试在电脑上就可以调试</p>
+<h1 id="开发注意事项"><a href="#开发注意事项" class="headerlink" title="开发注意事项"></a>开发注意事项</h1><p>深入学习各端小程序开发文档，深入了解其特性，只有这样才能解决定制化和差异化问题，同时知道怎么处理可能出现的奇怪兼容性BUG</p>
+<h2 id="性能问题"><a href="#性能问题" class="headerlink" title="性能问题"></a>性能问题</h2><p>虽然框架帮助我们解决常规性能问题，但若要编写性能更好的代码，就必须严格按照标准规范来。<br>例如：避免视图层和逻辑层频繁进行通讯，减少组件数量、减少节点嵌套层级（小程序有限制，节点超过1024*1024就会直接崩溃，其实没到这个数就非常的卡），优化数据更新…</p>
+<h2 id="注意框架的兼容性"><a href="#注意框架的兼容性" class="headerlink" title="注意框架的兼容性"></a>注意框架的兼容性</h2><p>小程序端没有限制，H5及App端需注意。</p>
+<p>vue2兼容性最好，<br>由于国内的特殊性，使用vue3只能支持内核大于53的版本的系统。android集成x5内核能够解决这个问题。</p>
+<h2 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h2><p>支持平台越多，条件编译代码也就越多。推荐将差异性脚本和样式集中管理，方便后期维护。</p>
+<p>CSS兼容，避免使用不支持的选择器，注意同层渲染的特殊性。使用推荐布局模型，这样兼容性最好。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>说了这么多，大家对小程序跨端框架应该有了一些了解，下面我来总结一下。<br>任何技术方案首先要服务于实际业务需求，技术的选择也需根据研发团队成员的技术方向和具体情况而定。在这个做项目做产品讲究短平快、组件化的时代，对于我们精简后的团队，选择跨端框架应该是最为适合。</p>
+<p>最后分享一个视频</p>
+<p>这是迪士尼动画 “小熊维尼”和“丛林之书” 的对比视频。<br>华特·迪士尼获得了56个奥斯卡金像奖提名和7个艾美奖，是世界上获得奥斯卡奖最多的人。他创建了经典模板来重复在他的电影作品中使用。80%标准化和20%定制化，效率提升了，作品也同样精彩。</p>
+<p>在我们信息部工作中，我们收集到各种各样的需求。<br>我们能否在产品设计、开发上高效的提供标准化和定制化技术方案呢。</p>
+<p>希望此次分享能给大家带来启发，让我们群策群力，在工作上能突破常规，更加高效，达成新学期目标。</p>
+<p>我的分享到此结束，感谢大家聆听。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<p><a href="!https://zhuanlan.zhihu.com/p/331822664?utm_source=wechat_session">跨平台方案简介</a><br><a href="!https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&mid=2247512880&idx=1&sn=aafd0c66f0276dc242868f9b282338e0&chksm=f9520673ce258f65a2b97ecdd3319fd6b4d6abd23300408d96aefc700cb18373718173da4eb7&scene=27#wechat_redirect">小程序云开发一体化方案</a><br><a href="!https://xie.infoq.cn/article/e7e618f6df033bf7aca70a78a">Taro跨端实践</a><br><a href="!https://xie.infoq.cn/article/a84e9df6218299789deac6315">小程序多种开发方式对比 - 跨端？低代码？原生？还是云开发？</a><br><a href="!https://xie.infoq.cn/article/744cf18d6377c7bab65be9168">主流跨端技术比较</a><br><a href="!https://www.isolves.com/it/cxkf/kj/2019-11-25/8562.html">跨平台移动端框架UniApp的应用实践</a><br><a href="!https://segmentfault.com/a/1190000022326482">uniapp与其他对比</a><br><a href="!https://juejin.cn/post/7107537580748439559">主流跨端技术实现 （小程序跨端）</a><br><a href="!https://developers.weixin.qq.com/community/develop/article/doc/000eaadb944de06374485c3ed51813">小程序多端框架全面测评</a><br><a href="!https://zhuanlan.zhihu.com/p/62338731">小程序原生开发与第三方框架选择</a><br><a href="!https://juejin.cn/post/7143861362044469285">uni-app和微信原生开发的详细比较</a><br><a href="!https://juejin.cn/post/6966964623459385380">微信小程序的原生框架和taro对比</a><br><a href="!https://blog.csdn.net/rickho/article/details/5537714">IT标准化和定制化</a><br><a href="!https://zhuanlan.zhihu.com/p/401475757">uni-api</a><br><a href="!https://supercodepower.com/cross-platform-tech">小程序跨端技术的核心</a></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>小程序跨端框架介绍</div>
+      <div>http://example.com/20221108-小程序跨端框架介绍/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20221110-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96urlscheme/" title="微信小程序获取urlscheme">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">微信小程序获取urlscheme</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20221019-fee-interviewer/" title="fee-interviewer">
+                        <span class="hidden-mobile">fee-interviewer</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

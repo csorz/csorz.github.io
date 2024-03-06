@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="H5在线页面、H5离线包与APP端进行交互">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js-bridge-sdk">
+<meta property="og:url" content="http://example.com/20200911-js-bridge-sdk/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="H5在线页面、H5离线包与APP端进行交互">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.bing.com/th?id=OHR.GodrevyRocks_ZH-CN0051118926_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=384&h=216&rs=1&c=4">
+<meta property="article:published_time" content="2020-09-11T11:59:41.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.933Z">
+<meta property="article:author" content="csorz">
+<meta property="article:tag" content="js-bridge">
+<meta property="article:tag" content="js-sdk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cn.bing.com/th?id=OHR.GodrevyRocks_ZH-CN0051118926_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=384&h=216&rs=1&c=4">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>js-bridge-sdk - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="js-bridge-sdk"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-09-11 19:59" pubdate>
+          2020年9月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">js-bridge-sdk</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>H5在线页面、H5离线包与APP端进行交互</p>
+<span id="more"></span>
+
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br></pre></td><td class="code"><pre><code class="hljs bash">/* eslint-disable */<br><br>// 为保证SDK轻量，只是用Promise。只需压缩混淆，无需转码。引入端需使用babel-polyfill以支持Promise。<br>// Babel默认只转换新的JavaScript句法（syntax），而不转换新的API，比如Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise、Async等全局对象，以及一些定义在全局对象上的方法（比如Object.assign）都不会转码。<br><br>/**<br> * APP使用库<br> * IOS: https://github.com/marcuswestin/WebViewJavascriptBridge<br> * ANDROID: https://github.com/lzyzsd/JsBridge <br>*/<br>(<span class="hljs-keyword">function</span>(window) &#123;<br>  // Javascript SDK 初始化模板<br>  var YT = <span class="hljs-function"><span class="hljs-title">function</span></span>() &#123;<br>    <span class="hljs-built_in">return</span> &#123;<br>      version: <span class="hljs-string">&#x27;1.0.0&#x27;</span>,<br>      debug: window.YTBridgeDebug || <span class="hljs-literal">false</span>,<br>      isAndroid: (<span class="hljs-function"><span class="hljs-title">function</span></span> () &#123;<br>        <span class="hljs-built_in">return</span> navigator.userAgent.indexOf(<span class="hljs-string">&#x27;Android&#x27;</span>) &gt; -1 || navigator.userAgent.indexOf(<span class="hljs-string">&#x27;Adr&#x27;</span>) &gt; -1;<br>      &#125;)(),<br>      isIos: (<span class="hljs-function"><span class="hljs-title">function</span></span> () &#123;<br>        <span class="hljs-built_in">return</span> !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);<br>      &#125;)(),<br>      trustedApp: (<span class="hljs-function"><span class="hljs-title">function</span></span> () &#123;<br>        var bool = (navigator.userAgent.toLowerCase().match(/HybirdApp ytai/i) == <span class="hljs-string">&#x27;hybirdapp ytai&#x27;</span>) || (navigator.userAgent.toLowerCase().match(/HybirdApp youshitong/i) == <span class="hljs-string">&#x27;hybirdapp youshitong&#x27;</span>)<br>        console.log(<span class="hljs-string">&#x27;trustedApp: &#x27;</span>, bool)<br>        <span class="hljs-built_in">return</span> bool<br>      &#125;)(),<br>      appVersion: (<span class="hljs-function"><span class="hljs-title">function</span></span> ()&#123;<br>        <span class="hljs-built_in">return</span> navigator.userAgent.match(/\bhybirdapp ytai\/(\S*)/)[1]<br>        // 其中\b表示以什么开头，(\S)表示匹配一个或者多个空白以及空格字符<br>        // 常规请从APP获取版本号，此处仅作参考<br>      &#125;)(),<br>      // APP API LIST<br>      apiList: [<br>        /**<br>         * 获取APP API列表<br>        */<br>        <span class="hljs-string">&quot;getApiList&quot;</span>,<br>        /**<br>         * 返回APP<br>        */<br>        <span class="hljs-string">&quot;backToApp&quot;</span>,<br>        /**<br>         * 奖励动画<br>        */<br>        <span class="hljs-string">&quot;rewardAnimation&quot;</span>,<br>        /**<br>         * 开始录制<br>         */<br>        <span class="hljs-string">&quot;aiSpokenStart&quot;</span>,<br>        /**<br>         * 结束录制<br>         */<br>        <span class="hljs-string">&quot;aiSpokenEnd&quot;</span>,<br>    <br>      ],<br>      // WEB API LIST<br>      jsApiList: [<br>        /** <br>         * APP主动启动课件<br>        */<br>        <span class="hljs-string">&quot;init&quot;</span>,<br>        /**<br>         * 物理键返回<br>         * 仅android<br>        */<br>        <span class="hljs-string">&quot;appBack&quot;</span>,<br>        /**<br>         * 有测评分数回调<br>         */<br>        <span class="hljs-string">&quot;aiSpokenResult&quot;</span><br>      ],<br>      // WEB API OBJECT<br>      callHandler: &#123;&#125;,<br>      // DEFAULT APP API <br>      registerDefaultFunction: <span class="hljs-keyword">function</span> (arr) &#123;<br>        arr.forEach(<span class="hljs-keyword">function</span> (fn) &#123;<br>          YT[fn] = <span class="hljs-function"><span class="hljs-title">function</span></span> () &#123;<br>            <span class="hljs-keyword">if</span> (fn === <span class="hljs-string">&#x27;getApiList&#x27;</span>) &#123;<br>              <span class="hljs-built_in">return</span> Promise.reject();<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>              console.error(<span class="hljs-string">&#x27;未找到api: &#x27;</span>, fn)<br>              <span class="hljs-built_in">return</span> Promise.reject();<br>            &#125;<br>          &#125;<br>        &#125;)<br>      &#125;,<br>      // APP API<br>      registerFunction: <span class="hljs-keyword">function</span> (arr) &#123;<br>        <span class="hljs-built_in">return</span> new Promise(<span class="hljs-keyword">function</span> (resolve, reject) &#123;<br>          arr.forEach(<span class="hljs-keyword">function</span> (fn, index) &#123;<br>            <span class="hljs-keyword">if</span> (YT.debug) &#123;<br>              try &#123;<br>                window.YTBridgeLocalTestFunction &amp;&amp; YTBridgeLocalTestFunction(YT, fn)<br>              &#125; catch (err) &#123;<br>                console.err(<span class="hljs-string">&#x27;YTBridgeLocalTestFunction: &#x27;</span>, err)<br>              &#125;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>              <span class="hljs-keyword">if</span> (!YT.trustedApp) &#123;<br>                // ERROR<br>                console.error(<span class="hljs-string">&#x27;非法设备：&#x27;</span>, navigator.userAgent)<br>                <span class="hljs-built_in">return</span> reject()<br>              &#125;<br>              YT[fn] = <span class="hljs-keyword">function</span> (params) &#123;<br>                <span class="hljs-built_in">return</span> YT.bridgeReady.<span class="hljs-keyword">then</span>(<span class="hljs-keyword">function</span> (bridge) &#123;<br>                  <span class="hljs-built_in">return</span> new Promise(<span class="hljs-keyword">function</span> (resolve) &#123;<br>                    console.log(<span class="hljs-string">&#x27;YT[&#x27;</span> + fn + <span class="hljs-string">&#x27;]: &#x27;</span>, params)<br>                    bridge.callHandler(fn, params || &#123;&#125;, <span class="hljs-keyword">function</span> (responseData) &#123;<br>                      resolve(JSON.parse(responseData));<br>                    &#125;);<br>                  &#125;);<br>                &#125;)<br>              &#125;<br>            &#125;<br>            // 循环结束<br>            <span class="hljs-keyword">if</span> (index == arr.length - 1) &#123;<br>              resolve()<br>            &#125;<br>          &#125;)<br>        &#125;)<br>      &#125;,<br>      // WEB API<br>      registerWebFunction: <span class="hljs-keyword">function</span> (arr) &#123;<br>        YT.bridgeReady.<span class="hljs-keyword">then</span>(<span class="hljs-keyword">function</span> (bridge) &#123;<br>          <span class="hljs-keyword">if</span> (bridge) &#123;<br>            arr.forEach(<span class="hljs-keyword">function</span> (fn) &#123;<br>              YT.callHandler[fn] = <span class="hljs-keyword">function</span>(data, callback) &#123;<br>                console.log(<span class="hljs-string">&#x27;【Default Function】YT.callHandler[&#x27;</span> + fn + <span class="hljs-string">&#x27;]: &#x27;</span>, data)<br>              &#125;<br>              bridge.registerHandler(fn, <span class="hljs-keyword">function</span> (data, responseCallback) &#123;<br>                console.log(<span class="hljs-string">&#x27;YT.callHandler[&#x27;</span> + <span class="hljs-string">&#x27;fn]: &#x27;</span>, data)<br>                YT.callHandler[fn](data || &#123;&#125;, responseCallback);<br>              &#125;)<br>            &#125;)<br>          &#125;<br>          // You can also define a default handler use init method, so that Java can send message to js without assigned handlerName<br>          // <span class="hljs-keyword">if</span> (YT.isAndroid) &#123;<br>          //   bridge.init(<span class="hljs-keyword">function</span>(message, responseCallback) &#123;<br>          //     console.log(<span class="hljs-string">&#x27;JS got a message&#x27;</span>, message);<br>          //     var data = &#123;<br>          //         <span class="hljs-string">&#x27;Javascript Responds&#x27;</span>: <span class="hljs-string">&#x27;Wee!&#x27;</span><br>          //     &#125;;<br>          //     console.log(<span class="hljs-string">&#x27;JS responding with&#x27;</span>, data);<br>          //     responseCallback(data);<br>          //   &#125;)<br>          // &#125;<br>        &#125;).catch(<span class="hljs-keyword">function</span> (err) &#123;<br>          console.log(<span class="hljs-string">&#x27;YT.bridgeReady Error：&#x27;</span> + err)<br>        &#125;).finally(<span class="hljs-function"><span class="hljs-title">function</span></span>() &#123;<br>    <br>        &#125;)<br>      &#125;<br>    &#125;<br>  &#125;<br>  // BRIDGE // 桥接<br>  YT.bridgeReady = new Promise(<span class="hljs-keyword">function</span> (resolve, reject) &#123;<br>    <span class="hljs-keyword">if</span> (!YT.trustedApp || !(YT.isIos || YT.isAndroid)) &#123;<br>      <span class="hljs-keyword">if</span> (YT.debug) &#123;<br>        resolve(&#123;<br>          init: <span class="hljs-function"><span class="hljs-title">function</span></span> () &#123; &#125;,<br>          registerHandler: <span class="hljs-function"><span class="hljs-title">function</span></span> () &#123; &#125;,<br>          callHandler: <span class="hljs-function"><span class="hljs-title">function</span></span> () &#123; &#125;<br>        &#125;)<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        // ERROR<br>        console.error(<span class="hljs-string">&#x27;非法设备：&#x27;</span>, navigator.userAgent)<br>        reject()<br>      &#125;<br>      <span class="hljs-built_in">return</span><br>    &#125;<br>    <span class="hljs-keyword">if</span> (YT.isIos) &#123;<br>      // IOS BRIDGE<br>      <span class="hljs-keyword">if</span> (window.WebViewJavascriptBridge) &#123; <span class="hljs-built_in">return</span> resolve(WebViewJavascriptBridge); &#125;<br>      <span class="hljs-keyword">if</span> (window.WVJBCallbacks) &#123; <span class="hljs-built_in">return</span> window.WVJBCallbacks.push(resolve); &#125;<br>      window.WVJBCallbacks = [resolve];<br>      var WVJBIframe = document.createElement(<span class="hljs-string">&#x27;iframe&#x27;</span>);<br>      WVJBIframe.style.display = <span class="hljs-string">&#x27;none&#x27;</span>;<br>      WVJBIframe.src = <span class="hljs-string">&#x27;wvjbscheme://__BRIDGE_LOADED__&#x27;</span>;<br>      document.documentElement.appendChild(WVJBIframe);<br>      setTimeout(<span class="hljs-function"><span class="hljs-title">function</span></span> () &#123; document.documentElement.removeChild(WVJBIframe); &#125;, 0)<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (YT.isAndroid) &#123;<br>      // ANDROID BRIDGE<br>      <span class="hljs-keyword">if</span> (window.WebViewJavascriptBridge) &#123;<br>        resolve(WebViewJavascriptBridge)<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        document.addEventListener(<br>          <span class="hljs-string">&#x27;WebViewJavascriptBridgeReady&#x27;</span><br>          , <span class="hljs-function"><span class="hljs-title">function</span></span> () &#123;<br>            resolve(WebViewJavascriptBridge);<br>          &#125;,<br>          <span class="hljs-literal">false</span><br>        )<br>      &#125;<br>    &#125;<br>  &#125;);<br>  <br>  YT.registerDefaultFunction(YT.apiList);<br>  YT.registerFunction([<span class="hljs-string">&quot;getApiList&quot;</span>]);<br>  YT.registerWebFunction(YT.jsApiList);<br>  <br>  // APP API // 客户端接口准备就绪<br>  YT.ready = new Promise(<span class="hljs-keyword">function</span> (resolve) &#123;<br>    YT.getApiList().<span class="hljs-keyword">then</span>(<span class="hljs-keyword">function</span> (item) &#123;<br>      YT.registerFunction(item.list).<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-title">function</span></span> () &#123;<br>        resolve(YT);<br>      &#125;)<br>    &#125;)<br>  &#125;);<br>  <br>  // WEB API // 客户端方法监听<br>  YT.on = <span class="hljs-keyword">function</span>(fn, callback) &#123;<br>    console.log(<span class="hljs-string">&#x27;on&#x27;</span>, fn)<br>    YT.callHandler[fn] = callback;<br>  &#125;<br>  <br>  // LOCAL TEST // 浏览器调试<br>  <span class="hljs-keyword">function</span> YTBridgeLocalTestFunction(YT, fn)&#123;<br>    YT[fn] = <span class="hljs-function"><span class="hljs-title">function</span></span> () &#123;<br>      <span class="hljs-built_in">return</span> new Promise(<span class="hljs-keyword">function</span> (resolve) &#123;<br>        <span class="hljs-keyword">if</span> (fn == <span class="hljs-string">&quot;getApiList&quot;</span>) &#123;<br>          resolve(&#123; list: YT.apiList, varsion: <span class="hljs-string">&#x27;1.0.0&#x27;</span> &#125;);<br>        &#125;<br>      &#125;);<br>    &#125;<br>  &#125;<br><br>  window.YT = YT<br>&#125;)(window, undefined);<br><br>/*********************************<br> *          callHandler          *<br> *********************************/<br><br>/**<br>* 获取客户端API列表，此方法为基础方法，每个版本必须存在<br>* @name getApiList<br>* @param &#123;&#125;<br>* @<span class="hljs-built_in">return</span> &#123; list : [<span class="hljs-string">&#x27;backToApp&#x27;</span>...], version:<span class="hljs-string">&#x27;1.0.0&#x27;</span>, 其他字段: <span class="hljs-string">&#x27;待扩充&#x27;</span> &#125;<br>* @version 1.0.0<br>*/<br><br>/**<br>* 返回APP<br>* @name backToApp<br>* @param &#123;&#125;<br>* @<span class="hljs-built_in">return</span> &#123;&#125;<br>* @version 1.0.0<br>*/<br><br>/**<br>* 奖励动画<br>* @name rewardAnimation<br>* @param &#123; <span class="hljs-built_in">type</span>: <span class="hljs-string">&#x27;star&#x27;</span>, score: 1 || 2 || 3 &#125;  <br>* - <span class="hljs-built_in">type</span>: 奖励动画类型，方便扩充<br>* - score: 得分<br>* @<span class="hljs-built_in">return</span> &#123;&#125;<br>* @version 1.0.0<br>*/<br><br>/** <br> * 开始录音评测<br>* @name aiSpokenStart<br>* @param &#123; api:tencent/iflytek, language: cn/en, content:xxx, <span class="hljs-built_in">type</span>:word/sentence &#125;  <br>* - api: tencent腾讯  iflytek科大讯飞<br>* - language: cn中文 en英文<br>* - content: 识别内容<br>* - <span class="hljs-built_in">type</span>: 识别类型 word单词 sentence句子<br>* @<span class="hljs-built_in">return</span> &#123;&#125;<br>* @version 1.0.0<br>*/<br><br>/** <br> * 结束录音评测<br>* @name aiSpokenEnd<br>* @param &#123;&#125;  <br>* @<span class="hljs-built_in">return</span> &#123; score:75 &#125;<br>* - score: 评测得分<br>* @version 1.0.0<br>*/<br><br><br><br>/*********************************<br> *        registerHandler        *<br> *********************************/<br><br>/**<br>* APP(android)监听返回按钮并调用appBack方法<br>* @name appBack<br>* @param &#123;&#125;<br>* @<span class="hljs-built_in">return</span> &#123;data: data, callback: callback&#125;<br>* @version 1.0.0<br>  使用方法：<br>  // 开启物理返回键监听<br>  YT.backPermission(&#123;<span class="hljs-built_in">type</span>:1&#125;)<br>  // 设置回调<br>  YT.callHandler.appBack = yourFunction;<br>  // 等同于<br>  YT.on(<span class="hljs-string">&#x27;appBack&#x27;</span>, yourFunction)<br>*/<br><br>/**<br>* APP调用aiSpokenResult方法<br>* @name aiSpokenResult<br>* @param &#123;&#125;<br>* @<span class="hljs-built_in">return</span> &#123; score: 75, callback: callback&#125;<br>* - score: 评测得分<br>* @version 1.0.0<br>  使用方法：<br>  // 设置回调<br>  YT.callHandler.aiSpokenResult = yourFunction;<br>  // 等同于<br>  YT.on(<span class="hljs-string">&#x27;aiSpokenResult&#x27;</span>, callback)<br>*/<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/js-bridge/" class="print-no-link">#js-bridge</a>
+      
+        <a href="/tags/js-sdk/" class="print-no-link">#js-sdk</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>js-bridge-sdk</div>
+      <div>http://example.com/20200911-js-bridge-sdk/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年9月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20200915-ai-story-zip/" title="ai-story-zip，课件模板打包">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ai-story-zip，课件模板打包</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20200911-course-streamlabs-obs/" title="course-streamlabs-obs">
+                        <span class="hidden-mobile">course-streamlabs-obs</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="服务端 Koa1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798991001">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ai-story-zip，课件模板打包">
+<meta property="og:url" content="http://example.com/20200915-ai-story-zip/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="服务端 Koa1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798991001">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.bing.com/th?id=OHR.Pneumatocysts_ZH-CN5721988566_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=384&h=216&rs=1&c=4">
+<meta property="article:published_time" content="2020-09-15T09:49:04.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.933Z">
+<meta property="article:author" content="csorz">
+<meta property="article:tag" content="jszip">
+<meta property="article:tag" content="koa">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cn.bing.com/th?id=OHR.Pneumatocysts_ZH-CN5721988566_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=384&h=216&rs=1&c=4">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ai-story-zip，课件模板打包 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ai-story-zip，课件模板打包"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-09-15 17:49" pubdate>
+          2020年9月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ai-story-zip，课件模板打包</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="服务端-Koa"><a href="#服务端-Koa" class="headerlink" title="服务端 Koa"></a>服务端 Koa</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><code class="hljs bash">/**<br> * 奥点云直播录制功能调整<br> */<br>const router = require(<span class="hljs-string">&#x27;koa-router&#x27;</span>)();<br>const _ = require(<span class="hljs-string">&#x27;lodash&#x27;</span>);<br>const axios = require(<span class="hljs-string">&#x27;axios&#x27;</span>);<br>const moment = require(<span class="hljs-string">&#x27;moment&#x27;</span>);<br>const &#123; URL &#125; = require(<span class="hljs-string">&#x27;url&#x27;</span>)<br>const path = require(<span class="hljs-string">&#x27;path&#x27;</span>);<br><br>const request = require(<span class="hljs-string">&#x27;request&#x27;</span>)<br>const JSZip = require(<span class="hljs-string">&#x27;jszip&#x27;</span>)<br>const newZip = new JSZip()<br><br>const api = require(<span class="hljs-string">&#x27;./api&#x27;</span>);<br><br><span class="hljs-built_in">let</span> picbookJson = &#123;&#125;<br><span class="hljs-built_in">let</span> picbookJsonStr = <span class="hljs-string">&#x27;&#x27;</span><br><br>// 拉取Story项目模板<br><span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">getTemplate</span></span>() &#123;<br>    <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;<br>        request(&#123;<br>            method: &#x27;GET&#x27;,<br>            encoding: null,<br>            uri: &#x27;http://public.yitong.com/demo/story-template/story.zip?_t=&#x27; + new Date().getTime()<br>        &#125;, function (err, response, body) &#123;<br>            if (err) &#123;<br>                return reject(err)<br>            &#125;<br>            resolve(body)<br>        &#125;)<br>    &#125;)<br>&#125;<br><br>// 拉取临时文件列表<br>function getFile(json) &#123;<br>    const arr = []<br>    json.resourceList.forEach((item, index) =&gt; &#123;<br>        arr.push(new Promise((resolve, reject) =&gt; &#123;<br>            request(&#123;<br>                method: &#x27;GET&#x27;,<br>                encoding: null,<br>                uri: item.replace(&#x27;https://&#x27;, &#x27;http://&#x27;)<br>            &#125;, function (err, response, body) &#123;<br>                if (err) &#123;<br>                    return reject(err)<br>                &#125;<br>                const arr = item.split(&#x27;/&#x27;) || []<br>                const fName = arr.length &gt; <span class="hljs-number">0</span> ? arr[arr.length - <span class="hljs-number">1</span>] : index<br>                picbookJsonStr = picbookJsonStr.replace(item, fName)<br>                console.log(fName, item)<br>                resolve(&#123;<br>                    name: fName,<br>                    body<br>                &#125;)<br>            &#125;)<br>        &#125;))<br>    &#125;)<br>    <span class="hljs-built_in">return</span> Promise.all(arr)<br>&#125;<br><br>// stream 转 buffer<br><span class="hljs-keyword">function</span> streamToBuffer(stream) &#123;<br>    <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;<br>        const buffers = []<br>        stream.on(&#x27;error&#x27;, reject)<br>        stream.on(&#x27;data&#x27;, data =&gt; buffers.push(data))<br>        stream.on(<span class="hljs-string">&#x27;end&#x27;</span>, () =&gt; resolve(Buffer.concat(buffers)))<br>    &#125;)<br>&#125;<br><br>// buffer 转 stream<br>// <span class="hljs-built_in">let</span> Duplex = require(<span class="hljs-string">&#x27;stream&#x27;</span>).Duplex<br><br>// <span class="hljs-keyword">function</span> bufferToStream(buffer) &#123;<br>//   <span class="hljs-built_in">let</span> stream = new Duplex();<br>//   stream.push(buffer);<br>//   stream.push(null);<br>//   <span class="hljs-built_in">return</span> stream;<br>// &#125;<br><br><br>router.post(<span class="hljs-string">&#x27;/gw/ai/zip&#x27;</span>, async (ctx) =&gt; &#123;<br>    console.log(ctx.request.body)<br>    picbookJson = ctx.request.body<br>    picbookJsonStr = JSON.stringify(picbookJson)<br>    // 配置远端镜像路径<br>    picbookJson.baseUrl = <span class="hljs-string">&#x27;&#x27;</span><br>    const body = await getTemplate()<br>    <span class="hljs-keyword">if</span> (!body) &#123;<br>        ctx.body = api.error(&#123;<br>            code: 9,<br>            message: <span class="hljs-string">&#x27;出错啦&#x27;</span>,<br>            result: null<br>        &#125;)<br>        <span class="hljs-built_in">return</span><br>    &#125;<br>    // 写入资源文件<br>    const zip = await newZip.loadAsync(body)<br>    // 仅支持一级相对路径，例如 <span class="hljs-string">&#x27;resource/&#x27;</span><br>    const resourceFile = zip.folder(picbookJson.prefix.replace(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>))<br>    const resourceObject = await getFile(picbookJson)<br>    resourceObject.forEach((item) =&gt; &#123;<br>        resourceFile.file(item.name, item.body, &#123; base64: true &#125;)<br>    &#125;)<br>    // 写入配置文件<br>    console.log(&#x27;-----------&#x27;, picbookJsonStr)<br>    picbookJson = JSON.parse(picbookJsonStr)<br>    zip.file(&#x27;config.json&#x27;, JSON.stringify(&#123;<br>        version: <span class="hljs-number">1</span>,<br>        packageDate: new Date().getTime(),<br>        picbook: picbookJson<br>    &#125;))<br>    // https://stuk.github.io/jszip/documentation/howto/write_zip.html<br>    const stream = zip.generateNodeStream(&#123; <br>        <span class="hljs-built_in">type</span>: <span class="hljs-string">&#x27;nodebuffer&#x27;</span>, // 压缩类型选择nodebuffer，在回调函数中会返回zip压缩包的Buffer的值<br>        // 压缩算法<br>        compression: <span class="hljs-string">&quot;DEFLATE&quot;</span>,<br>        compressionOptions: &#123;<br>            level: 9<br>        &#125;,<br>        streamFiles: <span class="hljs-literal">true</span><br>    &#125;)<br>    // res.head(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;application/octet-stream&#x27;</span>)<br>    // res.header(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;text/plain&#x27;</span>)<br>    // res.write(await streamToBuffer(stream), <span class="hljs-string">&#x27;utf8&#x27;</span>)<br>    // res.end()<br>    ctx.set(<span class="hljs-string">&#x27;Content-Type&#x27;</span>, <span class="hljs-string">&#x27;application/octet-stream&#x27;</span>);<br>    ctx.body = await streamToBuffer(stream)<br>&#125;)<br><br>/**<br> * 查询课程录播文件<br> */<br>router.post(<span class="hljs-string">&#x27;/gw/aodianyun/getCourseData1&#x27;</span>, async (ctx) =&gt; &#123;<br>    <span class="hljs-built_in">let</span> &#123; courseId &#125; = ctx.request.body;<br>    const LiveLookback = Parse.Object.extend(<span class="hljs-string">&quot;LiveLookback&quot;</span>);<br>    const search = new Parse.Query(LiveLookback);<br>    //search.equalTo(<span class="hljs-string">&quot;status&quot;</span>, <span class="hljs-string">&#x27;success&#x27;</span>);<br>    search.limit(2);<br>    const results = await search.find();<br>    <span class="hljs-built_in">let</span> response = &#123;<br>        list: results<br>    &#125;;<br>    ctx.body = api.ok(response);<br>&#125;);<br><br>module.exports = router;<br></code></pre></td></tr></table></figure>
+
+<h2 id="服务端（Nuxt-servermiddleware-Express）"><a href="#服务端（Nuxt-servermiddleware-Express）" class="headerlink" title="服务端（Nuxt servermiddleware - Express）"></a>服务端（Nuxt servermiddleware - Express）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br></pre></td><td class="code"><pre><code class="hljs Bash">// 在具体页面中检测接口是否就绪<br>// const &#123; result &#125; = await this.<span class="hljs-variable">$axios</span>.<span class="hljs-variable">$post</span>(<span class="hljs-string">&#x27;http://localhost:3000/api/ready&#x27;</span>)<br>// console.log(<span class="hljs-string">&#x27;localhost:8000/api&#x27;</span>, result)<br>const JSZip = require(<span class="hljs-string">&#x27;jszip&#x27;</span>)<br>const request = require(<span class="hljs-string">&#x27;request&#x27;</span>)<br>const configJson = &#123;<br>  baseUrl: <span class="hljs-string">&#x27;https://public.yitong.com/demo/story/picbook/&#x27;</span>,<br>  name: <span class="hljs-string">&#x27;Sharing (Story)&#x27;</span>,<br>  coverImageUrl: <span class="hljs-string">&#x27;1573803206931407.jpg&#x27;</span>,<br>  coverAudioUrl: <span class="hljs-string">&#x27;170f173622a46ff.mp3&#x27;</span>,<br>  wordCount: 16,<br>  pageContents: [<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;this_is_a_simple_example.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;this_is_a_simple_example.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;This is a simple example.&#x27;</span>,<br>      wordStartTimes: [<br>        100, 200, 500, 800, 1100<br>      ],<br>      translation: <span class="hljs-string">&#x27;这是一个样本案例。&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;15281012820093872.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16a30fb178d.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;Your egg.&#x27;</span>,<br>      wordStartTimes: [<br>        490,<br>        1150<br>      ],<br>      translation: <span class="hljs-string">&#x27;你的鸡蛋。&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;1528101315937327.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16a70f44791.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;Your juice.&#x27;</span>,<br>      wordStartTimes: [<br>        530,<br>        1200<br>      ],<br>      translation: <span class="hljs-string">&#x27;你的果汁。&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;1528101341373822.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16aaf007cf8.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;Your cake.&#x27;</span>,<br>      wordStartTimes: [<br>        480,<br>        1030<br>      ],<br>      translation: <span class="hljs-string">&#x27;你的蛋糕。&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;152810136774110.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16aea4e8cb7.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;I\u0027m hungry.&#x27;</span>,<br>      wordStartTimes: [<br>        540,<br>        1070<br>      ],<br>      translation: <span class="hljs-string">&#x27;我饿了。&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;15281013914784154.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16b27602718.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;My egg!&#x27;</span>,<br>      wordStartTimes: [<br>        510,<br>        1190<br>      ],<br>      translation: <span class="hljs-string">&#x27;我的鸡蛋！&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;15281014154594103.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16b640658ac.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;My juice!&#x27;</span>,<br>      wordStartTimes: [<br>        490,<br>        1040<br>      ],<br>      translation: <span class="hljs-string">&#x27;我的果汁！&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;15281014415395255.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16bb14251fa.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;My cake!&#x27;</span>,<br>      wordStartTimes: [<br>        480,<br>        1080<br>      ],<br>      translation: <span class="hljs-string">&#x27;我的蛋糕！&#x27;</span><br>    &#125;,<br>    &#123;<br>      imageUrl: <span class="hljs-string">&#x27;1528101466094874.jpg&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;170f16bea952816.mp3&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;Yay! Candy!&#x27;</span>,<br>      wordStartTimes: [<br>        510,<br>        1490<br>      ],<br>      translation: <span class="hljs-string">&#x27;耶！糖果！&#x27;</span><br>    &#125;<br>  ],<br>  resourceList: [<br>    <span class="hljs-string">&#x27;1573803206931407.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;this_is_a_simple_example.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;15281012820093872.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;1528101315937327.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;1528101341373822.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;152810136774110.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;15281013914784154.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;15281014154594103.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;15281014415395255.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;1528101466094874.jpg&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f173622a46ff.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;this_is_a_simple_example.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16a30fb178d.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16a70f44791.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16aaf007cf8.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16aea4e8cb7.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16b27602718.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16b640658ac.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16bb14251fa.mp3&#x27;</span>,<br>    <span class="hljs-string">&#x27;170f16bea952816.mp3&#x27;</span><br>  ]<br>&#125;<br>const newZip = new JSZip()<br><br><span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">getTemplate</span></span>() &#123;<br>  <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;<br>    request(&#123;<br>      method: &#x27;GET&#x27;,<br>      encoding: null,<br>      uri: &#x27;https://public.yitong.com/demo/story-template/story.zip?_t=&#x27; + new Date().getTime()<br>    &#125;, function(err, response, body) &#123;<br>      if (err) &#123;<br>        return reject(err)<br>      &#125;<br>      resolve(body)<br>    &#125;)<br>  &#125;)<br>&#125;<br><br>function getFile(json) &#123;<br>  const arr = []<br>  json.resourceList.forEach(item =&gt; &#123;<br>    arr.push(new Promise((resolve, reject) =&gt; &#123;<br>      request(&#123;<br>        method: &#x27;GET&#x27;,<br>        encoding: null,<br>        uri: json.baseUrl + item<br>      &#125;, function(err, response, body) &#123;<br>        if (err) &#123;<br>          return reject(err)<br>        &#125;<br>        resolve(&#123;<br>          name: item,<br>          body<br>        &#125;)<br>      &#125;)<br>    &#125;))<br>  &#125;)<br>  <span class="hljs-built_in">return</span> Promise.all(arr)<br>&#125;<br><br>// stream 转 buffer<br><span class="hljs-keyword">function</span> streamToBuffer (stream) &#123;<br>  <span class="hljs-built_in">return</span> new Promise((resolve, reject) =&gt; &#123;<br>    const buffers = []<br>    stream.on(&#x27;error&#x27;, reject)<br>    stream.on(&#x27;data&#x27;, data =&gt; buffers.push(data))<br>    stream.on(<span class="hljs-string">&#x27;end&#x27;</span>, () =&gt; resolve(Buffer.concat(buffers)))<br>  &#125;)<br>&#125;<br><br>// buffer 转 stream<br>// <span class="hljs-built_in">let</span> Duplex = require(<span class="hljs-string">&#x27;stream&#x27;</span>).Duplex<br><br>// <span class="hljs-keyword">function</span> bufferToStream(buffer) &#123;<br>//   <span class="hljs-built_in">let</span> stream = new Duplex();<br>//   stream.push(buffer);<br>//   stream.push(null);<br>//   <span class="hljs-built_in">return</span> stream;<br>// &#125;<br><br><span class="hljs-built_in">export</span> default async <span class="hljs-keyword">function</span> (req, res, next) &#123;<br>  // req is the Node.js http request object<br>  const body = await getTemplate()<br>  <span class="hljs-keyword">if</span> (!body) &#123;<br>    res.write(JSON.stringify(&#123;<br>      code: 9,<br>      message: <span class="hljs-string">&#x27;出错啦&#x27;</span>,<br>      result: null<br>    &#125;))<br>    <span class="hljs-built_in">return</span><br>  &#125;<br>  const zip = await newZip.loadAsync(body)<br>  zip.file(<span class="hljs-string">&#x27;story.json&#x27;</span>, JSON.stringify(configJson))<br>  const picbook = zip.folder(<span class="hljs-string">&#x27;picbook&#x27;</span>)<br>  const resources = await getFile(configJson)<br>  resources.forEach((item) =&gt; &#123;<br>    picbook.file(item.name, item.body, &#123; base64: true &#125;)<br>  &#125;)<br>  // https://stuk.github.io/jszip/documentation/howto/write_zip.html<br>  const stream = zip.generateNodeStream(&#123; type: &#x27;nodebuffer&#x27;, streamFiles: true &#125;)<br>  res.setHeader(&#x27;Access-Control-Allow-Origin&#x27;, &#x27;*&#x27;)<br>  res.setHeader(&#x27;Access-Control-Allow-Credentials&#x27;, &#x27;true&#x27;)<br>  res.setHeader(&#x27;Access-Control-Allow-Methods&#x27;, &#x27;*&#x27;)<br>  res.setHeader(&#x27;Access-Control-Allow-Headers&#x27;, &#x27;Content-Type,Access-Token&#x27;) // 这里“Access-Token”是我要传到后台的内容key<br>  res.setHeader(&#x27;Access-Control-Expose-Headers&#x27;, &#x27;*&#x27;)<br>  // res.setHeader(&#x27;Content-Type&#x27;, &#x27;application/octet-stream&#x27;)<br>  res.setHeader(&#x27;Content-Type&#x27;, &#x27;text/plain&#x27;)<br>  // res is the Node.js http response object<br>  res.write(await streamToBuffer(stream), &#x27;utf8&#x27;)<br>  res.end()<br><br>  // next is a function to call to invoke the next middleware<br>  // Don&#x27;t forget to call next at the end if your middleware is not an endpoint!<br>  // next()<br>&#125;<br><br><br>// 参考资料：<br>// 【node-http】http://nodejs.cn/api/http.html#http_response_write_chunk_encoding_callback<br>// 【jszip】https://stuk.github.io/jszip/documentation/howto/write_zip.html<br>// 【file-saver】https://www.npmjs.com/package/file-saver<br>// 【服务器渲染中间件】https://zh.nuxtjs.org/api/configuration-servermiddleware/<br>// 【node - connect】https://github.com/senchalabs/connect#appusefn<br>// 【文件类型对照表】https://tool.oschina.net/commons/<br>// 【后台传输arraybuffer,前台用Uint8Array转】https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array<br></code></pre></td></tr></table></figure>
+
+<h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br></pre></td><td class="code"><pre><code class="hljs Bash">&lt;template&gt;<br>  &lt;div class=<span class="hljs-string">&quot;main&quot;</span>&gt;<br>    &lt;div class=<span class="hljs-string">&quot;submit-btn&quot;</span> @click=<span class="hljs-string">&quot;package&quot;</span>&gt;<br>      &lt;i class=<span class="hljs-string">&quot;el-icon-goods&quot;</span>&gt;&lt;/i&gt;<br>      &lt;p&gt;打包课件&lt;/p&gt;<br>    &lt;/div&gt;<br>    &lt;UploadManagement @selected=<span class="hljs-string">&quot;handleSelected()&quot;</span> :<span class="hljs-built_in">limit</span>=<span class="hljs-string">&quot;99&quot;</span> /&gt;<br>    &lt;el-form ref=<span class="hljs-string">&quot;form&quot;</span> label-width=<span class="hljs-string">&quot;80px&quot;</span>&gt;<br>      &lt;el-form-item label=<span class="hljs-string">&quot;课件标题&quot;</span>&gt;<br>        &lt;el-input v-model=<span class="hljs-string">&quot;form.name&quot;</span>&gt;&lt;/el-input&gt;<br>      &lt;/el-form-item&gt;<br>      &lt;el-form-item label=<span class="hljs-string">&quot;单词数量&quot;</span>&gt;<br>        &lt;el-input v-model=<span class="hljs-string">&quot;form.wordCount&quot;</span>&gt;&lt;/el-input&gt;<br>      &lt;/el-form-item&gt;<br>      &lt;el-form-item label=<span class="hljs-string">&quot;封面图片&quot;</span>&gt;<br>        &lt;div&gt;<br>          &lt;UploadSelectManagement<br>            @onSuccess=<span class="hljs-string">&quot;handleUploadImage&quot;</span><br>            :options=<span class="hljs-string">&quot;&#123;</span><br><span class="hljs-string">              limit: 1,</span><br><span class="hljs-string">              mark: &#x27;coverImageUrl&#x27;,</span><br><span class="hljs-string">              type: &#x27;image/&#x27;,</span><br><span class="hljs-string">              file: form.coverImageUrl ? [&#123;name: &#x27;&#x27;, url: form.coverImageUrl&#125;] : []</span><br><span class="hljs-string">            &#125;&quot;</span><br>          /&gt;<br>          &lt;!-- &lt;UploadImage @onsuccess=<span class="hljs-string">&quot;handleUploadImage&quot;</span> :fileList=<span class="hljs-string">&quot;form.coverImageUrl ? [&#123;name: &#x27;&#x27;, url: form.coverImageUrl&#125;] : []&quot;</span> :<span class="hljs-built_in">limit</span>=<span class="hljs-string">&quot;1&quot;</span> /&gt; --&gt;<br>        &lt;/div&gt;<br>      &lt;/el-form-item&gt;<br>      &lt;el-form-item label=<span class="hljs-string">&quot;封面音频&quot;</span>&gt;<br>        &lt;UploadSelectManagement<br>          @onSuccess=<span class="hljs-string">&quot;handleUploadAudio&quot;</span><br>          :options=<span class="hljs-string">&quot;&#123;</span><br><span class="hljs-string">            limit: 1,</span><br><span class="hljs-string">            mark: &#x27;coverAudioUrl&#x27;,</span><br><span class="hljs-string">            type: &#x27;audio/mpeg&#x27;,</span><br><span class="hljs-string">            file: form.coverAudioUrl ? [&#123;name: &#x27;&#x27;, url: form.coverAudioUrl&#125;] : []</span><br><span class="hljs-string">          &#125;&quot;</span><br>        /&gt;<br>        &lt;!-- &lt;UploadAudio @onsuccess=<span class="hljs-string">&quot;handleUploadAudio&quot;</span> :url=<span class="hljs-string">&quot;form.coverAudioUrl&quot;</span> /&gt; --&gt;<br>      &lt;/el-form-item&gt;<br>      &lt;el-form-item label=<span class="hljs-string">&quot;内容区域&quot;</span>&gt;<br>        &lt;div class=<span class="hljs-string">&quot;page-list&quot;</span>&gt;<br>          &lt;div class=<span class="hljs-string">&quot;page-item&quot;</span> v-for=<span class="hljs-string">&quot;(item, index) in form.pageContents&quot;</span> :key=<span class="hljs-string">&quot;index&quot;</span>&gt;<br>            &lt;span class=<span class="hljs-string">&quot;subscript&quot;</span>&gt;P&#123;&#123;index + 1&#125;&#125;&lt;/span&gt;<br>            &lt;div class=<span class="hljs-string">&quot;img-box&quot;</span>&gt;<br>              &lt;img<br>                :src=<span class="hljs-string">&quot;item.imageUrl&quot;</span><br>              &gt;<br>              &lt;div class=<span class="hljs-string">&quot;operate&quot;</span>&gt;<br>                &lt;i class=<span class="hljs-string">&quot;el-icon-caret-top&quot;</span>&gt;&lt;/i&gt;<br>                &lt;i class=<span class="hljs-string">&quot;el-icon-edit&quot;</span> @click=<span class="hljs-string">&quot;showDialogForm(<span class="hljs-variable">$event</span>, item, index)&quot;</span>&gt;&lt;/i&gt;<br>                &lt;i class=<span class="hljs-string">&quot;el-icon-caret-bottom&quot;</span>&gt;&lt;/i&gt;<br>              &lt;/div&gt;<br>            &lt;/div&gt;<br>            &lt;div&gt;<br>              &lt;audio :src=<span class="hljs-string">&quot;item.audioUrl&quot;</span> controls&gt;&lt;/audio&gt;<br>              &lt;h3&gt;&#123;&#123; item.text &#125;&#125;&lt;/h3&gt;<br>              &lt;p&gt;&#123;&#123; item.translation &#125;&#125;&lt;/p&gt;<br>              &lt;p&gt;&#123;&#123; item.wordStartTimes.<span class="hljs-built_in">join</span>(<span class="hljs-string">&#x27;,&#x27;</span>) &#125;&#125;&lt;/p&gt;<br>            &lt;/div&gt;<br>          &lt;/div&gt;<br>          &lt;div class=<span class="hljs-string">&quot;page-item&quot;</span>&gt;<br>            &lt;i class=<span class="hljs-string">&quot;el-icon-plus add&quot;</span> @click=<span class="hljs-string">&quot;showDialogForm(<span class="hljs-variable">$event</span>)&quot;</span>&gt;&lt;/i&gt;<br>          &lt;/div&gt;<br>        &lt;/div&gt;<br>      &lt;/el-form-item&gt;<br>    &lt;/el-form&gt;<br>    &lt;el-dialog title=<span class="hljs-string">&quot;编辑内容&quot;</span> :visible.sync=<span class="hljs-string">&quot;dialogFormVisible&quot;</span> :close-on-click-modal=<span class="hljs-string">&quot;false&quot;</span> :close-on-press-escape=<span class="hljs-string">&quot;false&quot;</span>&gt;<br>      &lt;el-form :model=<span class="hljs-string">&quot;form&quot;</span>&gt;<br>        &lt;el-form-item label=<span class="hljs-string">&quot;图片&quot;</span> :label-width=<span class="hljs-string">&quot;formLabelWidth&quot;</span>&gt;<br>          &lt;UploadSelectManagement<br>            @onSuccess=<span class="hljs-string">&quot;handlePageUploadImage&quot;</span><br>            :options=<span class="hljs-string">&quot;&#123;</span><br><span class="hljs-string">              limit: 1,</span><br><span class="hljs-string">              mark: &#x27;imageUrl&#x27;,</span><br><span class="hljs-string">              type: &#x27;image/&#x27;,</span><br><span class="hljs-string">              file: pageForm.imageUrl ? [&#123;name: &#x27;&#x27;, url: pageForm.imageUrl&#125;] : []</span><br><span class="hljs-string">            &#125;&quot;</span><br>          /&gt;<br>          &lt;!-- &lt;UploadImage @onsuccess=<span class="hljs-string">&quot;handlePageUploadImage&quot;</span> :fileList=<span class="hljs-string">&quot;pageForm.imageUrl ? [&#123;name: &#x27;&#x27;, url: pageForm.imageUrl&#125;] : []&quot;</span> :<span class="hljs-built_in">limit</span>=<span class="hljs-string">&quot;1&quot;</span> /&gt; --&gt;<br>        &lt;/el-form-item&gt;<br>        &lt;el-form-item label=<span class="hljs-string">&quot;音频&quot;</span> :label-width=<span class="hljs-string">&quot;formLabelWidth&quot;</span>&gt;<br>          &lt;UploadSelectManagement<br>            @onSuccess=<span class="hljs-string">&quot;handlePageUploadAudio&quot;</span><br>            :options=<span class="hljs-string">&quot;&#123;</span><br><span class="hljs-string">              limit: 1,</span><br><span class="hljs-string">              mark: &#x27;audioUrl&#x27;,</span><br><span class="hljs-string">              type: &#x27;audio/mpeg&#x27;,</span><br><span class="hljs-string">              file: pageForm.audioUrl ? [&#123;name: &#x27;&#x27;, url: pageForm.audioUrl&#125;] : []</span><br><span class="hljs-string">            &#125;&quot;</span><br>          /&gt;<br>          &lt;!-- &lt;UploadAudio @onsuccess=<span class="hljs-string">&quot;handlePageUploadAudio&quot;</span> :url=<span class="hljs-string">&quot;pageForm.audioUrl&quot;</span> /&gt; --&gt;<br>        &lt;/el-form-item&gt;<br>        &lt;el-form-item label=<span class="hljs-string">&quot;文本&quot;</span> :label-width=<span class="hljs-string">&quot;formLabelWidth&quot;</span>&gt;<br>          &lt;el-input v-model=<span class="hljs-string">&quot;pageForm.text&quot;</span>&gt;&lt;/el-input&gt;<br>        &lt;/el-form-item&gt;<br>        &lt;el-form-item label=<span class="hljs-string">&quot;翻译&quot;</span> :label-width=<span class="hljs-string">&quot;formLabelWidth&quot;</span>&gt;<br>          &lt;el-input v-model=<span class="hljs-string">&quot;pageForm.translation&quot;</span>&gt;&lt;/el-input&gt;<br>        &lt;/el-form-item&gt;<br>        &lt;el-form-item label=<span class="hljs-string">&quot;时间节点&quot;</span> :label-width=<span class="hljs-string">&quot;formLabelWidth&quot;</span>&gt;<br>          &lt;el-input v-model=<span class="hljs-string">&quot;pageForm.wordStartTimes&quot;</span> placeholder=<span class="hljs-string">&quot;例如：300,600,900&quot;</span>&gt;&lt;/el-input&gt;<br>        &lt;/el-form-item&gt;<br>      &lt;/el-form&gt;<br>      &lt;div slot=<span class="hljs-string">&quot;footer&quot;</span> class=<span class="hljs-string">&quot;dialog-footer&quot;</span>&gt;<br>        &lt;el-button @click=<span class="hljs-string">&quot;hideDialogForm(0)&quot;</span>&gt;取 消&lt;/el-button&gt;<br>        &lt;el-button <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;primary&quot;</span> @click=<span class="hljs-string">&quot;hideDialogForm(1)&quot;</span>&gt;确 定&lt;/el-button&gt;<br>      &lt;/div&gt;<br>    &lt;/el-dialog&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script lang=<span class="hljs-string">&quot;ts&quot;</span>&gt;<br>/** eslint-disbale */<br>/* global openFileDialog _ */<br>import moment from <span class="hljs-string">&#x27;moment&#x27;</span><br>import axios from <span class="hljs-string">&#x27;axios&#x27;</span><br>import UploadImage from <span class="hljs-string">&#x27;@/components/UploadImage/index.vue&#x27;</span><br>import UploadAudio from <span class="hljs-string">&#x27;@/components/UploadAudio/index.vue&#x27;</span><br>import UploadManagement from <span class="hljs-string">&#x27;@/components/UploadManagement/index.vue&#x27;</span><br>import UploadSelectManagement from <span class="hljs-string">&#x27;@/components/UploadManagement/select.vue&#x27;</span><br>import &#123; Component, Vue, Prop &#125; from <span class="hljs-string">&#x27;vue-property-decorator&#x27;</span><br>import FileSaver from <span class="hljs-string">&#x27;file-saver&#x27;</span><br><br>interface IPage &#123;<br>  imageUrl: string<br>  audioUrl: string<br>  text: string<br>  wordStartTimes: string | number|string[]<br>  translation: string<br>&#125;<br>@Component(&#123;<br>  name: <span class="hljs-string">&#x27;ai-update&#x27;</span>,<br>  components: &#123;<br>    UploadImage,<br>    UploadAudio,<br>    UploadManagement,<br>    UploadSelectManagement<br>  &#125;<br>&#125;)<br><span class="hljs-built_in">export</span> default class extends Vue &#123;<br>  showUploadManagement = <span class="hljs-literal">false</span><br>  pageIndex = -1<br>  dialogFormVisible = <span class="hljs-literal">false</span><br>  formLabelWidth = <span class="hljs-string">&#x27;120px&#x27;</span><br>  pageFormWordStartTimes = <span class="hljs-string">&#x27;&#x27;</span><br>  pageForm: IPage = &#123;<br>    imageUrl: <span class="hljs-string">&#x27;&#x27;</span>,<br>    audioUrl: <span class="hljs-string">&#x27;&#x27;</span>,<br>    text: <span class="hljs-string">&#x27;&#x27;</span>,<br>    wordStartTimes: <span class="hljs-string">&#x27;&#x27;</span>,<br>    translation: <span class="hljs-string">&#x27;&#x27;</span><br>  &#125;<br>  form: any = &#123;<br>    baseUrl: <span class="hljs-string">&#x27;&#x27;</span>,<br>    name: <span class="hljs-string">&#x27;&#x27;</span>,<br>    prefix: <span class="hljs-string">&#x27;resource/&#x27;</span>,<br>    coverImageUrl: <span class="hljs-string">&#x27;&#x27;</span>,<br>    coverAudioUrl: <span class="hljs-string">&#x27;&#x27;</span>,<br>    wordCount: <span class="hljs-string">&#x27;&#x27;</span>,<br>    pageContents: [<br>    ],<br>    resourceList: [<br>    ]<br>  &#125;<br>  // 模板数据<br>  formTemplate = &#123;<br>    baseUrl: <span class="hljs-string">&#x27;https://public.yitong.com/demo/story/&#x27;</span>,<br>    prefix: <span class="hljs-string">&#x27;picbook/&#x27;</span>,<br>    name: <span class="hljs-string">&#x27;Sharing (Story)&#x27;</span>,<br>    coverImageUrl: <span class="hljs-string">&#x27;1573803206931407.jpg&#x27;</span>,<br>    coverAudioUrl: <span class="hljs-string">&#x27;170f173622a46ff.mp3&#x27;</span>,<br>    wordCount: 16,<br>    pageContents: [<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;this_is_a_simple_example.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;this_is_a_simple_example.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;This is a simple example.&#x27;</span>,<br>        wordStartTimes: [<br>          100, 200, 500, 800, 1100<br>        ],<br>        translation: <span class="hljs-string">&#x27;这是一个样本案例。&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;15281012820093872.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16a30fb178d.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;Your egg.&#x27;</span>,<br>        wordStartTimes: [<br>          490,<br>          1150<br>        ],<br>        translation: <span class="hljs-string">&#x27;你的鸡蛋。&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;1528101315937327.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16a70f44791.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;Your juice.&#x27;</span>,<br>        wordStartTimes: [<br>          530,<br>          1200<br>        ],<br>        translation: <span class="hljs-string">&#x27;你的果汁。&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;1528101341373822.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16aaf007cf8.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;Your cake.&#x27;</span>,<br>        wordStartTimes: [<br>          480,<br>          1030<br>        ],<br>        translation: <span class="hljs-string">&#x27;你的蛋糕。&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;152810136774110.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16aea4e8cb7.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;I\u0027m hungry.&#x27;</span>,<br>        wordStartTimes: [<br>          540,<br>          1070<br>        ],<br>        translation: <span class="hljs-string">&#x27;我饿了。&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;15281013914784154.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16b27602718.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;My egg!&#x27;</span>,<br>        wordStartTimes: [<br>          510,<br>          1190<br>        ],<br>        translation: <span class="hljs-string">&#x27;我的鸡蛋！&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;15281014154594103.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16b640658ac.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;My juice!&#x27;</span>,<br>        wordStartTimes: [<br>          490,<br>          1040<br>        ],<br>        translation: <span class="hljs-string">&#x27;我的果汁！&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;15281014415395255.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16bb14251fa.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;My cake!&#x27;</span>,<br>        wordStartTimes: [<br>          480,<br>          1080<br>        ],<br>        translation: <span class="hljs-string">&#x27;我的蛋糕！&#x27;</span><br>      &#125;,<br>      &#123;<br>        imageUrl: <span class="hljs-string">&#x27;1528101466094874.jpg&#x27;</span>,<br>        audioUrl: <span class="hljs-string">&#x27;170f16bea952816.mp3&#x27;</span>,<br>        text: <span class="hljs-string">&#x27;Yay! Candy!&#x27;</span>,<br>        wordStartTimes: [<br>          510,<br>          1490<br>        ],<br>        translation: <span class="hljs-string">&#x27;耶！糖果！&#x27;</span><br>      &#125;<br>    ],<br>     resourceList: [<br>      <span class="hljs-string">&#x27;1573803206931407.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;this_is_a_simple_example.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;15281012820093872.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;1528101315937327.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;1528101341373822.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;152810136774110.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;15281013914784154.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;15281014154594103.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;15281014415395255.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;1528101466094874.jpg&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f173622a46ff.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;this_is_a_simple_example.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16a30fb178d.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16a70f44791.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16aaf007cf8.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16aea4e8cb7.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16b27602718.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16b640658ac.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16bb14251fa.mp3&#x27;</span>,<br>      <span class="hljs-string">&#x27;170f16bea952816.mp3&#x27;</span><br>    ]<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-title">created</span></span>() &#123;<br>  &#125;<br>  setCoverImageUrl(list: any) &#123;<br>    this.form.coverImageUrl = list &amp;&amp; list.length &gt; 0 ? list[0].url : <span class="hljs-string">&#x27;&#x27;</span><br>  &#125;<br>  handleSelected(ref: string) &#123;<br>    // this.<span class="hljs-variable">$refs</span>[ref].<br>  &#125;<br>  <span class="hljs-function"><span class="hljs-title">resetPageForm</span></span>() &#123;<br>    this.pageForm = &#123;<br>      imageUrl: <span class="hljs-string">&#x27;&#x27;</span>,<br>      audioUrl: <span class="hljs-string">&#x27;&#x27;</span>,<br>      text: <span class="hljs-string">&#x27;&#x27;</span>,<br>      wordStartTimes: <span class="hljs-string">&#x27;&#x27;</span>,<br>      translation: <span class="hljs-string">&#x27;&#x27;</span><br>    &#125;<br>  &#125;<br>  showDialogForm(e: any, item?: IPage, index?: number) &#123;<br>    const _index = index || -1<br>    this.pageIndex = _index &gt; -1 ? _index : this.form.pageContents.length<br>    console.log(item)<br>    console.log(index)<br>    <span class="hljs-keyword">if</span> (item) &#123;<br>      this.<span class="hljs-variable">$set</span>(this, <span class="hljs-string">&#x27;pageForm&#x27;</span>, &#123;<br>        ...item,<br>        wordStartTimes: (item.wordStartTimes || [] as any).<span class="hljs-built_in">join</span>(<span class="hljs-string">&#x27;,&#x27;</span>)<br>      &#125;)<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      this.resetPageForm()<br>    &#125;<br>    this.dialogFormVisible = <span class="hljs-literal">true</span><br>  &#125;<br>  hideDialogForm(bool: boolean) &#123;<br>    <span class="hljs-keyword">if</span> (bool) &#123;<br>      <span class="hljs-keyword">if</span> (!(this.pageForm.imageUrl &amp;&amp; this.pageForm.audioUrl &amp;&amp; this.pageForm.text &amp;&amp; this.pageForm.wordStartTimes &amp;&amp; this.pageForm.translation)) &#123;<br>        alert(<span class="hljs-string">&#x27;请填写完整信息！&#x27;</span>)<br>        <span class="hljs-built_in">return</span><br>      &#125;<br>      const params = &#123;<br>        ...this.pageForm,<br>        wordStartTimes: (this.pageForm.wordStartTimes as any).<span class="hljs-built_in">split</span>(<span class="hljs-string">&#x27;,&#x27;</span>)<br>      &#125;<br>      <span class="hljs-keyword">if</span> (this.pageIndex &gt; -1) &#123;<br>        this.form.pageContents.splice(this.pageIndex, 1, params)<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        this.form.pageContents.push(params)<br>      &#125;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      this.resetPageForm()<br>    &#125;<br>    this.dialogFormVisible = <span class="hljs-literal">false</span><br>  &#125;<br>  handlePageUploadImage(info?: any) &#123;<br>    this.pageForm.imageUrl = info ? info.url : <span class="hljs-string">&#x27;&#x27;</span><br>  &#125;<br>  handlePageUploadAudio(info?: any) &#123;<br>    this.pageForm.audioUrl = info ? info.url : <span class="hljs-string">&#x27;&#x27;</span><br>  &#125;<br>  handleUploadImage(info: any) &#123;<br>    this.form.coverImageUrl = info ? info.url : <span class="hljs-string">&#x27;&#x27;</span><br>  &#125;<br>  handleUploadAudio(info: any) &#123;<br>    this.form.coverAudioUrl = info ? info.url : <span class="hljs-string">&#x27;&#x27;</span><br>  &#125;<br>  async <span class="hljs-function"><span class="hljs-title">package</span></span>() &#123;<br>    console.log(this.form)<br>    this.form.resourceList = []<br>    this.form.coverImageUrl &amp;&amp; this.form.resourceList.push(this.form.coverImageUrl)<br>    this.form.coverAudioUrl &amp;&amp; this.form.resourceList.push(this.form.coverAudioUrl)<br>    this.form.pageContents.forEach((element: IPage) =&gt; &#123;<br>      element.imageUrl &amp;&amp; this.form.resourceList.push(element.imageUrl)<br>      element.audioUrl &amp;&amp; this.form.resourceList.push(element.audioUrl)<br>    &#125;)<br>    const res = await axios.post(&#x27;http://localhost:<span class="hljs-number">3000</span>/gw/ai/zip&#x27;, this.form, &#123;<br>      headers: &#123; &#x27;Content-Type&#x27;: &#x27;application/json&#x27; &#125;,<br>      responseType: &#x27;arraybuffer&#x27; &#125;<br>    )<br>    console.log(typeof res.data)<br>    console.log(res.data)<br>    FileSaver.saveAs(new Blob([new Uint8Array(res.data)]), &#x27;story.zip&#x27;)<br>  &#125;<br>&#125;<br>&lt;/script&gt;<br><br>&lt;style lang=&quot;scss&quot;&gt;<br>.main &#123;<br>  .upload &#123;<br>    line-height: <span class="hljs-number">0</span>;<br>    &gt; div &#123;<br>      line-height: <span class="hljs-number">28</span>px;<br>      font-size: <span class="hljs-number">14</span>px;<br>    &#125;<br>  &#125;<br>  .el-upload--picture-card  &#123;<br>    border: none;<br>    height: auto;<br>  &#125;<br>&#125;<br>&lt;/style&gt;<br><br>&lt;style lang=&quot;scss&quot; scoped&gt;<br>.main &#123;<br>  padding: <span class="hljs-number">20</span>px;<br>  padding: relative;<br>  .submit-btn &#123;<br>    position: fixed;<br>    right: <span class="hljs-number">30</span>px;<br>    bottom: <span class="hljs-number">20</span>px;<br>    width: <span class="hljs-number">120</span>px;<br>    height: <span class="hljs-number">120</span>px;<br>    z-index: <span class="hljs-number">10</span>;<br>    background-color: rgb(<span class="hljs-number">24</span>, <span class="hljs-number">144</span>, <span class="hljs-number">255</span>);<br>    color: #fff;<br>    border-radius: <span class="hljs-number">50</span>%;<br>    display: flex;<br>    flex-direction: column;<br>    justify-content: center;<br>    align-items: center;<br>    transition: all .<span class="hljs-number">5</span>s;<br>    opacity: .<span class="hljs-number">75</span>;<br>    &amp;:hover &#123;<br>      transform: rotateY(<span class="hljs-number">360</span>deg);<br>      opacity: <span class="hljs-number">1</span>;<br>    &#125;<br>    cursor: pointer;<br>    i &#123;<br>      font-size: <span class="hljs-number">36</span>px;<br>    &#125;<br>    p &#123;<br>      margin: <span class="hljs-number">5</span>px <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>;<br>    &#125;<br>  &#125;<br>&#125;<br>.el-input &#123;<br>  width: <span class="hljs-number">200</span>px;<br>&#125;<br>.page-list &#123;<br>  display: flex;<br>  flex-direction: row;<br>  flex-wrap: wrap;<br>  audio &#123;<br>    border: none;<br>    outline: none<br>  &#125;<br>&#125;<br>.page-item &#123;<br>  border: <span class="hljs-number">1</span>px solid #ccc;<br>  padding: <span class="hljs-number">20</span>px <span class="hljs-number">0</span> <span class="hljs-number">15</span>px;<br>  width: <span class="hljs-number">360</span>px;<br>  height: <span class="hljs-number">400</span>px;<br>  text-align: center;<br>  position: relative;<br>  margin-right: <span class="hljs-number">10</span>px;<br>  margin-bottom: <span class="hljs-number">10</span>px;<br>  .add &#123;<br>    font-size: <span class="hljs-number">100</span>px;<br>    width: <span class="hljs-number">100</span>%;<br>    height: <span class="hljs-number">100</span>%;<br>    display: flex;<br>    justify-content: center;<br>    align-items: center;<br>    transition: all .<span class="hljs-number">5</span>s;<br>    cursor: pointer;<br>    &amp;:hover &#123;<br>      transform: rotate(<span class="hljs-number">180</span>deg);<br>    &#125;<br>  &#125;<br>  audio &#123;<br>    margin-top: <span class="hljs-number">15</span>px;<br>  &#125;<br>  h3,p &#123;<br>    margin: <span class="hljs-number">0</span>;<br>  &#125;<br>  .subscript &#123;<br>    display: flex;<br>    justify-content: center;<br>    align-items: center;<br>    width: <span class="hljs-number">30</span>px;<br>    height: <span class="hljs-number">40</span>px;<br>    background-color: rgba(<span class="hljs-variable">$color</span>: #<span class="hljs-number">000000</span>, <span class="hljs-variable">$alpha</span>: <span class="hljs-number">1</span>);<br>    color: #fff;<br>    position: absolute;<br>    right: <span class="hljs-number">0</span>;<br>    top: <span class="hljs-number">0</span>;<br>    z-index: <span class="hljs-number">1</span>;<br>  &#125;<br>  .img-box &#123;<br>    width:<span class="hljs-number">150</span>px;<br>    height:<span class="hljs-number">200</span>px;<br>    margin: <span class="hljs-number">0</span> auto;<br>    position: relative;<br>    img &#123;<br>      width: <span class="hljs-number">100</span>%;<br>      height: <span class="hljs-number">100</span>%;<br>      object-fit: contain;<br>    &#125;<br>    .operate &#123;<br>      cursor: pointer;<br>      position: absolute;<br>      z-index: <span class="hljs-number">1</span>;<br>      top: <span class="hljs-number">0</span>;<br>      left: <span class="hljs-number">0</span>;<br>      width: <span class="hljs-number">100</span>%;<br>      height: <span class="hljs-number">100</span>%;<br>      display: flex;<br>      flex-direction: column;<br>      justify-content: center;<br>      align-items: center;<br>      font-size: <span class="hljs-number">26</span>px;<br>      color: #fff;<br>      transition: all .<span class="hljs-number">5</span>s;<br>      background-color: rgba(<span class="hljs-variable">$color</span>: #<span class="hljs-number">000000</span>, <span class="hljs-variable">$alpha</span>: <span class="hljs-number">0.5</span>);<br>      opacity: .<span class="hljs-number">75</span>;<br>      i &#123;<br>        margin: <span class="hljs-number">10</span>px;<br>      &#125;<br>      &amp;:hover &#123;<br>        background-color: rgba(<span class="hljs-variable">$color</span>: #<span class="hljs-number">000000</span>, <span class="hljs-variable">$alpha</span>: <span class="hljs-number">0.75</span>);<br>        opacity: <span class="hljs-number">1</span>;<br>      &#125;<br>    &#125;<br>  &#125;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/jszip/" class="print-no-link">#jszip</a>
+      
+        <a href="/tags/koa/" class="print-no-link">#koa</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ai-story-zip，课件模板打包</div>
+      <div>http://example.com/20200915-ai-story-zip/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年9月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20200922-mimetype/" title="mimetype 列表">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">mimetype 列表</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20200911-js-bridge-sdk/" title="js-bridge-sdk">
+                        <span class="hidden-mobile">js-bridge-sdk</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

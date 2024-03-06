@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="来源：王子墨的博客 程序设计之道无远弗届，御晨风而返。———— 杰佛瑞 · 詹姆士 我所遇到的前端程序员分两种： 第一种一直在问：如何学习前端？ 第二种总说：前端很简单，就那么一点东西。 我从没有听到有人问：如何做一名优秀、甚至卓越的WEB前端工程师。 何为：前端工程师？ 前端工程师，也叫Web前端开发工程师。他是随着web发展，细分出来的行业。 Web前端开发技术主要包括三个要素：HTML、CS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何成为一名优秀的web前端工程师">
+<meta property="og:url" content="http://example.com/2015-07-29%20%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D%E4%BC%98%E7%A7%80%E7%9A%84web%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="来源：王子墨的博客 程序设计之道无远弗届，御晨风而返。———— 杰佛瑞 · 詹姆士 我所遇到的前端程序员分两种： 第一种一直在问：如何学习前端？ 第二种总说：前端很简单，就那么一点东西。 我从没有听到有人问：如何做一名优秀、甚至卓越的WEB前端工程师。 何为：前端工程师？ 前端工程师，也叫Web前端开发工程师。他是随着web发展，细分出来的行业。 Web前端开发技术主要包括三个要素：HTML、CS">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-07-29T07:46:18.000Z">
+<meta property="article:modified_time" content="2024-03-01T07:04:02.233Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>如何成为一名优秀的web前端工程师 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="如何成为一名优秀的web前端工程师"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2015-07-29 15:46" pubdate>
+          2015年7月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">如何成为一名优秀的web前端工程师</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>来源：<a target="_blank" rel="noopener" href="http://julying.com/blog/how-to-become-a-good-web-front-end-engineer/">王子墨的博客</a> <strong>程序设计之道无远弗届，御晨风而返。———— 杰佛瑞 · 詹姆士</strong> 我所遇到的前端程序员分两种： 第一种一直在问：如何学习前端？ 第二种总说：前端很简单，就那么一点东西。 我从没有听到有人问：<strong>如何做一名优秀、甚至卓越的WEB前端工程师</strong>。 <strong>何为：前端工程师</strong>？ 前端工程师，也叫Web前端开发工程师。他是随着web发展，细分出来的行业。 Web前端开发技术主要包括三个要素：HTML、CSS和JavaScript！ 它要求前端开发工程师不仅要掌握基本的<strong>Web前端开发技术，网站性能优化、SEO和服务器端的基础知识，而且要学会运用各种工具进行辅助开发以及理论层面的知识，包括代码的可维护性、组件的易用性、分层语义模板和浏览器分级支持</strong>等。 随着近两三年来RIA（Rich Internet Applications的缩写，中文含义为：丰富的因特网应用程序）的流行和普及带来的诸如：Flash&#x2F;Flex，Silverlight、XML和服务器端语言（PHP、ASP.NET，JSP、Python）等语言，前端开发工程师也需要掌握。 前端开发的入门门槛其实很低，与服务器端语言先慢后快的学习曲线相比，前端开发的学习曲线是先快后慢。 HTML 甚至不是一门语言，他仅仅是简单的标记语言！ CSS 只是无类型的样式修饰语言。当然可以勉强算作弱类型语言。 Javascript 的基础部分相对来说不难，入手还算快。 也正因为如此，前端开发领域有很多自学成“才”的同行，但大多数人都停留在会用的阶段，因为后面的学习曲线越来越陡峭，每前进一步都很难。 Web前端技术有一些江湖气，知识点过于琐碎，技术价值观的博弈也难分伯仲，即全局的系统的知识结构并未成体系，这些因素也客观上影响了“正统“前端技术的沉淀！而且各种“奇技淫巧”被滥用，前端技术知识的传承也过于泛泛，新人难看清时局把握主次。因此，前端技术领域，为自己觅得一个靠谱的师兄，重要性要盖过项目、团队、公司、甚至薪水。 另一方面，正如前面所说，前端开发是个非常新的职业，对一些规范和最佳实践的研究都处于探索阶段。 总有新的灵感和技术不时闪现出来，例如CSS sprite、负边距布局、栅格布局等； 各种JavaScript框架层出不穷，为整个前端开发领域注入了巨大的活力； 浏览器大战也越来越白热化，跨浏览器兼容方案依然是五花八门。 为了满足“高可维护性”的需要，需要更深入、更系统地去掌握前端知识，这样才可能创建一个好的前端架构，保证代码的质量。 随着手持设备的迅猛发展，带动了 HTML5行业标准的快速发展。web领域的技术，大概有10年都没有大的更新了！ 现在市场很需要优秀的、高级的前端工程师。 一方面是因为这是一个比较新的细分行业，而且前端程序员大都自学一部分，知识结构不系统；另一方面，大学里面没有这种课程，最最重要的是：北大青鸟这类培训机构也没有专门的前端工程师的培训课程！！ 吴亮在《JavaScript 王者归来》第一张的序里面说：大多数程序员认为 Javascript 过于简陋，只适合一些网页上面花哨的表现，所以不愿花费精力去学习，或者以为不学习就能掌握。 实际上，一门语言是否脚本语言，往往是她的设计目标决定，简单与复杂并不是区分脚本语言和非脚本语言的标准。 事实上，在脚本语言里面，Javascript 属于相当复杂的一门语言，他的复杂度即使放在非脚本语言中来衡量，也是一门相当复杂的语言！ <strong>Javascript 的复杂度不逊色于 Perl 和 Python！</strong> <strong>如何学习前端知识？ ** 我们生活在一个充满规则的宇宙里面。社会秩序按照规则运行，计算机语言几乎全部是规则的集合。计算机前辈们定义规则，规则约束我们，我们用规则控制数据。</strong>大部分时候，对数据的合理控制，来自于你对规则的掌握。** 学习 HTML，CSS 应该先跟着书仔细、扎实的学一遍。然后就需要做大量的练习，做各种常规的、奇怪的、大量的布局练习来捆固、理解自己的知识。 而学习 Javascript 首先要知道这门语言可以做什么，不能做什么，擅长做什么，不擅长做什么！ 如果你只想当一个普通的前端程序员，你只需要记住大部分 Javascript 函数，做一些练习就可以了。 如果你想当深入了解Javascript，你需要了解 Javascript 的原理，机制。需要知道他们的本源，需要深刻了解 Javascript 基于对象的本质。 还需要 深刻了解 浏览器宿主 下 的 Javascript 的行为、特性。 因为历史原因，Javascript一直不被重视，有点像被收养的一般！ 所以他有很多缺点，各个宿主环境下的行为不统一、内存溢出问题、执行效率低下等问题。 作为一个优秀的前端工程师还需要深入了解、以及学会处理 Javascript 的这些缺陷。 <strong>那么一名优秀的、甚至卓越的 前端开发工程师的具备什么条件</strong>？ 首先，优秀的Web前端开发工程师要在知识体系上既要有广度和深度！做到这两点，其实很难。所以很多大公司即使出高薪也很难招聘到理想的前端开发工程师。技术非黑即白，只有对和错，而技巧则见仁见智。 在以前，会一点Photoshop和Dreamweaver的操作，就可以制作网页。 现在，只掌握这些已经远远不够了。无论是开发难度上，还是开发方式上，现在的网页制作都更接近传统的网站后台开发，所以现在不再叫网页制作，而是叫Web前端开发。 Web前端开发在产品开发环节中的作用变得越来越重要，而且需要专业的前端工程师才能做好。 Web前端开发是一项很特殊的工作，涵盖的知识面非常广，既有具体的技术，又有抽象的理念。简单地说，它的主要职能就是把网站的界面更好地呈现给用户。 其次，优秀的Web前端开发工程师应该具备快速学习能力。Web发展的很快，甚至可以说这些技术几乎每天都在变化！如果没有快速学习能力，就跟不上Web发展的步伐。前端工程师必须不断提升自己，不断学习新技术、新模式；仅仅依靠今天的知识无法适应未来。Web的明天与今天必将有天壤之别，而前端工程师的工作就是要搞清楚如何通过自己的Web应用程序来体现这种翻天覆地的变化。 说到这里，我想起了一个大师说过的一句话：对于新手来说，新技术就是新技术。 对于一个高手来说，新技术不过是就技术的延伸。 再者，优秀的前端工程师需要具备良好的沟通能力，因为前端工程师至少都要满足四类客户的需求。 1、<strong>产品经理</strong>。这些是负责策划应用程序的一群人。他们会想出很多新鲜的、奇怪的、甚至是不可是实现的应用。一般来说，产品经理都追求丰富的功能。 2、<strong>UI设计师</strong>。这些人负责应用程序的视觉设计和交互模拟。他们关心的是用户对什么敏感、交互的一贯性以及整体的好用性。一般来说，UI设计师于流畅靓丽、但并不容易实现的用户界面，而且他们经常不满前端工程师造成 1px 的误差。 3、<strong>项目经理</strong>。这些人负责实际地运行和维护应用程序。项目管理的主要关注点，无外乎正常运行时间、应用程序始终正常可用的时间、性能和截止日期。项目经理追求的目标往往是尽量保持事情的简单化，以及不在升级更新时引入新问题。 4、<strong>最终用户</strong>。指的是应用程序的主要消费者。尽管前端工程师不会经常与最终用户打交道，但他们的反馈意见至关重要。最终用户要求最多的就是对个人有用的功能，以及竞争性产品所具备的功能。 <strong>Yahoo 公司 ，YUI 的开发工程师 Nicholas C. Zakas 认为：</strong> 前端工程师是计算机科学职业领域中最复杂的一个工种。绝大多数传统的编程思想已经不适用了，为了在多种平台中使用，多种技术都借鉴了大量软科学的知识和理念。成为优秀前端工程师所要具备的专业技术，涉及到广阔而复杂的领域，这些领域又会因为你最终必须服务的各方的介入而变得更加复杂。专业技术可能会引领你进入成为前端工程师的大门，但只有运用该技术创造的应用程序以及你跟他人并肩协同的能力，才会真正让你变得优秀。 ———————————— <strong>关于书籍：</strong> HTML、CSS 类别书籍，都是大同小异，在当当网、卓越网搜索一下很多推荐。如果感觉学的差不多了，可以关注一下《CSS禅意花园》，这个很有影响力。Javascript 的书籍 推荐看老外写的，国内很多 Javascript 书籍的作者对 Javascript 语言了解的都不是很透彻。 这里推荐几本 Javascript 书籍： <strong>初级读物：</strong> <strong>《JavaScript高级程序设计》</strong>：一本非常完整的经典入门书籍，被誉为JavaScript圣经之一，详解的非常详细，最新版第三版已经发布了，建议购买。 <strong>《JavaScript王者归来》</strong>百度的一个Web开发项目经理写的，作为初学者准备的入门级教程也不错。 <strong>中级读物：</strong> <strong>《JavaScript权威指南》</strong>：另外一本JavaScript圣经，讲解的也非常详细，属于中级读物，建议购买。 《<a target="_blank" rel="noopener" href="http://www.amazon.cn/mn/detailApp/ref=as_li_qf_sp_asin_tl?_encoding=UTF8&tag=vastwork-23&linkCode=as2&asin=B00264FKS0&camp=536&creative=3200&creativeASIN=B00264FKS0">JavaScript语言精粹</a>》：Yahoo大牛，JavaScript精神领袖Douglas Crockford的大作，虽然才100多页，但是字字珠玑啊！强烈建议阅读。 <strong>《高性能JavaScript》</strong>：《JavaScript高级程序设计》作者Nicholas C. Zakas的又一大作。 <strong>《Eloquent JavaScript》</strong>：这本书才200多页，非常短小，通过几个非常经典的例子（艾米丽姨妈的猫、悲惨的隐士、模拟生态圈、推箱子游戏等等）来介绍JavaScript方方面面的知识和应用方法。 <strong>高级读物：</strong> <strong>《JavaScript Patterns 》</strong>：书中介绍到了各种经典的模式，如构造函数、单例、工厂等等，值得学习。 <strong>《Pro.JavaScript.Design.Patterns》</strong>：Apress出版社讲解JavaScript设计模式的书，非常不错。 <strong>《Developing JavaScript Web Applications》</strong>：构建富应用的好书，针对MVC模式有较为深入的讲解，同时也对一些流程的库进行了讲解。 <strong>《Developing Large Web Applications <a target="_blank" rel="noopener" href="http://www.amazon.cn/gp/product/B004TJLVIS/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&tag=vastwork-23&linkCode=as2&camp=536&creative=3200&creativeASIN=B004TJLVIS">开发大规模Web应用</a>》</strong>：不仅有JavaScript方面的介绍，还有CSS、HTML方面的介绍，但是介绍的内容却都非常不错，真正考虑到了一个大型的Web程序下，如何进行JavaScript架构设计，值得一读。 要做优秀的前端工程师，还需要继续努力：<strong>《高性能网站建设指南》、《Yahoo工程师的网站性能优化的建议》、“YSLOW”性能优化建议、《网站重构》、《Web开发敏捷之道》、“ jQuery 库”、“前端框架”、“HTML5”、“CSS3”</strong>…… 这些都要深入研究！   万事开头难！如果你能到这个境界，剩下的路自己就可以走下去了。 <strong>人们常说：不想当裁缝的司机，不是个好厨师。</strong> 如果单纯只是学习前端编程语言、而不懂后端编程语言（PHP、ASP.NET，JSP、Python），也不能算作是优秀的前端工程师。 <strong>在成为一个优秀的前端工程师的道路上，充满了汗水和辛劳</strong>。   —— 王子墨  写于Hong Kong,Kowloon 2012年10月28日 20:18 <strong>本文用到的参考资料：</strong> 1、<a target="_blank" rel="noopener" href="http://www.nczonline.net/blog/2007/08/15/what-makes-a-good-front-end-engineer/" title="What makes a good front end engineer?">What makes a good front end engineer?</a> 2、<a target="_blank" rel="noopener" href="http://developer.yahoo.com/performance/rules.html" title="Best Practices for Speeding Up Your Web Site">Best Practices for Speeding Up Your Web Site</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BF%B5%E5%BF%B5%E7%A2%8E/" class="category-chain-item">念念碎</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>如何成为一名优秀的web前端工程师</div>
+      <div>http://example.com/2015-07-29 如何成为一名优秀的web前端工程师/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2015年7月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2015-08-08%20html5%E7%94%B5%E5%AD%90%E5%9B%BE%E6%96%87%E4%B9%A6%E5%88%8A-%E8%A7%86%E9%A2%91%E9%9F%B3%E9%A2%91/" title="html5电子图文">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">html5电子图文</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2015-07-28%20%E9%82%A3%E4%BA%9B%E5%B9%B4%EF%BC%8C%E9%82%A3%E5%BA%A7%E5%9F%8E%EF%BC%88candybook%EF%BC%89/" title="那些年，那座城（candybook）">
+                        <span class="hidden-mobile">那些年，那座城（candybook）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,832 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="主要结构：试卷 - 段 - 节 -（节）- 试题 可以存在多级“节” 枚举：视角(view)开发者(author)应试者(candidate)监考人(proctor)评分人(scorer)出题人(testConstructor.)辅导者(tutor) 枚举：形状(shape)形状的值总是伴随坐标值（见坐标和相关提供用于解释它们的图像）。默认(Default)默认形状指的是相关图像的整个区域。矩">
+<meta property="og:type" content="article">
+<meta property="og:title" content="试题、试卷数据结构">
+<meta property="og:url" content="http://example.com/20231025-%E8%AF%95%E9%A2%98%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="主要结构：试卷 - 段 - 节 -（节）- 试题 可以存在多级“节” 枚举：视角(view)开发者(author)应试者(candidate)监考人(proctor)评分人(scorer)出题人(testConstructor.)辅导者(tutor) 枚举：形状(shape)形状的值总是伴随坐标值（见坐标和相关提供用于解释它们的图像）。默认(Default)默认形状指的是相关图像的整个区域。矩">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.bing.com/th?id=OHR.ValDiFunes_ZH-CN2080915930_1920x1080.webp&qlt=50">
+<meta property="article:published_time" content="2023-10-25T07:47:45.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.965Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cn.bing.com/th?id=OHR.ValDiFunes_ZH-CN2080915930_1920x1080.webp&qlt=50">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>试题、试卷数据结构 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="试题、试卷数据结构"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-25 15:47" pubdate>
+          2023年10月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">试题、试卷数据结构</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <span id="more"></span>
+
+<p>主要结构：<br>试卷 - 段 - 节 -（节）- 试题</p>
+<p>可以存在多级“节”</p>
+<h2 id="枚举：视角-view"><a href="#枚举：视角-view" class="headerlink" title="枚举：视角(view)"></a>枚举：视角(view)</h2><p>开发者(author)<br>应试者(candidate)<br>监考人(proctor)<br>评分人(scorer)<br>出题人(testConstructor.)<br>辅导者(tutor)</p>
+<h2 id="枚举：形状-shape"><a href="#枚举：形状-shape" class="headerlink" title="枚举：形状(shape)"></a>枚举：形状(shape)</h2><p>形状的值总是伴随坐标值（见坐标和相关提供用于解释它们的图像）。<br>默认(Default)<br>默认形状指的是相关图像的整个区域。<br>矩形(Rect)<br>矩形区域<br>圆形(Circle)<br>圆形区域<br>多边形(Poly)<br>任意多边形区域<br>椭圆形(Ellipse)<br>不建议使用这个值，但是为了和测试互操作标准版本1兼容，所以包含了它。系统应该用圆形或多<br>边形来代替。</p>
+<h2 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h2><p>表达式用于赋值给试题变量，以及按条件控制响应行为和模板处理。表达式可以简单引用试题变<br>量的值，即基类型或层次表达式操作符定义的值集合中的一个常量值。与试题变量相同，每个表达式也<br>可以有特殊值空。</p>
+<p>选择，selection<br>顺序，ordering<br>标题块，rubricBlock<br>部分节，sectionPart</p>
+<p>标题，title<br>可见性，visible<br>一致性，keepTogether</p>
+<p>先决条件，precondition<br>分支规则，branchRule<br>试题会话控制，itemSessionControl<br>时间限制，timeLimits</p>
+<p>标识符，identifier<br>被要求的，required<br>周定，fixed</p>
+<p>随机，shuffle</p>
+<p>选择，select<br>可重复，withReplacement</p>
+<p>类：选择(selection)<br>选择测试(assessmentSection)</p>
+<p>先决条件，preCondition<br>分支规则，branchRule<br>试题会话控制，itemSessionControl<br>时间限制，timeLimits<br>测试节，assessmentSection<br>测试反馈，testFeedback</p>
+<p>标识符，identifier<br>导航模式，navigationMode<br>提交模式，submissionMode</p>
+<p>导航模式(navigationMode)<br>线性(linear)<br>非线性(nonlinear)</p>
+<p>枚举：提交模式(submissionMode)<br>单例(individual)<br>并发(simultaneous)</p>
+<p>类：部分测试(testPart)<br>相关类：测试(assessmentTest)</p>
+<p>标识符，identifier<br>标题，title<br>工具名，toolName<br>工具版本，toolVersion</p>
+<p>表达式，expression<br>模板规则，templateRule</p>
+<p>模板起始条件，templatelf<br>模板中间条件，templateElself<br>模板最终条件，templateElse</p>
+<p>模板标识符，templatel-<br>dentifier<br>显示隐藏，showHide<br>标识符，identifier</p>
+<p>参数变量，param-<br>Variable<br>数学变量，math<br>Variable</p>
+<p>结果标识符，outcomel-<br>dentifier<br>显示隐藏，show Hide<br>标识符，identifier<br>标题，title</p>
+<p>表102媒体交互(medialnteraction)类属性说明<br>自动开始，autostart<br>最小播放次数，minPlays<br>最大播放次数，maxPlays<br>循环，loop</p>
+<p>7.3.5显示元素<br>类：黑体(b)(简单内联)<br>类：大字体(big)(简单内联)<br>类：水平分割线(hr)(块静态变量，体元素，流静态变量)<br>类：斜体()（简单内联）<br>类：小字体(small)(简单内联)<br>类：下标(sub)(简单内联)<br>类：上标(sup)(简单内联)<br>类：定义monospaced字体(tt)(简单内联)</p>
+<p>65页  试题结构</p>
+<p>{<br>  identifier: ‘’, &#x2F;&#x2F; string 试题标识符<br>  title: ‘’, &#x2F;&#x2F; string 试题标题<br>  label: [], &#x2F;&#x2F; array[string] 试题标签<br>  lang: ‘’, &#x2F;&#x2F; string 试题语言<br>  adaptive: true, &#x2F;&#x2F; boolean 是否自适应<br>  timeDependent: false, &#x2F;&#x2F; boolean 是否时间相关<br>  toolName: ‘’, &#x2F;&#x2F; string 评估工具名称<br>  toolVersion: ‘’, &#x2F;&#x2F; string 评估工具版本<br>  shuffle: true, &#x2F;&#x2F; 是否随机排序<br>  score: 100,<br>  subTitle: ‘xx’, &#x2F;&#x2F; 副标题<br>  timeLimits: {<br>    minTime: 1,<br>    maxTime: 10<br>  },<br>  paragraphs: [<br>    {<br>      title: ‘段落名称’,<br>      subTitle: ‘xx’,<br>      score: 100<br>      timeLimits: {<br>        minTime: 1,<br>        maxTime: 10<br>      },<br>      visiable: true, &#x2F;&#x2F; 是否显示<br>      exist: true, &#x2F;&#x2F; 是否存在段落<br>      sections: [<br>        {<br>          title: ‘节名称’,<br>          subTitle: ‘xx’,<br>          timeLimits: {<br>            minTime: 1,<br>            maxTime: 10<br>          },<br>          exist: true, &#x2F;&#x2F; 是否存在段落<br>          timeLimits: {<br>            minTime: 1,<br>            maxTime: 10<br>          },<br>          sections: [], &#x2F;&#x2F; 本期不支持节点嵌套<br>          items: [<br>            {<br>              identifier: ‘1’,<br>              type: ‘selection’, &#x2F;&#x2F; Single-choice, multiple-choice and judgment questions<br>              difficulty: , &#x2F;&#x2F; 难度<br>              label: [], &#x2F;&#x2F; 标签<br>              knowledgePoint: [], &#x2F;&#x2F; 知识点<br>              itemBody: {<br>                title: ‘试题标题’, &#x2F;&#x2F; 块编辑器<br>                options: [<br>                  {<br>                    identifier: ‘md5’<br>                  }<br>                ]<br>                correct: [‘md5id’]<br>              },<br>              Analysis: {} &#x2F;&#x2F; 解析，块编辑器<br>            }<br>          ],<br>        }<br>      ]<br>    }<br>  ]<br>}</p>
+<p>{<br>  “试卷信息”: {<br>    “试卷ID”: “123456”,<br>    “title”: “测试试卷”,<br>    “考试时间”: “2小时”,<br>    “总分”: 100<br>  },<br>  “题目列表”: [<br>    {<br>      “类型”: “selection”,<br>      “题目ID”: “1”,<br>      “题目内容”: “以下哪个选项是正确的？”,<br>      “选项”: [<br>        {<br>          “选项ID”: “1”,<br>          “选项内容”: “A. 1+1&#x3D;2”,<br>          “正确答案”: false<br>        },<br>        {<br>          “选项ID”: “2”,<br>          “选项内容”: “B. 2+2&#x3D;5”,<br>          “正确答案”: false<br>        },<br>        {<br>          “选项ID”: “3”,<br>          “选项内容”: “C. 3+3&#x3D;6”,<br>          “正确答案”: true<br>        },<br>        {<br>          “选项ID”: “4”,<br>          “选项内容”: “D. 4+4&#x3D;9”,<br>          “正确答案”: false<br>        }<br>      ]<br>    },<br>    {<br>      “类型”: “多选题”,<br>      “题目ID”: “2”,<br>      “题目内容”: “以下哪些选项是正确的？”,<br>      “选项”: [<br>        {<br>          “选项ID”: “1”,<br>          “选项内容”: “A. 1+1&#x3D;2”,<br>          “正确答案”: true<br>        },<br>        {<br>          “选项ID”: “2”,<br>          “选项内容”: “B. 2+2&#x3D;5”,<br>          “正确答案”: false<br>        },<br>        {<br>          “选项ID”: “3”,<br>          “选项内容”: “C. 3+3&#x3D;6”,<br>          “正确答案”: true<br>        },<br>        {<br>          “选项ID”: “4”,<br>          “选项内容”: “D. 4+4&#x3D;9”,<br>          “正确答案”: false<br>        }<br>      ],<br>      “正确答案”: [true, false, true, false]<br>    },<br>    {<br>      “类型”: “判断题”,<br>      “题目ID”: “3”,<br>      “题目内容”: “1+1&#x3D;2 是正确的。”,<br>      “正确答案”: true<br>    }<br>  ]<br>}</p>
+<p>{<br>  info: {<br>    id: 123456,<br>    title: ‘测试试卷’,<br>    time: ‘2小时’,<br>    score: 100<br>  },<br>  itemList: [<br>    {<br>      type: ‘selection’,<br>      id: 1,<br>      content: ‘以下哪个选项是正确的？’,<br>      options: [<br>        {<br>          id: 1,<br>          content: ‘A. 1+1&#x3D;2’,<br>          answer: false<br>        },<br>        {<br>          id: 2,<br>          content: ‘B. 2+2&#x3D;5’,<br>          answer: false<br>        },<br>        {<br>          id: 3,<br>          content: ‘C. 3+3&#x3D;6’,<br>          answer: true<br>        },<br>        {<br>          id: 4,<br>          content: ‘D. 4+4&#x3D;9’,<br>          answer: false<br>        }<br>      ]<br>    },<br>    {<br>      type: ‘multiple’,<br>      id: 2,<br>      content: ‘以下哪些选项是正确的？’,<br>      options: [<br>        {<br>          id: 1,<br>          content: ‘A. 1+1&#x3D;2’,<br>          answer: true<br>        },<br>        {<br>          id: 2,<br>          content: ‘B. 2+2&#x3D;5’,<br>          answer: false<br>        },<br>        {<br>          id: 3,<br>          content: ‘C. 3+3&#x3D;6’,<br>          answer: true<br>        },<br>        {<br>          id: 4,<br>          content: ‘D. 4+4&#x3D;9’,<br>          answer: false<br>        }<br>      ],<br>      answer: [true, false, true, false]<br>    },<br>    {<br>      type: ‘judge’,<br>      id: 3,<br>      content: ‘1+1&#x3D;2 是正确的。’,<br>      answer: true<br>    }<br>  ]<br>}</p>
+<p>{<br>  title: ‘试卷标题’,<br>  itemBody: {<br>    selection: [<br>      {<br>        id: ‘1’,<br>        content: ‘以下哪个选项是正确的？’,<br>        options: [<br>          {<br>            id: ‘1’,<br>            content: ‘A. 1+1&#x3D;2’,<br>            isCorrect: false<br>          },<br>          {<br>            id: ‘2’,<br>            content: ‘B. 2+2&#x3D;5’,<br>            isCorrect: false<br>          },<br>          {<br>            id: ‘3’,<br>            content: ‘C. 3+3&#x3D;6’,<br>            isCorrect: true<br>          },<br>          {<br>            id: ‘4’,<br>            content: ‘D. 4+4&#x3D;9’,<br>            isCorrect: false<br>          }<br>        ]<br>      }<br>    ],<br>    multipleSelection: [<br>      {<br>        id: ‘2’,<br>        content: ‘以下哪些选项是正确的？’,<br>        options: [<br>          {<br>            id: ‘1’,<br>            content: ‘A. 1+1&#x3D;2’,<br>            isCorrect: true<br>          },<br>          {<br>            id: ‘2’,<br>            content: ‘B. 2+2&#x3D;5’,<br>            isCorrect: false<br>          },<br>          {<br>            id: ‘3’,<br>            content: ‘C. 3+3&#x3D;6’,<br>            isCorrect: true<br>          },<br>          {<br>            id: ‘4’,<br>            content: ‘D. 4+4&#x3D;9’,<br>            isCorrect: false<br>          }<br>        ],<br>        correctAnswer: [true, false, true, false]<br>      }<br>    ],<br>    judgement: [<br>      {<br>        id: ‘3’,<br>        content: ‘1+1&#x3D;2 是正确的。’,<br>        isCorrect: true<br>      }<br>    ]<br>  }<br>}</p>
+<p>表61<br>选项交互（choiceInteraction）类属性说明<br>shuffle 随机 选项是否随机排序 boolean<br>maxChoices 最大选择数 选择题最多能选择的选项数 integer<br>minChoices 最小选择数 选择题最少能选择的选项数 integer</p>
+<p>{<br>  adaptive: {<br>    item: {}, &#x2F;&#x2F; 自适应试题<br>    test: {}, &#x2F;&#x2F; 自适应测试<br>  },<br>  nonAdaptive: {<br>    item: {}, &#x2F;&#x2F; 非自适应试题<br>  },<br>  assessment: {<br>    test: {}, &#x2F;&#x2F; 评估测试<br>    variable: {}, &#x2F;&#x2F; 评估变量<br>    delivery: {<br>      system: {} &#x2F;&#x2F; 评估递送系统<br>    },<br>  },<br>  attempt: {}, &#x2F;&#x2F; 评估尝试<br>  authoring: {<br>    system: {}, &#x2F;&#x2F;开发系统<br>  },<br>  baseType: {}, &#x2F;&#x2F; 基本类型<br>  candidate: { &#x2F;&#x2F; 应试者<br>    session: {}, &#x2F;&#x2F; 会话<br>  }, &#x2F;&#x2F; 考生<br>  clone: {<br>    engine: {} 克隆机制<br>  },<br>  container: {}, &#x2F;&#x2F; 容器<br>  delivery: {<br>    engine: {}<br>  }, &#x2F;&#x2F; 交付<br>  feedback: {}, 反馈<br>  interaction: {}, &#x2F;&#x2F; 交互<br>  integrated: {<br>    feedback: {} &#x2F;&#x2F; 综合反馈<br>  }<br>  item: { &#x2F;&#x2F; 试题<br>    clone: {}, &#x2F;&#x2F; 克隆试题<br>    fragment: {}, &#x2F;&#x2F; 试题片段<br>    session: {}, &#x2F;&#x2F; 试题会话<br>    set: {}, &#x2F;&#x2F; 试题组<br>    template: {}, &#x2F;&#x2F; 试题模板<br>    variable: {}, &#x2F;&#x2F; 试题变量<br>  }, &#x2F;&#x2F; 试题<br>  material: {}, &#x2F;&#x2F; 素材<br>  modal: {<br>    feedback: {}, &#x2F;&#x2F; 模式反馈<br>  },<br>  multiple: {<br>    response: {}, &#x2F;&#x2F; 多响应<br>  },<br>  outcome: { &#x2F;&#x2F; 结果<br>    processing: {}, &#x2F;&#x2F; 结果处理<br>    variable: {}, &#x2F;&#x2F; 结果变量<br>  },<br>  response: { &#x2F;&#x2F; 响应<br>    processing: {}, &#x2F;&#x2F; 响应处理<br>    variable: {}, &#x2F;&#x2F; 响应变量<br>  },<br>  scoring: { &#x2F;&#x2F; 计分<br>    engine: {}, &#x2F;&#x2F; 机制<br>  },<br>  template: {<br>    processing: {}, &#x2F;&#x2F; 模板处理<br>    variable: {}, &#x2F;&#x2F; 模板变量<br>  },<br>  test: {<br>    feedback: {}, &#x2F;&#x2F; 测试反馈<br>    fragment: {}, &#x2F;&#x2F; 测试片段<br>    report: {}, &#x2F;&#x2F; 测试报告<br>    session: {}, &#x2F;&#x2F; 测试会话<br>  },<br>  time: {<br>    dependent: {<br>      item: {} &#x2F;&#x2F; 时间相关试题<br>    },<br>    independent: {<br>      item: {} &#x2F;&#x2F; 时间无关试题<br>    }<br>  }<br>}</p>
+<p>试题类 属性说明<br>assessmentItem &#x3D; {<br>  identifier: ‘’, &#x2F;&#x2F; string 试题标识符<br>  title: ‘’, &#x2F;&#x2F; string 试题标题<br>  label: [], &#x2F;&#x2F; array[string] 试题标签<br>  lang: ‘’, &#x2F;&#x2F; string 试题语言<br>  adaptive: true, &#x2F;&#x2F; boolean 是否自适应<br>  timeDependent: false, &#x2F;&#x2F; boolean 是否时间相关<br>  toolName: ‘’, &#x2F;&#x2F; string 评估工具名称<br>  toolVersion: ‘’, &#x2F;&#x2F; string 评估工具版本<br>} </p>
+<p>试题类 类包含说明<br>assessmentItem &#x3D; {<br>  responseDeclaration &#x2F;&#x2F; 响应声明<br>  outcomeDeclaration &#x2F;&#x2F; 结果声明<br>  templateDeclaration &#x2F;&#x2F; 模板声明<br>  templateProcessing &#x2F;&#x2F; 模板处理<br>  stylesheet &#x2F;&#x2F; 样式表<br>  itemBody &#x2F;&#x2F; 试题体<br>  responseProcessing &#x2F;&#x2F; 响应处理<br>  modalFeedback &#x2F;&#x2F; 模式反馈<br>}</p>
+<p>试题会话控制类 属性说明<br>itemSessionControl &#x3D; {<br>  maxAttempts: 2, &#x2F;&#x2F; integer 最大尝试次数<br>  showFeedback: true, &#x2F;&#x2F; boolean 反馈显示方式<br>  allowReview: true, &#x2F;&#x2F; boolean 允许回顾<br>  showSolution: true, &#x2F;&#x2F; boolean 显示解答<br>  allowComment: true, &#x2F;&#x2F; boolean 允许评论<br>  allowSkipping: true, &#x2F;&#x2F; boolean 允许跳过<br>  validateResponses: true, &#x2F;&#x2F; boolean 有效回应<br>}</p>
+<p>图像元素类 属性说明<br>img &#x3D; {<br>  src: ‘’, &#x2F;&#x2F; string 图像地址<br>  alt: ‘’, &#x2F;&#x2F; string 图像替代文本<br>  longdesc: ‘’, &#x2F;&#x2F; string 图像长描述<br>  height: ‘’, &#x2F;&#x2F; number 图像高度<br>  width: ‘’, &#x2F;&#x2F; number 图像宽度<br>}</p>
+<p>链接元素<br>a &#x3D; {<br>  href: ‘’<br>  type: ‘’<br>}</p>
+<p>是否显隐<br>showHide</p>
+<p>标题块类属性说明<br>标题块rubricBlock &#x3D; {<br>  view: ‘’, &#x2F;&#x2F; string 视图<br>}</p>
+<p>可打印变量<br>printedVariable &#x3D; {<br>  identifier: ‘’, &#x2F;&#x2F; string 标识符<br>  format: ‘’, 格式<br>  base: ‘’, &#x2F;&#x2F; string 基<br>}</p>
+<p>样式表类属性说明<br>stylesheet &#x3D; {<br>  href: ‘’, &#x2F;&#x2F; string 样式表地址<br>  type: ‘’, &#x2F;&#x2F; string 样式表类型<br>  media: ‘’, &#x2F;&#x2F; string 样式表媒体<br>  title: ‘’, &#x2F;&#x2F; string 样式表标题<br>}</p>
+<p>块交互作用<br>blockInteraction &#x3D; {<br>  prompt: ‘’, &#x2F;&#x2F; string 提示<br>}</p>
+<p>提示类<br>prompt &#x3D; {<br>  inlineStatic: “”, &#x2F;&#x2F; string 内联静态<br>}</p>
+<p>选项交互（choice）类属性说明<br>choice &#x3D; {<br>  identifier: ‘’, &#x2F;&#x2F; string 标识符<br>  fixed: true, &#x2F;&#x2F; boolean 固定<br>  templateIdentifier: ‘’, &#x2F;&#x2F; string 模板标识符<br>  showHide: ‘’, &#x2F;&#x2F; string 显示隐藏<br>}</p>
+<p>联想选择<br>associableChoice &#x3D; {<br>  matchGroup: []<br>}</p>
+<p>选项交互（choiceInteraction）类属性说明<br>choiceInteraction &#x3D; {<br>  shuffle: true, &#x2F;&#x2F; boolean 随机<br>  maxChoices: 2, &#x2F;&#x2F; integer 最大选择数<br>  minChoices: 1, &#x2F;&#x2F; integer 最小选择数<br>  simpleChoice: {<br>    flowStatic: ‘’, &#x2F;&#x2F; string 流静态<br>  } &#x2F;&#x2F;<br>}</p>
+<p>顺序交互（orderInteraction）类属性说明<br>orderInteraction &#x3D; {<br>  stuffle: true, &#x2F;&#x2F; boolean 随机<br>  maxChoices: 2, &#x2F;&#x2F; integer 最大选择数<br>  minChoices: 1, &#x2F;&#x2F; integer 最小选择数<br>  orientation: ‘’, &#x2F;&#x2F; string 方向<br>}</p>
+<p>联想交互（associateInteraction）类属性说明<br>associableChoice &#x3D; {<br>  maxAssociations: 2, &#x2F;&#x2F; integer 最大关联数<br>  minAssociations: 1, &#x2F;&#x2F; integer 最小关联数<br>  shuffle: true, &#x2F;&#x2F; boolean 随机<br>  simpleAssociableChoice: {<br>    flowStatic: ‘’, &#x2F;&#x2F; string 流静态<br>  } &#x2F;&#x2F;<br>}</p>
+<p>匹配交互（matchInteraction）类属性说明<br>matchInteraction &#x3D; {<br>  shuffle: true, &#x2F;&#x2F; boolean 随机<br>  maxAssociations: 2, &#x2F;&#x2F; integer 最大关联数<br>  minAssociations: 1, &#x2F;&#x2F; integer 最小关联数<br>  simpleMatchSet: {<br>    flowStatic: ‘’, &#x2F;&#x2F; string 流静态<br>  } &#x2F;&#x2F;<br>}</p>
+<p>简单联系选项<br>simpleAssociableChoice &#x3D; {<br>  matchMax：2, &#x2F;&#x2F; integer 最大匹配数<br>  matchMin: 1, &#x2F;&#x2F; integer 最小匹配数<br>  flowStatic: ‘’, &#x2F;&#x2F; string 流静态<br>}</p>
+<p>简单匹配集（simpleMatchSet）<br>simpleMatchSet &#x3D; {<br>  simpleAssociableChoice: {<br>    flowStatic: ‘’, &#x2F;&#x2F; string 流静态<br>  } &#x2F;&#x2F;<br>}</p>
+<p>表格72</p>
+<p>空白匹配交互（gapMatchInteraction）类属性说明<br>{<br>  shuffle: true, &#x2F;&#x2F; boolean 随机<br>}</p>
+<p>空白匹配交互（gapMatchInteraction）类包含关系说明<br>{<br>  gapChoice: {}, &#x2F;&#x2F; 空白选项<br>  blockStatic: {} &#x2F;&#x2F; 块统计<br>}</p>
+<p>空白（gap）类属性说明<br>{<br>  required: true, &#x2F;&#x2F; boolean 必填<br>}</p>
+<p>空白选项（gapChoice）类属性说明<br>{<br>  matchMax：2, &#x2F;&#x2F; integer 最大匹配数<br>  matchMin: 1, &#x2F;&#x2F; integer 最小匹配数<br>}</p>
+<p>空白文本（gapText）<br>{<br>  textOrVariable: ‘’, &#x2F;&#x2F; string 文本或变量<br>}</p>
+<p>空白图片（gapImg）类属性说明<br>{<br>  objectLabel: ‘’, &#x2F;&#x2F; 图像元素<br>}</p>
+<p>内联选项交互（inlineChoiceInteraction）类包含关系说明<br>{<br>  inlineChoice: {}, &#x2F;&#x2F; 内联选项<br>  shuffle: true, &#x2F;&#x2F; boolean 随机<br>  required: true, &#x2F;&#x2F; boolean 必填<br>}</p>
+<p>字符串交互（stringInteraction）类属性说明<br>{<br>  base: 10, &#x2F;&#x2F; 基，<br>  stringldentifier: ‘’, &#x2F;&#x2F; 字符串标识符， 标识符<br>  expectedLength: ‘’ &#x2F;&#x2F; 期望长度， 整数<br>  patternMask: ‘’, &#x2F;&#x2F; 字符串 模式<br>  placeholderText: ‘’ , &#x2F;&#x2F; 字符串，位置保持文本<br>}</p>
+<p>扩展文本交互（extendedTextInteraction）类属性说明<br>{<br>  expectedLines: 10, &#x2F;&#x2F; 期望行数<br>  format: ‘’, &#x2F;&#x2F; 格式<br>  maxStrings: 10, &#x2F;&#x2F; 最大字符串数<br>  minStrings: 1, &#x2F;&#x2F; 最小字符串数<br>}</p>
+<p>热文本交互（hottextInteraction）类属性说明<br>{<br>  maxChoices: 10, &#x2F;&#x2F; 最大选择数<br>  minChoices: 1, &#x2F;&#x2F; 最小选择数<br>  blockStatic: {}, &#x2F;&#x2F; 块统计<br>}</p>
+<p>热文本（hottext）类属性说明<br>{<br>  inlineStatic: ‘’, &#x2F;&#x2F; 内联静态<br>}</p>
+<p>热点（hotspot）类属性说明<br>{<br>  coords: ‘’, &#x2F;&#x2F; 坐标<br>  shape: ‘’, &#x2F;&#x2F; 形状<br>  hotspotLabel: ‘’, &#x2F;&#x2F; 热点标签<br>}</p>
+<p>关联热点（associableHotspot）类属性说明<br>{<br>  matchMax：2, &#x2F;&#x2F; 最大匹配数<br>  matchMin: 1, &#x2F;&#x2F; 最小匹配数<br>}</p>
+<p>图像交互（graphicInteraction）类属性说明</p>
+<p>热点交互hotspotInteration<br>{<br>  maxChoices: 10, &#x2F;&#x2F; 最大选择数<br>  minChoices: 1, &#x2F;&#x2F; 最小选择数<br>  hotspotChoice: [], &#x2F;&#x2F; 热点选项，有序的<br>}</p>
+<p>选择点交互（selectPointInteraction）类属性说明<br>{<br>  maxChoices: 10, &#x2F;&#x2F; 最大选择数<br>  minChoices: 1, &#x2F;&#x2F; 最小选择数<br>}</p>
+<p>图形顺序交互（graphicOrderInteraction）类属性说明<br>{<br>  hotspotChoice: [], &#x2F;&#x2F; 热点选项，有序的<br>  minChoices: 1, &#x2F;&#x2F; 最小选择数<br>}</p>
+<p>图形关联交互（graphicAssociateInteraction）类属性说明<br>{<br>  maxAssociations: 10, &#x2F;&#x2F; 最大关联数<br>  associableHotspot: [], &#x2F;&#x2F; 关联热点<br>}</p>
+<p>图形空白匹配交互（graphicGapMatchInteraction）类属性说明<br>{<br>  gapImg: [], &#x2F;&#x2F; 空白图片<br>  associableHotspot: [], &#x2F;&#x2F; 关联热点<br>}</p>
+<p>位置对象交互（positionObjectInteraction）类属性说明<br>{<br>  maxChoices: 10, &#x2F;&#x2F; 最大选择数<br>  minChoices: 1, &#x2F;&#x2F; 最小选择数<br>  conterPoint: ‘’, &#x2F;&#x2F; 中心点<br>}</p>
+<p>位置对象背景（positionObjectBackground）类属性说明<br>{<br>  object: {}, &#x2F;&#x2F; 对象<br>  positionObjectInteraction: {}, &#x2F;&#x2F; 位置对象交互<br>}</p>
+<p>滑动交互（sliderInteraction）类属性<br>{<br>  lowerBound: 0, &#x2F;&#x2F; 下限<br>  upperBound: 10, &#x2F;&#x2F; 上限<br>  step: 1, &#x2F;&#x2F; 步长<br>  stepLabel: ‘’, &#x2F;&#x2F; 步长标签<br>  orientation: ‘’, &#x2F;&#x2F; 方向<br>  reverse: false, &#x2F;&#x2F; 反向<br>}</p>
+<p>表 102</p>
+<p>媒体交互（mediaInteraction）类属性说明<br>{<br>  autostart: true, &#x2F;&#x2F; 自动开始<br>  loop: true, &#x2F;&#x2F; 循环<br>  minPlays: 1, &#x2F;&#x2F; 最小播放数<br>  maxPlays: 10, &#x2F;&#x2F; 最大播放数<br>  object: {}, &#x2F;&#x2F; 对象<br>}</p>
+<p>图画交互（drawingInteraction）类属性说明<br>{<br> &#x2F;&#x2F; 和图片一样<br>}</p>
+<p>上传交互（uploadInteraction）类属性说明<br>{<br>  type: ‘’, &#x2F;&#x2F; 类型 mime类型<br>}</p>
+<p>结束尝试交互（endAttemptInteraction）类属性说明<br>{<br>  title: ‘’, &#x2F;&#x2F; 标题<br>}</p>
+<p>响应处理（responseProcessing）类属性说明<br>{<br>  template: ‘’, &#x2F;&#x2F; 模板 统一资源标识符<br>  templateLocation: ‘’, &#x2F;&#x2F; 模板位置 统一资源标识符<br>}</p>
+<p>测试（assessmentTest）类属性说明<br>{<br>  identifier: ‘’, &#x2F;&#x2F; 标识符<br>  title: ‘’, &#x2F;&#x2F; 标题<br>  toolName: ‘’, &#x2F;&#x2F; 评估工具名称<br>  toolVersion: ‘’, &#x2F;&#x2F; 评估工具版本<br>  &#x2F;&#x2F; 类包含关系<br>  outcomeDeclaration: {}, &#x2F;&#x2F; 结果声明<br>  timeLimits: {}, &#x2F;&#x2F; 时间限制<br>  testPart: {}, &#x2F;&#x2F; 测试部分<br>  outcomeProcessing: {}, &#x2F;&#x2F; 结果处理<br>  testFeedback: {}, &#x2F;&#x2F; 测试反馈<br>}</p>
+<p>部分测试（testPart）类属性说明<br>{<br>  identifier: ‘’,  &#x2F;&#x2F; 标识符<br>  navigationMode: ‘’, &#x2F;&#x2F; 导航模式<br>  submissionMode: ‘’, &#x2F;&#x2F; 提价模式<br>  &#x2F;&#x2F; 类包含关系说明<br>  preCondition: ‘’, &#x2F;&#x2F; 先决条件，<br>  branchRule: ‘’, &#x2F;&#x2F; 分支规则，<br>  itemSessionControl: ‘’, &#x2F;&#x2F; 试题会话控制，<br>  timeLimits: ‘’, &#x2F;&#x2F; 时间限制，<br>  assessmentSection: ‘’, &#x2F;&#x2F; 测试节，<br>  testFeedback: ‘’, &#x2F;&#x2F; 测试反馈，<br>}</p>
+<p>选择（select）类属性说明<br>{<br>  select: 10,<br>  withReplacement: true<br>}</p>
+<p>顺序（ordering）类属性说明<br>{<br>  shuffle: true &#x2F;&#x2F; 随机<br>}</p>
+<p>部分节（sectionPart）类属性说明<br>{<br>  identifier: ‘’,<br>  required: true, &#x2F;&#x2F; 是否必要<br>  fixed: false, &#x2F;&#x2F; 固定<br>  &#x2F;&#x2F; 类包含关系<br>  precondition: {<br>    expression: ‘’ &#x2F;&#x2F; 表达式<br>  }, &#x2F;&#x2F; 先决条件<br>  branchRule: {<br>    target: ‘’,<br>    expression: ‘’ &#x2F;&#x2F; 表达式<br>  }, &#x2F;&#x2F; 分支规则<br>  itemSessionControl: ‘’, &#x2F;&#x2F; 试题会话控制<br>  timeLimits: ‘’ &#x2F;&#x2F; 时间限制<br>}</p>
+<p>测试节（assessmentSection）类属性说明<br>{<br>  title: ‘’, &#x2F;&#x2F; 标题<br>  visible: true, &#x2F;&#x2F; 可见性<br>  keepTogether: true, &#x2F;&#x2F; 一致性<br>  &#x2F;&#x2F;<br>  selection: [],<br>  ordering：[],<br>  rubricBlock: [], 标题块<br>  sectionPart: [], 部分节<br>}</p>
+<p>测试试题引用（assessmentItemRef）类属性说明<br>{<br>  href: ‘’, &#x2F;&#x2F; 地址<br>  category: ‘’, &#x2F;&#x2F; 分类<br>  variableMapping: ‘’, &#x2F;&#x2F; 变量映射<br>  weight: ‘’, &#x2F;&#x2F; 权重<br>  templateDefault: ‘’, &#x2F;&#x2F; 默认模板<br>}</p>
+<p>权重（weight）类属性说明<br>{<br>  identifier: ‘’ &#x2F;&#x2F; string 标识符<br>  value: 3.11, &#x2F;&#x2F; float 浮点数<br>}</p>
+<p>变量映射（variableMapping）类属性说明<br>{<br>  sourceIdentifier: ‘’,<br>  targetIdentifier: ‘’,<br>}</p>
+<p>默认模板（templateDefault）类属性说明<br>{<br>  templateIdentifier: ‘’,<br>  expression: ‘’, &#x2F;&#x2F; 表达式<br>}</p>
+<p>时间限制（timeLimits）类属性说明<br>{<br>  minTime: 1,<br>  maxTime: 10<br>}</p>
+<p>结果处理（outcomeProcessing）类包含关系说明<br>{<br>  outcomeRule: ‘’<br>}</p>
+<p>结果条件（outcomeCondition）<br>{<br>  outcomeIf: {<br>    expression: ‘’ &#x2F;&#x2F; 表达式<br>    outcomeRule: ‘’ &#x2F;&#x2F; 结果规则<br>  },<br>  outcomeElseIf: {<br>    expression: ‘’,<br>    outcomeRule: ‘’,<br>  },<br>  outcomeElse: {<br>    outcomeRule: ‘’<br>  }<br>}</p>
+<p>测试反馈（testFeedback）类属性说明<br>{<br>  access: ‘’, &#x2F;&#x2F; 获取，测试反馈获取<br>  outcomeIdentifier: ‘’, &#x2F;&#x2F; 标识符<br>  showHide: true, &#x2F;&#x2F; 显示或隐藏<br>  identifier: ‘’, &#x2F;&#x2F; 标识符<br>  title: ‘’, &#x2F;&#x2F; 标题<br>  testFeedback: {<br>    flowStatic: ‘’ &#x2F;&#x2F; 流统计<br>  }<br>}</p>
+<p>基础值（baseValue）类属性说明<br>{<br>  baseType: ‘’, &#x2F;&#x2F; 基础类型<br>}</p>
+<p>变量映射（variableMapping）类属性说明<br>{<br>  identifier: ‘’<br>  weightIdentifier: ‘’<br>}</p>
+<p>默认值（default）<br>{<br>  identifier: ‘’<br>}</p>
+<p>正确值（correct）<br>{<br>  identifier: ‘’<br>}</p>
+<p>映射结果（mapResponse）<br>{<br>  identifier: ‘’<br>}</p>
+<p>映射结果点（mapResponsePoint）<br>{<br>  identifier: ‘’<br>}</p>
+<p>随机整数（random整数）类属性说明<br>{<br>  min: 1, &#x2F;&#x2F; 最小值<br>  max: 3, &#x2F;&#x2F; 最大值<br>  step: 2 &#x2F;&#x2F; 步长<br>}</p>
+<p>浮点型整数（randomFloat）<br>{<br>  max: 10,<br>  min: 1<br>}</p>
+<p>试题子集（itemSubset）类属性说明<br>{<br>  sectionIdentifier: ‘’, &#x2F;&#x2F; 节点标识符<br>  includeCategory: ‘’, &#x2F;&#x2F; 包含的分类<br>  excludeCategory: ‘’, &#x2F;&#x2F; 排除的分类<br>}</p>
+<p>测试变量（testVariables）类属性说明<br>{<br>  variableIdentifier: ‘’, &#x2F;&#x2F; 变量标识符<br>  baseType: ‘’, &#x2F;&#x2F; 基础类型<br>  weightIdentifier: ‘’, &#x2F;&#x2F; 权重标识符<br>}</p>
+<p>结果最大值（outcomeMaximum）<br>{<br>  outcomeIdentifier: ‘’,<br>  weightIdentifier: ‘’<br>}</p>
+<p>结果最小值（outcomeMinimum）<br>{<br>  outcomeIdentifier: ‘’,<br>  weightIdentifier: ‘’<br>}</p>
+<p>正确范围（anyN）<br>{<br>  max: 10,<br>  min: 1<br>}</p>
+<p>匹配字符串（stringMatch）<br>{<br>  substring: true, &#x2F;&#x2F; 子串<br>  caseSensitive: true, &#x2F;&#x2F; 大小写<br>}</p>
+<p>相等（equal）<br>{<br>  toleranceMode: ‘’, &#x2F;&#x2F; 容忍度模式<br>  tolerance: 99.5% &#x2F;&#x2F; 容忍度<br>  includeLowerBound: true, &#x2F;&#x2F; 包含下界<br>  includeUpperBound: true， &#x2F;&#x2F; 包含上界<br>}</p>
+<p>取舍（equalRounded）<br>{<br>  roundingMode: ‘’ &#x2F;&#x2F; 取舍模式<br>  figures: ‘’ 舍入后的数值<br>}</p>
+<p>内部（inside）类属性说明<br>{<br>  shape: ‘’, &#x2F;&#x2F; 区域的形状<br>  coords: ‘’, &#x2F;&#x2F; 尺寸和位置<br>}</p>
+<p>定制的操作（customOperator）<br>{<br>  class: ‘’,<br>  definition: ‘’<br>}</p>
+<p>响应处理片段（responseProcessingFragment）<br>{<br>  responseRule: ‘’<br>}</p>
+<p>结果处理片段（outcomeProcessingFragment）<br>{<br>  outcomeRule: ‘’<br>}</p>
+<hr>
+<p>基本数据类型</p>
+<p>数据类型：布尔值(boolean)<br>布尔值或为真或为假。注意类似“Ys”“TRUE”“1”的词法绑定字符串等超出了本文档的范围。</p>
+<p>数据类型：坐标(coords)<br>坐标类型提供决定由相应形状定义的区域尺寸和位置坐标。<br>坐标自身是有序的长度列表。每个长度值的解释依赖于以下相关形状的值：<br>矩形：left-x,top-y,right-x,bottom-y.<br>圆形：center-x,center-.y,radius.<br>注1：当半径值是百分比值，用户代理应该基于相关对象的宽度和长度计算最终半径值。半径应该是两个值中较小<br>的一个。<br>多边形：x1,y1,x2,y2,…,xN,yN.<br>注2：第一个和最后一个x和y坐标对应该相同以避免出现多边形。当这些坐标值不同时，用户代理应该推断附加<br>的坐标对以避免出现多边形。<br>椭圆形：center-x,center-.y,h-radius,v-radius..<br>注3：不推荐椭圆形，因为它在[XHTML]中未定义。<br>一默认：无坐标值。</p>
+<p>数据类型：日期(date)》<br>指定的历法日期，包括从GB&#x2F;T7408定义的参考系统中得到的年、月和日。有效的年的区间是<br>0001-9999。年的值没有时区信息。</p>
+<p>数据类型：日期时间(datetime)<br>指定的从GB&#x2F;T7408定义的参考系统中得到的历法日期和时间。有效的年的区间是0001-9999。</p>
+<p>数据类型：持续时间(duration)<br>一段时间，以秒为单位测量。</p>
+<p>数据类型：浮点数(float)<br>IEEE双精度64位浮点类型。</p>
+<p>数据类型：标识（符identifier)<br>标识符是对试题中另一个对象的逻辑引用，标识符是应开始于字母或下划线(‘’)，并且只包含字<br>母、下划线、连字号(‘-’)、句号(‘.’，ak.a.「ull-stop),数字、连接符和扩展符的一串字符。包含句号字<br>符的标识符为将来的使用预留。特别注意标识符不能包含冒号(‘：’)字符。标识符应该具有不多于32<br>个字符。注意区分标识符的大小写。</p>
+<p>数据类型：整数(integer)<br>整数值是[-2147483648,2147483647]区间内的整数。这是二进制补码32位整数的区间.</p>
+<p>数据类型：语言(language)<br>自然语言标识符。</p>
+<p>数据类型：长度(length)<br>长度数据类型在[XHTML]中定义。</p>
+<p>数据类型：mime类型(mimeType】<br>Mime类型（类型和子类型）的集合，定义在[RFC2045]。<br>枚举：方向(orientation)<br>垂直(vertical)<br>水平(horizontal)<br>枚举：形状(shape)<br>形状的值总是伴随坐标值（见坐标和相关提供用于解释它们的图像）。<br>歌认(Default)<br>默认形状指的是相关图像的整个区域。<br>矩形(Rect)<br>矩形区域<br>圆形(Circle)<br>圆形区域<br>多边形(Poly)<br>任意多边形区域<br>椭圆形(Ellipse)<br>不建议使用这个值，但是为了和测试互操作标准版本1兼容，所以包含了它。系统应该用圆形或多<br>边形来代替。</p>
+<p>数据类型：字符串(string)<br>string值是任何字符的序列。</p>
+<p>数据类型：字符串256(string256)】<br>长度限制在256个字符的字串值（与字符串相同）。</p>
+<p>数据类型：样式类(styleClass)<br>引用类定义时使用的类型，例如在样式表中。类名不能包含空格。</p>
+<p>数据类型：统一资源标识符(URI)<br>定义在[URI]中的通用资源标识符。</p>
+<p>数据类型：类型值(valueType)<br>用于呈现任何基础类型单一值的简单类型，基础类型由评估变量数据模型定义。<br>枚举：视角(view)<br>开发者(author)<br>应试者(candidate)<br>监考人(proctor)》<br>评分人(scorer)<br>出题人(testConstructor)<br>辅导者(tutor)</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>试题、试卷数据结构</div>
+      <div>http://example.com/20231025-试题数据结构/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20231102-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91%E5%99%A8/" title="所见即所得公式编辑器">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">所见即所得公式编辑器</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20231025-PDF%E8%BD%AC%E5%9B%BE%E7%89%87%E5%8F%8A%E9%A2%84%E8%A7%88/" title="PDF转图片及预览">
+                        <span class="hidden-mobile">PDF转图片及预览</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

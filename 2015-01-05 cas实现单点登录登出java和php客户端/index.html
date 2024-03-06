@@ -1,0 +1,848 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="最近项目中需要做单点登录，客户端包含java和php，java有几个应用程序，php是discuz+supesite+ucenter，需要这几个客户端都要能单点登录和登出，在网上找了许多相关资料，今天终于配置成功，步骤如下： 1、cas服务端：下载地址：http:&#x2F;&#x2F;downloads.jasig.org&#x2F;cas&#x2F;，cas的服务端和客户端有许多版本，最新版本和老版本 有很大的区别，目前服务端最新版">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAS实现单点登录,登出(java和php客户端)">
+<meta property="og:url" content="http://example.com/2015-01-05%20cas%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E7%99%BB%E5%87%BAjava%E5%92%8Cphp%E5%AE%A2%E6%88%B7%E7%AB%AF/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="最近项目中需要做单点登录，客户端包含java和php，java有几个应用程序，php是discuz+supesite+ucenter，需要这几个客户端都要能单点登录和登出，在网上找了许多相关资料，今天终于配置成功，步骤如下： 1、cas服务端：下载地址：http:&#x2F;&#x2F;downloads.jasig.org&#x2F;cas&#x2F;，cas的服务端和客户端有许多版本，最新版本和老版本 有很大的区别，目前服务端最新版">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-01-05T05:44:22.000Z">
+<meta property="article:modified_time" content="2024-03-01T07:04:02.217Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>CAS实现单点登录,登出(java和php客户端) - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CAS实现单点登录,登出(java和php客户端)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2015-01-05 13:44" pubdate>
+          2015年1月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          762 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CAS实现单点登录,登出(java和php客户端)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>最近项目中需要做单点登录，客户端包含java和php，java有几个应用程序，php是discuz+supesite+ucenter，需要这几个客户端都要能单点登录和登出，在网上找了许多相关资料，今天终于配置成功，步骤如下： <strong>1、cas服务端：下载地址：</strong><a target="_blank" rel="noopener" href="http://downloads.jasig.org/cas/"><strong>http://downloads.jasig.org/cas/</strong></a><strong>，</strong>cas的服务端和客户端有许多版本，最新版本和老版本 有很大的区别，目前服务端最新版本为：cas-server-3.4.4-release.zip 解压cas-server-3.4.4-release.zip将modules目录下的cas-server-webapp-3.4.4.war改名称为cas.war复制到tomcat的webapps下，启动tomcat，访问：<a target="_blank" rel="noopener" href="http://localhost:8080/cas/login">http://localhost:8080/cas/login</a> 就可以看到登录界面了： cas服务端默认采用的是 用户名&#x3D;密码的验证，并且采用的是https验证，需要给tomact配置证书，本系统没有采用https验证，若采用https验证可参考： <a target="_blank" rel="noopener" href="http://blog.csdn.net/haydenwang8287/archive/2010/07/26/5765941.aspx">http://blog.csdn.net/haydenwang8287/archive/2010/07/26/5765941.aspx</a>。 <strong>1.1、若不采用https验证，服务器端需要配置</strong> 1）、</p>
+<p>cas&#x2F;WEB-INF&#x2F;deployer&#x2F;ConfigContext.xml<br><bean class="org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler"
+p:httpClient-ref="httpClient"/><br>&#x2F;&#x2F;增加参数p:requireSecure&#x3D;”false”，是否需要安全验证，即HTTPS，false为不采用，加上去之后如下：<br><bean class="org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler"
+p:httpClient-ref="httpClient"  p:requireSecure="false"/></p>
+<p>2）、</p>
+<p>cas&#x2F;WEB-INF&#x2F;spring-configuration&#x2F;ticketGrantingTicketCookieGenerator.xml<br><bean id="ticketGrantingTicketCookieGenerator" class="org.jasig.cas.web.support.CookieRetrievingCookieGenerator"
+p:cookieSecure="true"
+p:cookieMaxAge="-1"
+p:cookieName="CASTGC"
+p:cookiePath="/cas" /></p>
+<p>参数p:cookieSecure&#x3D;”true”，同理为HTTPS验证相关，TRUE为采用HTTPS验证，FALSE为不采用https验证。 参数p:cookieMaxAge&#x3D;”-1”，简单说是COOKIE的最大生命周期，-1为无生命周期，即只在当前打开的IE窗口有效，IE关闭或重新打开其它窗口，仍会要求验证。可以根据需要修改为大于0的数字，比如3600等，意思是在3600秒内，打开任意IE窗口，都不需要验证。 <strong>1.2、服务器端退出访问：<a target="_blank" rel="noopener" href="http://localhost:8080/cas/logout">http://localhost:8080/cas/logout</a>,</strong> 若希望退出后能返回则需要配置 服务端cas-servlet.xml配置</p>
+<p>&lt;bean id&#x3D;”logoutController” class&#x3D;”org.jasig.cas.web.LogoutController” … …&#x2F;&gt;</p>
+<p>增加属性 p:followServiceRedirects&#x3D;”true” 退出链接为：<a target="_blank" rel="noopener" href="http://localhost:8080/cas/logout?service=http://localhost:8080/Casclient/index.jsp">http://localhost:8080/cas/logout?service=http://localhost:8080/Casclient/index.jsp</a> ** 1.3、更改服务器端验证方式，采用数据库验证：** 修改配置文件deployerConfigContext.xml，加dbcp连接池：（以oracle为例）</p>
+<p><bean id="casDataSource" class="org.apache.commons.dbcp.BasicDataSource"><br><property name="driverClassName"><br><value>oracle.jdbc.driver.OracleDriver</value><br></property><br><property name="url"><br><value>jdbc:oracle:thin:@192.168.18.26:1521:orcl</value><br></property><br><property name="username"><br><value>test</value><br></property><br><property name="password"><br><value>test</value><br></property><br></bean></p>
+<p>需要的jar包有：（见附件：cas-server-support-jdbc-3.4.4.jar，commons-dbcp-1.2.1.jar，commons-pool-1.3.jar，ojdbc14_g.jar） 配置加密方式，cas内置的有MD5加密，也可以写自己的加密类，实现org.jasig.cas.authentication.handler.PasswordEncoder接口即可：</p>
+<p><bean id="passwordEncoder"
+class="org.jasig.cas.authentication.handler.DefaultPasswordEncoder" autowire="byName"><br><constructor-arg value="MD5"/><br></bean></p>
+<p>注释掉默认的验证方式，采用数据库查询验证：</p>
+<p><property name="authenticationHandlers"><br><list></p>
+<!----注释掉这里的默认验证方式，采用以下验证QueryDatabaseAuthenticationHandler-->
+<!--
+<bean
+class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" /> -->
+<p><bean class="org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler"><br><property name="dataSource" ref="casDataSource" /><br><property name="sql"
+value="select password from userinfo where lower(username) = lower(?)" /><br><property  name="passwordEncoder"  ref="passwordEncoder"/><br></bean><br></list><br></property></p>
+<p>-————–到这里cas服务端的配置就完成了。 <strong>2、java客户端配置，下载客户端：</strong><a target="_blank" rel="noopener" href="http://downloads.jasig.org/cas-clients/"><strong>http://downloads.jasig.org/cas-clients/</strong></a><strong>，目前最新版本为：cas-client-3.2.0</strong> 将modules下的jar复制到java客户端Casclient1的lib下，在web.xml中配置过滤器，配置如下（详情见附件）</p>
+<?xml version="1.0" encoding="UTF-8"?>
+<p><web-app version="2.4"
+xmlns="http://java.sun.com/xml/ns/j2ee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+http://java.sun.com/xml/ns/j2ee/web-app\_2\_4.xsd"></p>
+<!-- 用于单点退出，该过滤器用于实现单点登出功能，通知其他应用单点登出-->
+<listener>
+<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+</listener>
+<!-- 该过滤器用于实现单点登出功能，可选配置。 -->
+<filter>
+<filter-name>CAS Single Sign Out Filter</filter-name>
+<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+</filter>
+<filter-mapping>
+<filter-name>CAS Single Sign Out Filter</filter-name>
+<url-pattern>/\*</url-pattern>
+</filter-mapping>
+<!-- 该过滤器负责用户的认证工作，必须启用它 -->
+<filter>
+<filter-name>CASFilter</filter-name>
+<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+<init-param>
+<param-name>casServerLoginUrl</param-name>
+<param-value>http://192.168.18.8:8080/cas/login</param-value>
+<!--这里的server是服务端的IP-->
+</init-param>
+<init-param>
+<param-name>serverName</param-name>
+<param-value>http://192.168.18.8:8989</param-value>
+</init-param>
+</filter>
+<filter-mapping>
+<filter-name>CASFilter</filter-name>
+<url-pattern>/\*</url-pattern>
+</filter-mapping>
+<!-- 该过滤器负责对Ticket的校验工作，必须启用它 -->
+<filter>
+<filter-name>CAS Validation Filter</filter-name>
+<filter-class>
+org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+<init-param>
+<param-name>casServerUrlPrefix</param-name>
+<param-value>http://192.168.18.8:8080/cas</param-value>
+</init-param>
+<init-param>
+<param-name>serverName</param-name>
+<param-value>http://192.168.18.8:8989</param-value>
+</init-param>
+</filter>
+<filter-mapping>
+<filter-name>CAS Validation Filter</filter-name>
+<url-pattern>/\*</url-pattern>
+</filter-mapping>
+<!--
+
+<p>该过滤器负责实现HttpServletRequest请求的包裹， 比如允许开发者通过HttpServletRequest的getRemoteUser()方法获得SSO登录用户的登录名，可选配置。</p>
+<p>--&gt;<br><filter><br><filter-name>CAS HttpServletRequest Wrapper Filter</filter-name><br><filter-class><br>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class><br></filter><br><filter-mapping><br><filter-name>CAS HttpServletRequest Wrapper Filter</filter-name><br><url-pattern>&#x2F;*</url-pattern><br></filter-mapping><br><filter><br><filter-name>CAS Assertion Thread Local Filter</filter-name><br><filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class><br></filter><br><filter-mapping><br><filter-name>CAS Assertion Thread Local Filter</filter-name><br><url-pattern>&#x2F;*</url-pattern><br></filter-mapping><br><welcome-file-list><br><welcome-file>index.jsp</welcome-file><br></welcome-file-list><br></web-app></p>
+<p>页面为：</p>
+<p>&lt;%<br>AttributePrincipal principal &#x3D; (AttributePrincipal)request.getUserPrincipal();<br>String username &#x3D; principal.getName();<br>%&gt;<br><br/>———————————————————-<br/></p>
+<h1>登录成功，这是客户端1啊</h1><br/>
+用户名：<%=username %><br/>
+<a target="_blank" rel="noopener" href="http://localhost:8989/Casclient2/index.jsp">进入客户端2</a><br/>
+<a target="_blank" rel="noopener" href="http://localhost:8080/cas/logout?service=http://localhost:8989/Casclient1/index.jsp">退出</a><br/>
+
+<p>-———-到这里java客户端配置成功，发布到tomcat，复制Casclient1改名为Casclient2,启动tomcat， 访问Casclient1，跳转到登录页面，登录成功后成功转向登录成功页面，这时访问Casclient2发现不需要登录即显示登录成功页面，java单点登录成功。 <strong>3、配置php客户端，下载php客户端：<a target="_blank" rel="noopener" href="http://downloads.jasig.org/cas-clients/php/">http://downloads.jasig.org/cas-clients/php/</a> ，目前最新版本为：CAS-1.2.0RC2</strong> 新建php工程：Phpcasclient1,将CAS文件夹和CAS.php复制到工程中，修改CAS&#x2F;client.php,将其中的https改为http，将docs&#x2F;examples&#x2F;example_simple.php 复制到工程中，修改如下：</p>
+<?php
+// phpCAS simple client
+// import phpCAS lib
+include\_once('CAS.php');
+phpCAS::setDebug();
+// initialize phpCAS
+phpCAS::client(CAS\_VERSION\_2\_0,'192.168.18.8',8080,'cas');
+// no SSL validation for the CAS server
+phpCAS::setNoCasServerValidation();
+// force CAS authentication
+phpCAS::forceAuthentication();
+// at this step, the user has been authenticated by the CAS server
+// and the user's login name can be read with phpCAS::getUser().
+// logout if desired
+if (isset($\_REQUEST\['logout'\])) {
+$param=array("service"=>"http://localhost/Phpcasclient1/example\_simple.php");//退出登录后返回
+phpCAS::logout($param);
+}
+// for this test, simply print that the authentication was successfull
+?>
+<html>
+<head>
+<title>phpCAS simple client</title>
+</head>
+<body>
+<h1>Successfull Authentication!这是客户端1</h1>
+<p>the user's login is <b><?php echo phpCAS::getUser(); ?></b>.</p>
+<p>phpCAS version is <b><?php echo phpCAS::getVersion(); ?></b>.</p>
+<p><a target="_blank" rel="noopener" href="http://192.168.18.8:8989/Casclient1/index.jsp">去java客户端1</a></p>
+<p><a href="?logout=">退出</a></p>
+</body>
+</html>
+
+<p>php配置需要开启php_curl,可以复制Phpcasclient1为Phpcasclient2 访问：<a target="_blank" rel="noopener" href="http://local/">http://localhost/Phpcasclient1/example_simple.php</a>,跳转到登录页面，登录成功后访问Phpcasclient2，不需要登录， php单点登录成功，这时再访问java客户端发现也不需要登录，php和java应用之间单点登录成功。 注：php的phpCAS::client(CAS_VERSION_2_0,’192.168.18.8’,8080,’cas’);地址需要和java的web.xml中的cas服务器地址一致，我开始一个写的ip：192.168.18.8，一个写的localhost， php和java总是不能同步登录，郁闷了好久 —————-到这里java和php的客户端已经配置完成，现在你会发现php和java之间不能单点登出，php端退出java客户端也退出，反之java退出但是php却没有同步退出 这里需要做一个配置，在</p>
+<p>phpCAS::setNoCasServerValidation();<br>&#x2F;&#x2F; force CAS authentication<br>phpCAS::forceAuthentication();</p>
+<p>这里加上</p>
+<p>phpCAS::setNoCasServerValidation();<br>&#x2F;&#x2F; force CAS authentication<br>phpCAS::handleLogoutRequests();  这里会检测服务器端java退出的通知，就能实现php和java间同步登出了。<br>phpCAS::forceAuthentication();</p>
+<p>至于discuz+supesite的单点登录，再了解了php单点登录的原理后就需要改造discuz+supesite的登录代码了，discuz的为logging.php supersite的为batch.login.php，俺是做java开发的，对php不是很熟悉，所以改造的觉得不是很靠谱，大致是先让discuz单点登录，获取用户名，根据用户 获取数据库中的密码再交给discuz系统自己的登录系统登录。discuz是采用cookie验证的，所以在java端退出后，discuz不会退出。 若谁有改造很成功的可以交流下。 参考网址： <a target="_blank" rel="noopener" href="http://blog.csdn.net/DL88250/archive/2008/08/20/2799522.aspx">http://blog.csdn.net/DL88250/archive/2008/08/20/2799522.aspx</a> <a target="_blank" rel="noopener" href="http://www.wsria.com/archives/1349">http://www.wsria.com/archives/1349</a> <a target="_blank" rel="noopener" href="http://tonrenyuye.blog.163.com/blog/static/30012576200922925820471/">http://tonrenyuye.blog.163.com/blog/static/30012576200922925820471/</a> <a target="_blank" rel="noopener" href="http://www.discuz.net/thread-1416206-1-1.html">http://www.discuz.net/thread-1416206-1-1.html</a>   <a target="_blank" rel="noopener" href="http://zxs19861202.iteye.com/blog/855856">http://zxs19861202.iteye.com/blog/855856</a> JavaEye</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83/" class="category-chain-item">学无止境</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CAS实现单点登录,登出(java和php客户端)</div>
+      <div>http://example.com/2015-01-05 cas实现单点登录登出java和php客户端/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2015年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2015-01-16%202015%E5%B9%B4%E5%BF%B5%E5%BF%B5%E7%A2%8E/" title="2015年念念碎">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2015年念念碎</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2015-01-05%20discuz-%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-g/" title="Discuz! 全局变量 $_G">
+                        <span class="hidden-mobile">Discuz! 全局变量 $_G</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

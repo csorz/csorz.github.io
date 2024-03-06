@@ -1,0 +1,1006 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="javascript-sdk 设计指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript-sdk-design">
+<meta property="og:url" content="http://example.com/20201015-js-sdk/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="javascript-sdk 设计指南">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.bing.com/th?id=OHR.SunriseCastle_ZH-CN6235928386_UHD.jpg">
+<meta property="article:published_time" content="2020-10-15T02:59:56.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.937Z">
+<meta property="article:author" content="csorz">
+<meta property="article:tag" content="js-sdk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cn.bing.com/th?id=OHR.SunriseCastle_ZH-CN6235928386_UHD.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>javascript-sdk-design - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="javascript-sdk-design"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-10-15 10:59" pubdate>
+          2020年10月15日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">javascript-sdk-design</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>javascript-sdk 设计指南</p>
+<span id="more"></span>
+<h1 id="javascript-sdk-design-cn"><a href="#javascript-sdk-design-cn" class="headerlink" title="javascript-sdk-design-cn"></a>javascript-sdk-design-cn</h1><p><a target="_blank" rel="noopener" href="https://github.com/hueitan/javascript-sdk-design">javascript-sdk-design</a> 的中文版</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>本文介绍如何对开发 JavaScript 网页应用设计SDK，适用于桌面端，移动端，不同平台，不同浏览器。对于JavaScript实现的非网页应用（硬件，嵌入式，node&#x2F;io js）场景则不适用，这些场景会在未来介绍。</p>
+<p>由于我没有找到比较好的 JavaScript SDK 文档，所以把我的个人经验做了整理和记录。JavaScript-SDK-Design 不仅仅介绍SDK，还包括用户和浏览器的关系。写的越多，想的越多，就开始关注不同平台，不同浏览器之间的性能和差异。</p>
+<h2 id="什么是-SDK"><a href="#什么是-SDK" class="headerlink" title="什么是 SDK"></a>什么是 SDK</h2><p>SDK是软件开发工具包 的缩写，是能够让编程者开发出应用程序的软件包。一般SDK包括一个或多个API、开发工具集和说明文档。</p>
+<h2 id="设计哲学"><a href="#设计哲学" class="headerlink" title="设计哲学"></a>设计哲学</h2><p>SDK设计成什么样子取决于SDK用途，但是必须要原生 ，简短 ，执行迅速 ，代码干净 ，易读 ，可测试 。</p>
+<p>用原生 Javascript 写代码，不推荐使用Livescript, Coffeescript, Typescript 这种编译生成 JS 的语言。用原生 Javascript 写是一个更快更好的方式。</p>
+<p>尽量不要使用jQuery，而应该使用轻量的类库代替。如果是DOM操作可以使用zepto.js 。如果要发HTTP ajax请求 使用window.fetch 。</p>
+<p>SDK版本一旦发布，要保证可以兼容旧版本并且要能被将来的版本兼容。所以要给SDK写文档 、写注释、做单元测试和情景测试。</p>
+<h2 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h2><p>参考书籍:<a target="_blank" rel="noopener" href="http://thirdpartyjs.com/">第三方JavaScript</a></p>
+<p>哪些情况你应该设计SDK？</p>
+<ul>
+<li><ol>
+<li>嵌入的widgets - 在第三方网页上嵌入的交互应用(Disqus, Google Maps, Facebook Widget)</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>分析和度量 - 收集用户信息，了解访客和网站交互的方式 (GA, Flurry, Mixpanel)。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>封装网络服务 - 开发调用外部网站服务的客户端应用. (Facebook Graph API)</li>
+</ol>
+</li>
+</ul>
+<p>还有哪些情况应该使用SDK ？可以提建议 。</p>
+<p>应该使用异步语法来加载脚本。 应该改善用户体验，SDK类库不应该影响主页面的加载。</p>
+<h4 id="异步语法"><a href="#异步语法" class="headerlink" title="异步语法"></a>异步语法</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">  (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> s = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;script&#x27;</span>);</span><br><span class="language-javascript">    s.<span class="hljs-property">type</span> = <span class="hljs-string">&#x27;text/javascript&#x27;</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">async</span> = <span class="hljs-literal">true</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://xxx.com/sdk.js&#x27;</span>;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> x = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementsByTagName</span>(<span class="hljs-string">&#x27;script&#x27;</span>)[<span class="hljs-number">0</span>];</span><br><span class="language-javascript">    x.<span class="hljs-property">parentNode</span>.<span class="hljs-title function_">insertBefore</span>(s, x);</span><br><span class="language-javascript">  &#125;)();</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>针对现代浏览器，可以使用async。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">async</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://xxx.com/sdk.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h4 id="传统语法"><a href="#传统语法" class="headerlink" title="传统语法"></a>传统语法</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://xxx.com/sdk.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h4><p>下列图标表示异步语法和同步语法的差别。</p>
+<p>异步:</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">|</span><span class="hljs-literal">----</span><span class="hljs-comment">A</span><span class="hljs-literal">-----</span><span class="hljs-comment">|</span><br>   <span class="hljs-comment">|</span><span class="hljs-literal">-----</span><span class="hljs-comment">B</span><span class="hljs-literal">-----------</span><span class="hljs-comment">|</span><br>       <span class="hljs-comment">|</span><span class="hljs-literal">-------</span><span class="hljs-comment">C</span><span class="hljs-literal">------</span><span class="hljs-comment">|</span><br></code></pre></td></tr></table></figure>
+
+<p>同步:</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">|</span><span class="hljs-literal">----</span><span class="hljs-comment">A</span><span class="hljs-literal">-----</span><span class="hljs-comment">||</span><span class="hljs-literal">-----</span><span class="hljs-comment">B</span><span class="hljs-literal">-----------</span><span class="hljs-comment">||</span><span class="hljs-literal">-------</span><span class="hljs-comment">C</span><span class="hljs-literal">------</span><span class="hljs-comment">|</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="异步的问题"><a href="#异步的问题" class="headerlink" title="异步的问题"></a>异步的问题</h4><p>如果异步加载，不能像下列代码一样调用SDK。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">  (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> s = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;script&#x27;</span>);</span><br><span class="language-javascript">    s.<span class="hljs-property">type</span> = <span class="hljs-string">&#x27;text/javascript&#x27;</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">async</span> = <span class="hljs-literal">true</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://xxx.com/sdk.js&#x27;</span>;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> x = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementsByTagName</span>(<span class="hljs-string">&#x27;script&#x27;</span>)[<span class="hljs-number">0</span>];</span><br><span class="language-javascript">    x.<span class="hljs-property">parentNode</span>.<span class="hljs-title function_">insertBefore</span>(s, x);</span><br><span class="language-javascript">  &#125;)();</span><br><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-comment">// execute your script immediately here</span></span><br><span class="language-javascript">  <span class="hljs-title class_">SDKName</span>(<span class="hljs-string">&#x27;some arguments&#x27;</span>);</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>这样做会导致未知的结果，因为SDKName()执行的时候尚未被加载完成。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">  (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-comment">// add a queue event here</span></span><br><span class="language-javascript">    <span class="hljs-title class_">SDKName</span> = <span class="hljs-title class_">SDKName</span> || <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">      (<span class="hljs-title class_">SDKName</span>.<span class="hljs-property">q</span> = <span class="hljs-title class_">SDKName</span>.<span class="hljs-property">q</span> || []).<span class="hljs-title function_">push</span>(<span class="hljs-variable language_">arguments</span>);</span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> s = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;script&#x27;</span>);</span><br><span class="language-javascript">    s.<span class="hljs-property">type</span> = <span class="hljs-string">&#x27;text/javascript&#x27;</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">async</span> = <span class="hljs-literal">true</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://xxx.com/sdk.js&#x27;</span>;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> x = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementsByTagName</span>(<span class="hljs-string">&#x27;script&#x27;</span>)[<span class="hljs-number">0</span>];</span><br><span class="language-javascript">    x.<span class="hljs-property">parentNode</span>.<span class="hljs-title function_">insertBefore</span>(s, x);</span><br><span class="language-javascript">  &#125;)();</span><br><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-comment">// execute your script immediately here</span></span><br><span class="language-javascript">  <span class="hljs-title class_">SDKName</span>(<span class="hljs-string">&#x27;some arguments&#x27;</span>);</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>或者 使用[].push</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">  (<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-comment">// add a queue event here</span></span><br><span class="language-javascript">    <span class="hljs-title class_">SDKName</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">SDKName</span> || (<span class="hljs-variable language_">window</span>.<span class="hljs-property">SDKName</span> = []);</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> s = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;script&#x27;</span>);</span><br><span class="language-javascript">    s.<span class="hljs-property">type</span> = <span class="hljs-string">&#x27;text/javascript&#x27;</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">async</span> = <span class="hljs-literal">true</span>;</span><br><span class="language-javascript">    s.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://xxx.com/sdk.js&#x27;</span>;</span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> x = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementsByTagName</span>(<span class="hljs-string">&#x27;script&#x27;</span>)[<span class="hljs-number">0</span>];</span><br><span class="language-javascript">    x.<span class="hljs-property">parentNode</span>.<span class="hljs-title function_">insertBefore</span>(s, x);</span><br><span class="language-javascript">  &#125;)();</span><br><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-comment">// execute your script immediately here</span></span><br><span class="language-javascript">  <span class="hljs-title class_">SDKName</span>.<span class="hljs-title function_">push</span>([<span class="hljs-string">&#x27;some arguments&#x27;</span>]);</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>还有其他方式加载代码。</p>
+<p><strong>ES2015中的Import</strong></p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">import <span class="hljs-string">&quot;your-sdk&quot;</span><span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p><strong>使用Modular</strong></p>
+<p>完整代码请看Loading JavaScript Modules。</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-built_in">module</span>(<span class="hljs-string">&#x27;sdk.js&#x27;</span>,[<span class="hljs-string">&#x27;sdk-track.js&#x27;</span>, <span class="hljs-string">&#x27;sdk-beacon.js&#x27;</span>],<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">track, beacon</span>) </span>&#123;<br>  <span class="hljs-comment">// sdk definitions, split into local and global/exported definitions</span><br>  <span class="hljs-comment">// local definitions</span><br>  <span class="hljs-comment">// exports</span><br>&#125;);<br><br><span class="hljs-comment">// you should contain this &quot;module&quot; method</span><br>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br><br>  <span class="hljs-keyword">var</span> modules = &#123;&#125;; <span class="hljs-comment">// private record of module data</span><br><br>  <span class="hljs-comment">// modules are functions with additional information</span><br>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">module</span>(<span class="hljs-params">name,imports,mod</span>) </span>&#123;<br><br>    <span class="hljs-comment">// record module information</span><br>    <span class="hljs-built_in">window</span>.console.log(<span class="hljs-string">&#x27;found module &#x27;</span>+name);<br>    modules[name] = &#123;<span class="hljs-attribute">name</span>:<span class="hljs-attribute">name, imports</span>: imports, <span class="hljs-attribute">mod</span>: mod&#125;;<br><br>    <span class="hljs-comment">// trigger loading of import dependencies</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> imp <span class="hljs-keyword">in</span> imports) loadModule(imports[imp]);<br><br>    <span class="hljs-comment">// check whether this was the last module to be loaded</span><br>    <span class="hljs-comment">// in a given dependency group</span><br>    loadedModule(name);<br>  &#125;<br><br>  <span class="hljs-comment">// function loadModule</span><br>  <span class="hljs-comment">// function loadedModule</span><br><br>  <span class="hljs-built_in">window</span>.module = <span class="hljs-built_in">module</span>;<br>&#125;)();<br></code></pre></td></tr></table></figure>
+
+<h2 id="SDK版本管理"><a href="#SDK版本管理" class="headerlink" title="SDK版本管理"></a>SDK版本管理</h2><p>不要用类似 brand-v<timestamp>.js brand-v<datetime>.js brand-v1-v2.js的版本号，这样会导致SDK使用者不知道最新的版本是什么。</p>
+<p>使用 <a target="_blank" rel="noopener" href="http://semver.org/">Semantic Versioning </a> “主版本.小版本.补丁号”这种有语义的命名方式管理版本。v1.0.0 v1.5.0 v2.0.0这样的版本号让使用者容易在changelog文档中跟综和查找。</p>
+<p>通常情况下，我们可以通过不同的方式来说明SDK版本，这取决于您的服务和设计</p>
+<p><strong>Using Query String path.</strong></p>
+<p><a target="_blank" rel="noopener" href="http://xxx.com/sdk.js?v=1.0.0">http://xxx.com/sdk.js?v=1.0.0</a></p>
+<p><strong>Using the Folder Naming.</strong></p>
+<p><a target="_blank" rel="noopener" href="http://xxx.com/v1.0.0/sdk.js">http://xxx.com/v1.0.0/sdk.js</a></p>
+<p><strong>Using hostname (subdomain).</strong><br><a target="_blank" rel="noopener" href="http://v1/">http://v1</a>.<DOMAIN>.com&#x2F;sdk.js</p>
+<h2 id="Changelog-Document-日志文档"><a href="#Changelog-Document-日志文档" class="headerlink" title="Changelog Document 日志文档"></a>Changelog Document 日志文档</h2><p>如果SDK有升级，应该通知SDK使用者。major，minor版本甚至是修改bug都应该写Changelog Document。 使用者会有一个好的体验。 - Keep a Changelog, Github Repo</p>
+<p>每个版本都应该有：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs prolog">[<span class="hljs-symbol">Added</span>] for new features.<br>[<span class="hljs-symbol">Changed</span>] for changes in existing functionality.<br>[<span class="hljs-symbol">Deprecated</span>] for once-stable features removed in upcoming releases.<br>[<span class="hljs-symbol">Removed</span>] for deprecated features removed in this release.<br>[<span class="hljs-symbol">Fixed</span>] for any bug fixes.<br>[<span class="hljs-symbol">Security</span>] to invite users to upgrade in case of vulnerabilities.<br></code></pre></td></tr></table></figure>
+
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><p>应该最多定义一个命名空间，不要使用通用的名字定义命名空间以防止和其他类库冲突。</p>
+<p>应该用(function () { … })()把SDK代码包起来。</p>
+<p>jQuery, Node.js等等类库经常使用的一个方法是把创造私有命名空间的整个文件用闭包包起来，这样可以避免和其他模块冲突。</p>
+<p>避免 命名空间冲突</p>
+<p>参考Google Analytics项目你可以通过改变ga的值来定义你的命名空间。</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scheme">(<span class="hljs-name">function</span>(<span class="hljs-name">i</span>,s,o,g,r,a,m)&#123;i[<span class="hljs-symbol">&#x27;GoogleAnalyticsObject</span>&#x27;]=r<span class="hljs-comment">;i[r]=i[r]||function()&#123;</span><br>(<span class="hljs-name">i</span>[<span class="hljs-name">r</span>].q=i[<span class="hljs-name">r</span>].q||[]).push(<span class="hljs-name">arguments</span>)&#125;,i[<span class="hljs-name">r</span>].l=1*new Date()<span class="hljs-comment">;a=s.createElement(o),</span><br>m=s.getElementsByTagName(<span class="hljs-name">o</span>)[<span class="hljs-name">0</span>]<span class="hljs-comment">;a.async=1;a.src=g;m.parentNode.insertBefore(a,m)</span><br>&#125;)(<span class="hljs-name">window</span>,document,<span class="hljs-symbol">&#x27;script</span>&#x27;,<span class="hljs-symbol">&#x27;//www.google-analytics.com/analytics.js</span>&#x27;,<span class="hljs-symbol">&#x27;ga</span>&#x27;)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>OpenX 的经验是提供一个参数来请求相关命名空间。</p>
+<script src="http://your_domain/sdk?namespace=yourcompany"></script>
+
+
+<h2 id="存储机制"><a href="#存储机制" class="headerlink" title="存储机制"></a>存储机制</h2><h4 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h4><p>考虑subdomain 和 path 情况，使用Cookie的范围非常复杂。</p>
+<p>对于path&#x3D;&#x2F;， 在 <a target="_blank" rel="noopener" href="http://github.com/">http://github.com</a> ，cookie有first&#x3D;value1 在<a target="_blank" rel="noopener" href="http://sub.github.com,/">http://sub.github.com，</a> 有另一个cookie:second&#x3D;value2</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><a target="_blank" rel="noopener" href="http://github.com/">http://github.com</a></th>
+<th align="center"><a target="_blank" rel="noopener" href="http://sub.github.com/">http://sub.github.com</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">first&#x3D;value1</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+</tr>
+<tr>
+<td align="center">second&#x3D;value2</td>
+<td align="center">✘</td>
+<td align="center">✓</td>
+</tr>
+</tbody></table>
+<p>first&#x3D;value1 在 <a target="_blank" rel="noopener" href="http://github.com/">http://github.com</a> 生效, second&#x3D;value2 在 <a target="_blank" rel="noopener" href="http://github.com/path1">http://github.com/path1</a> 生效， third&#x3D;value3 在 <a target="_blank" rel="noopener" href="http://sub.github.com/">http://sub.github.com</a> 生效,</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><a target="_blank" rel="noopener" href="http://github.com/">http://github.com</a></th>
+<th align="center"><a target="_blank" rel="noopener" href="http://github.com/path1">http://github.com/path1</a></th>
+<th align="center"><a target="_blank" rel="noopener" href="http://sub.github.com/">http://sub.github.com</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">first&#x3D;value1</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+</tr>
+<tr>
+<td align="center">second&#x3D;value2</td>
+<td align="center">✘</td>
+<td align="center">✓</td>
+<td align="center">✘</td>
+</tr>
+<tr>
+<td align="center">third&#x3D;value3</td>
+<td align="center">✘</td>
+<td align="center">✘</td>
+<td align="center">✓</td>
+</tr>
+</tbody></table>
+<p><strong>检查Cookie可写性</strong></p>
+<p>给定一个域（假设是当前主机名），检查cookie是否可写。</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs arcade"><span class="hljs-keyword">var</span> checkCookieWritable = <span class="hljs-keyword">function</span>(<span class="hljs-params">domain</span>) &#123;<br>    try &#123;<br>        <span class="hljs-comment">// Create cookie</span><br>        document.cookie = <span class="hljs-string">&#x27;cookietest=1&#x27;</span> + (<span class="hljs-built_in">domain</span> ? <span class="hljs-string">&#x27;; domain=&#x27;</span> + <span class="hljs-built_in">domain</span> : <span class="hljs-string">&#x27;&#x27;</span>);<br>        <span class="hljs-keyword">var</span> ret = document.cookie.<span class="hljs-built_in">indexOf</span>(<span class="hljs-string">&#x27;cookietest=&#x27;</span>) != <span class="hljs-number">-1</span>;<br>        <span class="hljs-comment">// Delete cookie</span><br>        document.cookie = <span class="hljs-string">&#x27;cookietest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT&#x27;</span> + (<span class="hljs-built_in">domain</span> ? <span class="hljs-string">&#x27;; domain=&#x27;</span> + <span class="hljs-built_in">domain</span> : <span class="hljs-string">&#x27;&#x27;</span>);<br>        <span class="hljs-keyword">return</span> ret;<br>    &#125; catch (e) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>客户端JavaScript代码无法写session，请参考服务端实现。</p>
+<p>浏览器打开页面，session一直有效，页面的重新加载和恢复，session也不会被删除。在新tab页或者窗口中打开页面会导致新的session初始化。</p>
+<h4 id="本地存储"><a href="#本地存储" class="headerlink" title="本地存储"></a>本地存储</h4><p>存储的数据没有有效期，数据的额度可以很多（至少5M）并且不会转到服务端。</p>
+<p>相同域的本地存储不能共享，可以在站点内部创建框架并且可以用postMessage在本地存储之间传递数据。怎么做?</p>
+<p>检查本地存储可写行</p>
+<p>不是每个浏览器都支持window.localStorage，SDK在使用之前必须确认是否可用。</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-built_in">var</span> testCanLocalStorage = function() &#123;<br>   <span class="hljs-built_in">var</span> <span class="hljs-keyword">mod</span> = <span class="hljs-string">&#x27;modernizr&#x27;</span>;<br>   <span class="hljs-keyword">try</span> &#123;<br>       localStorage.setItem(<span class="hljs-keyword">mod</span>, <span class="hljs-keyword">mod</span>);<br>       localStorage.removeItem(<span class="hljs-keyword">mod</span>);<br>       <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>   &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>       <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>   &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Session-存储"><a href="#Session-存储" class="headerlink" title="Session 存储"></a>Session 存储</h4><p>为session存储数据（当tab页关闭，数据失效）。</p>
+<h4 id="LocalStorage"><a href="#LocalStorage" class="headerlink" title="LocalStorage"></a>LocalStorage</h4><p><strong>检查SessionStorage可写性</strong></p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-built_in">var</span> checkCanSessionStorage = function() &#123;<br>  <span class="hljs-built_in">var</span> <span class="hljs-keyword">mod</span> = <span class="hljs-string">&#x27;modernizr&#x27;</span>;<br>  <span class="hljs-keyword">try</span> &#123;<br>    sessionStorage.setItem(<span class="hljs-keyword">mod</span>, <span class="hljs-keyword">mod</span>);<br>    sessionStorage.removeItem(<span class="hljs-keyword">mod</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>  &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>浏览器端有load unload on off bind 事件，这里有一些代码可以处理不同浏览器的差异。</p>
+<h4 id="Document-Ready"><a href="#Document-Ready" class="headerlink" title="Document Ready"></a>Document Ready</h4><p>在开始执行SDK功能之前要先确保整个页面加载完成。</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs zephir"><span class="hljs-comment">// handle IE8+</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ready</span> <span class="hljs-params">(fn)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (document.readyState != <span class="hljs-string">&#x27;loading&#x27;</span>) &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">fn</span><span class="hljs-params">()</span></span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (window.addEventListener) &#123;<br>        <span class="hljs-comment">// window.addEventListener(&#x27;load&#x27;, fn);</span><br>        window.addEventListener(<span class="hljs-string">&#x27;DOMContentLoaded&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">fn</span>)</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        window.attachEvent(<span class="hljs-string">&#x27;onreadystatechange&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>&#123;<br>            <span class="hljs-keyword">if</span> (document.readyState != <span class="hljs-string">&#x27;loading&#x27;</span>)<br>                <span class="hljs-function"><span class="hljs-keyword">fn</span><span class="hljs-params">()</span></span>;<br>            &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在document已经被完全加载和解析后执行，不用等stylesheets，images和子模块完成加载。</p>
+<p>load事件可以用来探测页面是否完全加载</p>
+<h4 id="消息事件"><a href="#消息事件" class="headerlink" title="消息事件"></a>消息事件</h4><p>关于iframe和窗口的跨源通信，请读API文档。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// in the iframe</span><br>parent.<span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&quot;Hello&quot;</span>); <span class="hljs-comment">// string</span><br><br><span class="hljs-comment">// ==========================================</span><br><br><span class="hljs-comment">// in the iframe&#x27;s parent</span><br><span class="hljs-comment">// Create IE + others compatible event handler</span><br><span class="hljs-keyword">var</span> eventMethod = <span class="hljs-variable language_">window</span>.<span class="hljs-property">addEventListener</span> ? <span class="hljs-string">&quot;addEventListener&quot;</span> : <span class="hljs-string">&quot;attachEvent&quot;</span>;<br><span class="hljs-keyword">var</span> eventer = <span class="hljs-variable language_">window</span>[eventMethod];<br><span class="hljs-keyword">var</span> messageEvent = eventMethod == <span class="hljs-string">&quot;attachEvent&quot;</span> ? <span class="hljs-string">&quot;onmessage&quot;</span> : <span class="hljs-string">&quot;message&quot;</span>;<br><br><span class="hljs-comment">// Listen to message from child window</span><br><span class="hljs-title function_">eventer</span>(messageEvent,<span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) &#123;<br>  <span class="hljs-comment">// e.origin , check the message origin</span><br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;parent received message!:  &#x27;</span>,e.<span class="hljs-property">data</span>);<br>&#125;,<span class="hljs-literal">false</span>);<br></code></pre></td></tr></table></figure>
+
+<p>发送的消息格式应该是String，如果用json做一些高级用法，就用JSON String。虽然很多浏览器支持对参数的结构化克隆算法 ，但并不是全部浏览器都支持。</p>
+<h4 id="方向改变"><a href="#方向改变" class="headerlink" title="方向改变"></a>方向改变</h4><p>探测设备方向改变。</p>
+<p>window.addEventListener(‘orientationchange’, fn);<br>得到方向旋转角度。</p>
+<p>window.orientation; &#x2F;&#x2F; &#x3D;&gt; 90, -90, 0<br>竖屏正方向，竖屏反方向，横屏正方向，横屏反方向。（实验性的）</p>
+<p>&#x2F;&#x2F; <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation">https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation</a><br>var orientation &#x3D; screen.orientation || screen.mozOrientation || screen.msOrientation;</p>
+<h4 id="禁止滚动"><a href="#禁止滚动" class="headerlink" title="禁止滚动"></a>禁止滚动</h4><p>电脑页面用CSS代码overflow: hidden，移动页面不支CSS这种写法，用javascript事件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;touchstart&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)&#123; e.<span class="hljs-title function_">preventDefault</span>(); &#125;); <span class="hljs-comment">// prevent scroll</span><br><span class="hljs-comment">// or</span><br><span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;touchstart&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)&#123; e.<span class="hljs-title function_">preventDefault</span>(); &#125;); <span class="hljs-comment">// prevent scroll</span><br><span class="hljs-comment">// use move if you need some touch event</span><br><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;touchmove&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)&#123; e.<span class="hljs-title function_">preventDefault</span>(); &#125;); <span class="hljs-comment">// prevent scroll</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h2><p>我们的SDK用Ajax请求和服务器通信，虽然可以用jQuery ajax请求，但这里我们有更好的方案实现它。</p>
+<h4 id="Image-Beacon"><a href="#Image-Beacon" class="headerlink" title="Image Beacon"></a>Image Beacon</h4><p>使用Image Beacon让浏览器通过GET 请求获取图片。</p>
+<p>记住加上时间戳防止浏览器缓存</p>
+<p>(new Image()).src &#x3D; ‘<a target="_blank" rel="noopener" href="http://xxxxx.com/collect?id=1111">http://xxxxx.com/collect?id=1111</a>‘;<br>需要注意，GET Query字符串有长度限制，一般是2048，取决于浏览器和服务器。你应该检查请求是否超长了。</p>
+<p>if (length &gt; 2048) {<br>    &#x2F;&#x2F; do Multiple Post (form)<br>} else {<br>    &#x2F;&#x2F; do Image Beacon<br>}<br>你可能在encodeURI 和encodeURIComponent上遇到问题，最好能理解它们。见下</p>
+<p>图片加载成功&#x2F;失败回调函数。</p>
+<p>var img &#x3D; new Image();<br>img.src &#x3D; ‘<a target="_blank" rel="noopener" href="http://xxxxx.com/collect?id=1111">http://xxxxx.com/collect?id=1111</a>‘;<br>img.onload &#x3D; successCallback;<br>img.onerror &#x3D; errorCallback;</p>
+<h4 id="单一Post"><a href="#单一Post" class="headerlink" title="单一Post"></a>单一Post</h4><p>用表单元素的POST方法发送键值对。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">var</span> <span class="hljs-keyword">form</span> = document.createElement(&#x27;<span class="hljs-keyword">form</span>&#x27;);<br><span class="hljs-keyword">var</span> <span class="hljs-keyword">input</span> = document.createElement(&#x27;<span class="hljs-keyword">input</span>&#x27;);<br><br><span class="hljs-keyword">form</span>.style.<span class="hljs-keyword">display</span> = &#x27;none&#x27;;<br><span class="hljs-keyword">form</span>.setAttribute(&#x27;method&#x27;, &#x27;<span class="hljs-keyword">POST</span>&#x27;);<br><span class="hljs-keyword">form</span>.setAttribute(&#x27;action&#x27;, &#x27;http:<span class="hljs-comment">//xxxx.com/track&#x27;);</span><br><br><span class="hljs-keyword">input</span>.name = &#x27;username&#x27;;<br><span class="hljs-keyword">input</span>.value = &#x27;attacker&#x27;;<br><br><span class="hljs-keyword">form</span>.appendChild(<span class="hljs-keyword">input</span>);<br>document.getElementsByTagName(&#x27;body&#x27;)[0].appendChild(<span class="hljs-keyword">form</span>);<br><br><span class="hljs-keyword">form</span>.submit();<br></code></pre></td></tr></table></figure>
+<h4 id="多重Post"><a href="#多重Post" class="headerlink" title="多重Post"></a>多重Post</h4><p>服务一般很复杂，我们需要发送POST发送很多数据。</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">requestWithoutAjax</span>(<span class="hljs-params"> url, params, method </span>)</span>&#123;<br><br>    params = params || &#123;&#125;;<br>    method = method || <span class="hljs-string">&quot;post&quot;</span>;<br><br>    <span class="hljs-comment">// function to remove the iframe</span><br>    <span class="hljs-keyword">var</span> removeIframe = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"> iframe </span>)</span>&#123;<br>        iframe.parentElement.removeChild(iframe);<br>    &#125;;<br><br>    <span class="hljs-comment">// make a iframe...</span><br>    <span class="hljs-keyword">var</span> iframe = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;iframe&#x27;</span>);<br>    iframe.style.display = <span class="hljs-string">&#x27;none&#x27;</span>;<br><br>    iframe.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">var</span> iframeDoc = <span class="hljs-keyword">this</span>.contentWindow.document;<br><br>        <span class="hljs-comment">// Make a invisible form</span><br>        <span class="hljs-keyword">var</span> form = iframeDoc.createElement(<span class="hljs-string">&#x27;form&#x27;</span>);<br>        form.method = method;<br>        form.action = <span class="hljs-built_in">url</span>;<br>        iframeDoc.body.appendChild(form);<br><br>        <span class="hljs-comment">// pass the parameters</span><br>        <span class="hljs-keyword">for</span>( <span class="hljs-keyword">var</span> name <span class="hljs-keyword">in</span> params )&#123;<br>            <span class="hljs-keyword">var</span> input = iframeDoc.createElement(<span class="hljs-string">&#x27;input&#x27;</span>);<br>            input.type = <span class="hljs-string">&#x27;hidden&#x27;</span>;<br>            input.name = name;<br>            input.value = params[name];<br>            form.appendChild(input);<br>        &#125;<br><br>        form.submit();<br>        <span class="hljs-comment">// remove the iframe</span><br>        setTimeout( <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>            removeIframe(iframe);<br>        &#125;, <span class="hljs-number">500</span>);<br>    &#125;;<br><br>    <span class="hljs-built_in">document</span>.body.appendChild(iframe);<br>&#125;<br>requestWithoutAjax(<span class="hljs-string">&#x27;url/to&#x27;</span>, &#123; <span class="hljs-attribute">id:</span><span class="hljs-string"> 2, price</span>: <span class="hljs-number">2.5</span>, <span class="hljs-attribute">lastname</span>: <span class="hljs-string">&#x27;Gamez&#x27;</span>&#125;);<br></code></pre></td></tr></table></figure>
+<h4 id="Iframe"><a href="#Iframe" class="headerlink" title="Iframe"></a>Iframe</h4><p>如果需要在页面中生成内容，你可以用iframe把你的html嵌入进来。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> iframe = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;iframe&#x27;</span>);<br><span class="hljs-keyword">var</span> body = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementsByTagName</span>(<span class="hljs-string">&#x27;body&#x27;</span>)[<span class="hljs-number">0</span>];<br><br>iframe.<span class="hljs-property">style</span>.<span class="hljs-property">display</span> = <span class="hljs-string">&#x27;none&#x27;</span>;<br>iframe.<span class="hljs-property">src</span> = <span class="hljs-string">&#x27;http://xxxx.com/page&#x27;</span>;<br>iframe.<span class="hljs-property">onreadystatechange</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">if</span> (iframe.<span class="hljs-property">readyState</span> !== <span class="hljs-string">&#x27;complete&#x27;</span>) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>&#125;;<br>iframe.<span class="hljs-property">onload</span> = loadCallback;<br><br>body.<span class="hljs-title function_">appendChild</span>(iframe);<br></code></pre></td></tr></table></figure>
+<p>把iframe内部额外的margin删除</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;iframe <span class="hljs-attribute">src</span>=<span class="hljs-string">&quot;...&quot;</span><br> <span class="hljs-attribute">marginwidth</span>=<span class="hljs-string">&quot;0&quot;</span><br> <span class="hljs-attribute">marginheight</span>=<span class="hljs-string">&quot;0&quot;</span><br> <span class="hljs-attribute">hspace</span>=<span class="hljs-string">&quot;0&quot;</span><br> <span class="hljs-attribute">vspace</span>=<span class="hljs-string">&quot;0&quot;</span><br> <span class="hljs-attribute">frameborder</span>=<span class="hljs-string">&quot;0&quot;</span><br> <span class="hljs-attribute">scrolling</span>=<span class="hljs-string">&quot;no&quot;</span>&gt;&lt;/iframe&gt;<br></code></pre></td></tr></table></figure>
+<p>把html内容放到iframe</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs xquery"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;iframe&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span></span><br><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-keyword">var</span> html_string= <span class="hljs-string">&quot;content </span></span></span><span class="language-xml"><span class="language-handlebars"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(location.href);</span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><span class="language-xml">&quot;;</span><br><span class="language-xml">  document.getElementById(&#x27;iframe&#x27;).src = &quot;data:text/html;charset=utf-8,&quot; + escape(html_string);</span><br><span class="language-xml">  // alert data:text/html;charset=utf-8.....</span><br><span class="language-xml">  // access cookie get ERROR</span><br><span class="language-xml"></span><br><span class="language-xml">  var doc = document.getElementById(&#x27;iframe&#x27;).contentWindow.document;</span><br><span class="language-xml">  doc.open();</span><br><span class="language-xml">  doc.write(&#x27;</span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>Test</span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(location.href);<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><span class="language-xml">&#x27;);</span><br><span class="language-xml">  doc.close();</span><br><span class="language-xml">  // alert &quot;top window url&quot;</span><br><span class="language-xml"></span><br><span class="language-xml">  var iframe = document.createElement(&#x27;iframe&#x27;);</span><br><span class="language-xml">  iframe.src = &#x27;javascript:;\&#x27;&#x27; + encodeURI(&#x27;</span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-handlebars"><span class="language-xml">alert(location.href);<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span></span></span><span class="language-xml"><span class="language-handlebars"><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span></span></span><span class="language-xml"><span class="language-javascript"><span class="hljs-string">&#x27;) + &#x27;</span>\<span class="hljs-string">&#x27;&#x27;</span>;</span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-comment">// iframe.src = &#x27;javascript:;&quot;&#x27; + encodeURI((html_tag).replace(/\&quot;/g, &#x27;\\\&quot;&#x27;)) + &#x27;&quot;&#x27;;</span></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(iframe);</span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-comment">// alert &quot;about:blank&quot;</span></span></span><br><span class="language-javascript"><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+<h4 id="jsonp脚本"><a href="#jsonp脚本" class="headerlink" title="jsonp脚本"></a>jsonp脚本</h4><p>是指你的服务器需要返回JavaScript代码以让浏览器执行，只包括JS脚本链接。</p>
+<p>  (function () {<br>    var s &#x3D; document.createElement(‘script’);<br>    s.type &#x3D; ‘text&#x2F;javascript’;<br>    s.async &#x3D; true;<br>    s.src &#x3D; ‘&#x2F;yourscript?some&#x3D;parameter&amp;callback&#x3D;jsonpCallback’;<br>    var x &#x3D; document.getElementsByTagName(‘script’)[0];<br>    x.parentNode.insertBefore(s, x);<br>  })();</p>
+<p>更多关于jsonp信息</p>
+<ul>
+<li><ol>
+<li>JSONP只能在GET请求工作。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>JSONP缺少错误处理，意味着你不能在返回码404,500等里面探测。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>JSONP请求通常是异步的。</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>注意CSRF攻击。</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>跨域通讯，脚本回应端（服务端）不需要关心CORS。</li>
+</ol>
+</li>
+</ul>
+<h4 id="Navigator-sendBeacon"><a href="#Navigator-sendBeacon" class="headerlink" title="Navigator.sendBeacon()"></a>Navigator.sendBeacon()</h4><p>先看下文档</p>
+<p>This method addresses the needs of analytics and diagnostics code that typically attempt to send data to a web server prior to the unloading of the document. Sending the data any sooner may result in a missed opportunity to gather data. However, ensuring that the data has been sent during the unloading of a document is something that has traditionally been difficult for developers.</p>
+<p>通过api发POST beacon请求，很酷。</p>
+<p>navigator.sendBeacon(“&#x2F;log”, analyticsData);<br>XMLHttpRequest<br>写XMLHttpRequest 不是好主意。我假设你不想在和浏览器斗争上浪费时间，你可以试下这些代码。</p>
+<ol>
+<li>window.fetch - A window.fetch JavaScript polyfill. 2. got - Simplified HTTP&#x2F;HTTPS requests 3. microjs - list of ajax lib 4. more</li>
+</ol>
+<h4 id="Fragment-Identifier"><a href="#Fragment-Identifier" class="headerlink" title="Fragment Identifier"></a>Fragment Identifier</h4><p>#这是哈希标志。记住有哈希标志的请求，哈希标志最终不会发出去。</p>
+<p>比如，你在页面<a target="_blank" rel="noopener" href="http://github.com/awesome#huei90%E4%B8%AD%E3%80%82">http://github.com/awesome#huei90中。</a></p>
+<p>&#x2F;&#x2F; Sending a request with a parameter url which contains current url<br>(new Image()).src &#x3D; ‘<a target="_blank" rel="noopener" href="http://yourrequest.com/?url=http://github.com/awesome#huei90">http://yourrequest.com?url=http://github.com/awesome#huei90</a>‘;</p>
+<p>&#x2F;&#x2F; actual request will be without #<br>(new Image()).src &#x3D; ‘<a target="_blank" rel="noopener" href="http://yourrequest.com/?url=http://github.com/awesome">http://yourrequest.com?url=http://github.com/awesome</a>‘;</p>
+<p>&#x2F;&#x2F; Solved, encodeURIComponent(url);<br>(new Image()).src &#x3D; ‘<a target="_blank" rel="noopener" href="http://yourrequest.com/?url=">http://yourrequest.com?url=</a>‘ + encodeURIComponent(‘<a target="_blank" rel="noopener" href="http://github.com/awesome#huei90">http://github.com/awesome#huei90</a>‘);</p>
+<h4 id="最大连接数"><a href="#最大连接数" class="headerlink" title="最大连接数"></a>最大连接数</h4><p>检查浏览器的最大连接请求数浏览器范围。</p>
+<h2 align="center">
+ <img src="https://cloud.githubusercontent.com/assets/2560096/9082891/ac4dc26e-3b99-11e5-8178-606270a801c4.png" srcset="/img/loading.gif" lazyload alt="max number of connection"/>
+</h2>
+
+<h2 id="Component-of-URI"><a href="#Component-of-URI" class="headerlink" title="Component of URI"></a>Component of URI</h2><p>很重要的一点，你应该知道SDK是否需要解析本地url。</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">                       authority<br>                 __________|<span class="hljs-string">_________</span><br><span class="hljs-string">                /                    \</span><br><span class="hljs-string">            userinfo                host                          resource</span><br><span class="hljs-string">             __</span>|<span class="hljs-string">___                ___</span>|<span class="hljs-string">___                 __________</span>|___________<br>            /      \              /       \               /                      \<br>       username  password     hostname    port     path &amp; segment      query   fragment<br>         __|<span class="hljs-string">___   __</span>|<span class="hljs-string">__    ______</span>|<span class="hljs-string">______   </span>|<span class="hljs-string">   __________</span>|<span class="hljs-string">_________   ____</span>|<span class="hljs-string">____   </span>|<br>        /      \ /     \  /             \ / \ /                    \ /         \ / \<br>  foo://username:password<span class="hljs-meta">@www.example.com:123/hello/world/there.html?name=ferret#foo</span><br>  \_/                     \ / \       \ /    \__________/ \     \__/<br>   |<span class="hljs-string">                       </span>|<span class="hljs-string">   \       </span>|<span class="hljs-string">           </span>|<span class="hljs-string">       \      </span>|<br>scheme               subdomain  \     tld      directory    \   suffix<br>                                 \____/                      \___/<br>                                    |<span class="hljs-string">                          </span>|<br>                                  domain                   filename<br></code></pre></td></tr></table></figure>
+
+<h4 id="解析URI"><a href="#解析URI" class="headerlink" title="解析URI"></a>解析URI</h4><p>(<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/URL">https://developer.mozilla.org/en-US/docs/Web/API/Window/URL</a>). 这有个很简单的方法，是通过本地URL()接口，但是并不支持所有浏览器尚未标准化。</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-keyword">var</span> parser = <span class="hljs-keyword">new</span> <span class="hljs-type">URL</span>(<span class="hljs-string">&#x27;http://github.com/huei90&#x27;</span>);<br>parser.hostname; <span class="hljs-comment">// =&gt; &quot;github.com&quot;</span><br></code></pre></td></tr></table></figure>
+<p>那些不支持URL()接口的浏览器，尝试DOM createElement(‘a’)方法。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">var parser = document.createElement(<span class="hljs-string">&#x27;a&#x27;</span>);<br><span class="hljs-keyword">parser</span>.href = &quot;http://github.com/huei90&quot;;<br><span class="hljs-keyword">parser</span>.hostname; // =&gt; &quot;github.com&quot;<br></code></pre></td></tr></table></figure>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><h4 id="模拟多重网域"><a href="#模拟多重网域" class="headerlink" title="模拟多重网域"></a>模拟多重网域</h4><p>你不需要注册不同域名来模拟多网域，只需要编辑操作系统的hosts文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">sudo vim /etc/hosts</span><br></code></pre></td></tr></table></figure>
+<p>加上下面条目。</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"># refer to localhost<br><span class="hljs-number">127.0.0.1</span> publisher.net<br><span class="hljs-number">127.0.0.1</span> sdk.net<br></code></pre></td></tr></table></figure>
+<p>这时你可以访问<a target="_blank" rel="noopener" href="http://publisher.net/">http://publisher.net</a> 和<a target="_blank" rel="noopener" href="http://sdk.net页面了./">http://sdk.net页面了。</a></p>
+<h4 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h4><p>如果需要调试SDK，使用浏览器提供的调试工具- Chrome Developer Tools Safari Developer Tools Firebug，开发工具简称DevTools。</p>
+<p>开发者可以通过DevTools访问应用和浏览器内部。使用DevTools高效跟踪布局问题，设置JavaScript断点，得到代码优化的洞察力。</p>
+<h4 id="Console-Logs"><a href="#Console-Logs" class="headerlink" title="Console Logs"></a>Console Logs</h4><p>测试预期文本输出，或者其他调试，可以用浏览器接口console.log()做Console Logs。有许多方法格式化和输出你的信息，查找更多<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/docs/Web/API/console">Console接口</a>。</p>
+<p><img src="https://cloud.githubusercontent.com/assets/2560096/8155377/411fb24a-1376-11e5-98da-f71f8ed29bcd.png" srcset="/img/loading.gif" lazyload alt="screen shot 2015-06-15 at 3 50 23 pm"></p>
+<h4 id="Debugging-Proxy"><a href="#Debugging-Proxy" class="headerlink" title="Debugging Proxy"></a>Debugging Proxy</h4><p>有时候调试代理帮你测试你的SDK。调试网络拥塞，修改cookies，报头，缓存，编辑http request&#x2F;response，SSL代理，ajax调试等等。</p>
+<p>这里有些软件你可以试一下。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.telerik.com/fiddler/fiddlercore">FiddlerCore</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.charlesproxy.com/">Charles</a></li>
+<li><a target="_blank" rel="noopener" href="https://itunes.apple.com/tw/app/cellist-http-debugging-proxy/id897814548?l=zh&mt=12">Cellist</a></li>
+</ul>
+<h4 id="BrowserSync"><a href="#BrowserSync" class="headerlink" title="BrowserSync"></a>BrowserSync</h4><p><a target="_blank" rel="noopener" href="http://www.browsersync.io/">BrowserSync</a>通过同步多设备文件的变化和相互作用的方法让你的测试更快。非常快并且是免费的。</p>
+<p>如果需要测试SDK在各种设备上的结果，它可以帮你很多。试一下&#x3D;)</p>
+<h2 id="小贴士和诀窍"><a href="#小贴士和诀窍" class="headerlink" title="小贴士和诀窍"></a>小贴士和诀窍</h2><h4 id="Piggyback"><a href="#Piggyback" class="headerlink" title="Piggyback"></a>Piggyback</h4><p>有时候不希望开发者包含所有SDK源，只需要做一个1x1像素的请求。我们只需要要求开发者包含我们链接的图片文件。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">&lt;img height<span class="hljs-operator">=</span><span class="hljs-string">&quot;1&quot;</span> width<span class="hljs-operator">=</span><span class="hljs-string">&quot;1&quot;</span> alt<span class="hljs-operator">=</span><span class="hljs-string">&quot;&quot;</span> style<span class="hljs-operator">=</span><span class="hljs-string">&quot;display:n/&gt;</span><br></code></pre></td></tr></table></figure>
+<h4 id="页面可见性接口"><a href="#页面可见性接口" class="headerlink" title="页面可见性接口"></a>页面可见性接口</h4><p>有时SDK像知道页面是否取得用户焦点。试试代码 <code>visibly.js</code> 和 <code>visibilityjs</code>。</p>
+<h4 id="Document-Referrer"><a href="#Document-Referrer" class="headerlink" title="Document Referrer"></a>Document Referrer</h4><p>用document.referrer得到上一个页面的url。注意上一个是指浏览器上一个而不是人们认为的上一个。举个例子，加入你点击浏览器后退按钮，页面A -&gt; 页面B -&gt; 页面C -&gt; (后退) 页面B，现在页面B的上一个是页面A，不是页面C。</p>
+<h4 id="Console-Logs-Polyfill"><a href="#Console-Logs-Polyfill" class="headerlink" title="Console Logs Polyfill"></a>Console Logs Polyfill</h4><p>这不是真的代码，只是保证调用console.log接口不会在客户端抛出异常事件。</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs arcade"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">typeof</span> <span class="hljs-built_in">console</span> === <span class="hljs-string">&quot;undefined&quot;</span>) &#123;<br>    <span class="hljs-keyword">var</span> f = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;&#125;;<br>    <span class="hljs-built_in">console</span> = &#123;<br>        <span class="hljs-attr">log</span>: f,<br>        <span class="hljs-attr">debug</span>: f,<br>        <span class="hljs-attr">error</span>: f,<br>        <span class="hljs-attr">info</span>: f<br>    &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="EncodeURI-or-EncodeURIComponent"><a href="#EncodeURI-or-EncodeURIComponent" class="headerlink" title="EncodeURI or EncodeURIComponent"></a>EncodeURI or EncodeURIComponent</h4><p>理解escape() encodeURI() encodeURIComponent()的区别，查看<a target="_blank" rel="noopener" href="http://stackoverflow.com/a/3608791/1748884">这里</a>。</p>
+<p>记住encodeURI() 和 encodeURIComponent()之间有11个字符不同。 这些字符是# $ &amp; + , &#x2F; : ; &#x3D; ? </p>
+<h2 align="center">
+ <img src="http://i.imgur.com/rHWC1r1.png" srcset="/img/loading.gif" lazyload alt="encodeuri or encodeuricomponent"/>
+</h2>
+
+<h4 id="用回调函数加载脚本"><a href="#用回调函数加载脚本" class="headerlink" title="用回调函数加载脚本"></a>用回调函数加载脚本</h4><p>异步加载代码增加回调事件。</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadScript</span>(<span class="hljs-params">url, callback</span>) </span>&#123;<br>  <span class="hljs-keyword">var</span> script = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;script&#x27;</span>);<br>  script.async = <span class="hljs-literal">true</span>;<br>  script.src = <span class="hljs-built_in">url</span>;<br><br>  <span class="hljs-keyword">var</span> entry = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">&#x27;script&#x27;</span>)[<span class="hljs-number">0</span>];<br>  entry.parentNode.insertBefore(script, entry);<br><br>  script.onload = script.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;<br>    <span class="hljs-keyword">var</span> rdyState = script.readyState;<br><br>    <span class="hljs-keyword">if</span> (!rdyState || <span class="hljs-regexp">/complete|loaded/</span>.test(script.readyState)) &#123;<br>      callback();<br><br>      <span class="hljs-comment">// detach the event handler to avoid memory leaks in IE (http://mng.bz/W8fx)</span><br>      script.onload = <span class="hljs-literal">null</span>;<br>      script.onreadystatechange = <span class="hljs-literal">null</span>;<br>    &#125;<br>  &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="只能调用一次的函数"><a href="#只能调用一次的函数" class="headerlink" title="只能调用一次的函数"></a>只能调用一次的函数</h4><p>这里展示如何实现只能一次调用。</p>
+<blockquote>
+<p>偶尔你希望一个函数只能被调用一次。经常这些函数在事件监听列表，很难管理。当然你可以简单的把它从监听列表删除，但是有时候希望完美，你只是希望函数只能被调用一次。下面的JavaScript函数让它变为可能！</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// Copy from DWB</span><br><span class="hljs-comment">// http://davidwalsh.name/javascript-once</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">once</span>(<span class="hljs-params">fn, context</span>) &#123; <br>    <span class="hljs-keyword">var</span> result;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123; <br>        <span class="hljs-keyword">if</span>(fn) &#123;<br>            result = fn.<span class="hljs-title function_">apply</span>(context || <span class="hljs-variable language_">this</span>, <span class="hljs-variable language_">arguments</span>);<br>            fn = <span class="hljs-literal">null</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> result;<br>    &#125;;<br>&#125;<br><br><span class="hljs-comment">// Usage</span><br><span class="hljs-keyword">var</span> canOnlyFireOnce = <span class="hljs-title function_">once</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Fired!&#x27;</span>);<br>&#125;);<br><br><span class="hljs-title function_">canOnlyFireOnce</span>(); <span class="hljs-comment">// &quot;Fired!&quot;</span><br><span class="hljs-title function_">canOnlyFireOnce</span>(); <span class="hljs-comment">// nada</span><br></code></pre></td></tr></table></figure>
+<h3 id="Get-Style-Value"><a href="#Get-Style-Value" class="headerlink" title="Get Style Value"></a>Get Style Value</h3><p><strong>Get inline-style value</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;black&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: black&quot;</span>&gt;</span> This is black color span <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;black&#x27;</span>).<span class="hljs-property">style</span>.<span class="hljs-property">color</span>; <span class="hljs-comment">// =&gt; black</span></span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>Get Real style value</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css"><span class="hljs-selector-id">#black</span> &#123;</span><br><span class="language-css">    <span class="hljs-attribute">color</span>: red <span class="hljs-meta">!important</span>;</span><br><span class="language-css">&#125;</span><br><span class="language-css"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;black&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: black&quot;</span>&gt;</span> This is black color span <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;black&#x27;</span>).<span class="hljs-property">style</span>.<span class="hljs-property">color</span>; <span class="hljs-comment">// =&gt; black</span></span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-comment">// real</span></span><br><span class="language-javascript">    <span class="hljs-keyword">var</span> black = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;black&#x27;</span>);</span><br><span class="language-javascript">    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">getComputedStyle</span>(black, <span class="hljs-literal">null</span>).<span class="hljs-title function_">getPropertyValue</span>(<span class="hljs-string">&#x27;color&#x27;</span>); <span class="hljs-comment">// =&gt; rgb(255, 0, 0)</span></span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>ref: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle">https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle</a></p>
+<h4 id="检查元素是否在观察窗"><a href="#检查元素是否在观察窗" class="headerlink" title="检查元素是否在观察窗"></a>检查元素是否在观察窗</h4><p>更多资料在 <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433">这里</a>.</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs qml"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isElementInViewport</span> (<span class="hljs-params">el</span>) </span>&#123;<br><br>    <span class="hljs-comment">//special bonus for those using jQuery</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> jQuery === <span class="hljs-string">&quot;function&quot;</span> &amp;&amp; el <span class="hljs-keyword">instanceof</span> jQuery) &#123;<br>        el = el[<span class="hljs-number">0</span>];<br>    &#125;<br><br>    <span class="hljs-keyword">var</span> <span class="hljs-built_in">rect</span> = el.getBoundingClientRect();<br><br>    <span class="hljs-keyword">return</span> (<br>        <span class="hljs-built_in">rect</span>.top &gt;= <span class="hljs-number">0</span> &amp;&amp;<br>        <span class="hljs-built_in">rect</span>.left &gt;= <span class="hljs-number">0</span> &amp;&amp;<br>        <span class="hljs-built_in">rect</span>.bottom &lt;= (<span class="hljs-built_in">window</span>.innerHeight || <span class="hljs-built_in">document</span>.documentElement.clientHeight) &amp;&amp; <span class="hljs-comment">/*or $(window).height() */</span><br>        <span class="hljs-built_in">rect</span>.right &lt;= (<span class="hljs-built_in">window</span>.innerWidth || <span class="hljs-built_in">document</span>.documentElement.clientWidth) <span class="hljs-comment">/*or $(window).width() */</span><br>    );<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="检查元素可视性"><a href="#检查元素可视性" class="headerlink" title="检查元素可视性"></a>检查元素可视性</h4><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs maxima"><span class="hljs-built_in">var</span> isVisible: function(b) &#123;<br>    <span class="hljs-built_in">var</span> a = window.getComputedStyle(b);<br>    <span class="hljs-built_in">return</span> <span class="hljs-number">0</span> === a.getPropertyValue(<span class="hljs-string">&quot;opacity&quot;</span>) || <span class="hljs-string">&quot;none&quot;</span> === a.getPropertyValue(<span class="hljs-string">&quot;display&quot;</span>) || <span class="hljs-string">&quot;hidden&quot;</span> === a.getPropertyValue(<span class="hljs-string">&quot;visibility&quot;</span>) || <span class="hljs-number">0</span> === parseInt(b.<span class="hljs-built_in">style</span>.<span class="hljs-built_in">opacity</span>, <span class="hljs-number">10</span>) || <span class="hljs-string">&quot;none&quot;</span> === b.<span class="hljs-built_in">style</span>.<span class="hljs-built_in">display</span> || <span class="hljs-string">&quot;hidden&quot;</span> === b.<span class="hljs-built_in">style</span>.visibility ? <span class="hljs-literal">false</span> : <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-built_in">var</span> element = document.getElementById(&#x27;<span class="hljs-built_in">box</span>&#x27;);<br>isVisible(element); // =&gt; <span class="hljs-literal">false</span> <span class="hljs-keyword">or</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+<h4 id="得到视窗大小"><a href="#得到视窗大小" class="headerlink" title="得到视窗大小"></a>得到视窗大小</h4><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xquery">var getViewportSize = <span class="hljs-keyword">function</span>() &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        var<span class="hljs-built_in"> doc</span> = top<span class="hljs-built_in">.document</span>.documentElement<br>          , g = (e = top<span class="hljs-built_in">.document</span>.body) &amp;&amp; top<span class="hljs-built_in">.document</span>.clientWidth &amp;&amp; top<span class="hljs-built_in">.document</span>.clientHeight;<br>    &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>        var<span class="hljs-built_in"> doc</span> =<span class="hljs-built_in"> document</span>.documentElement<br>          , g = (e =<span class="hljs-built_in"> document</span>.body) &amp;&amp;<span class="hljs-built_in"> document</span>.clientWidth &amp;&amp;<span class="hljs-built_in"> document</span>.clientHeight;<br>    &#125;<br>    var vp = [];<br>   <span class="hljs-built_in"> doc</span> &amp;&amp;<span class="hljs-built_in"> doc</span>.clientWidth &amp;&amp;<span class="hljs-built_in"> doc</span>.clientHeight &amp;&amp; (<span class="hljs-string">&quot;CSS1Compat&quot;</span> ===<span class="hljs-built_in"> document</span>.compatMode || !g) ? vp = <span class="hljs-built_in">[doc</span>.clientWidth,<span class="hljs-built_in"> doc</span>.clientHeight] : g &amp;&amp; (vp = <span class="hljs-built_in">[doc</span>.clientWidth,<span class="hljs-built_in"> doc</span>.clientHeight]);<br>    <span class="hljs-keyword">return</span> vp;<br>&#125;<br><br>// <span class="hljs-keyword">return</span> <span class="hljs-keyword">as</span> rray [viewport_width, viewport_height]<br></code></pre></td></tr></table></figure>
+
+<h3 id="用户跟踪"><a href="#用户跟踪" class="headerlink" title="用户跟踪"></a>用户跟踪</h3><p>假设某邪恶广告公司想跟踪用户行为，它会用<a target="_blank" rel="noopener" href="https://github.com/Valve/fingerprintjs2">fingerprinting</a>生成个人定制哈希，</p>
+<p>而有道德的公司会通过提示，让用户选择是否使用 cookie。</p>
+<h3 id="广告服务提示"><a href="#广告服务提示" class="headerlink" title="广告服务提示"></a>广告服务提示</h3><p><a target="_blank" rel="noopener" href="http://optout.aboutads.info/#!/">数字广告联盟 </a> 提供工具帮助人们选择是否使用联盟参与公司的广告服务。</p>
+<h2 id="注意-WTF"><a href="#注意-WTF" class="headerlink" title="注意 WTF"></a>注意 WTF</h2><h3 id="HTTP-头的-referer-字段拼写错误"><a href="#HTTP-头的-referer-字段拼写错误" class="headerlink" title="HTTP 头的 referer 字段拼写错误"></a>HTTP 头的 referer 字段拼写错误</h3><p>HTTP 请求头的 referrer 字段拼写错误，根据维基百科说明:<br>Fun fact about why the HTTP Request Header having the field name <code>referer</code> not <code>referrer</code></p>
+<p><em>According to the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/HTTP_referer#Etymology">Wikipedia</a></em></p>
+<blockquote>
+<p>The <code>misspelling of referrer</code> originated in the original proposal by computer scientist <code>Phillip Hallam-Baker</code> to incorporate the field into the HTTP specification. The misspelling was set in stone by the time of its incorporation into the <code>Request for Comments</code> standards document <code>RFC 1945</code>; document co-author <code>Roy Fielding</code> has remarked that neither “referrer” nor the misspelling “referer” were recognized by the standard <code>Unix spell checker</code> of the period. “Referer” has since become a widely used spelling in the industry when discussing HTTP referrers; usage of the misspelling is not universal, though, as the correct spelling “referrer” is used in some web specifications such as the <code>Document Object Model</code>.</p>
+</blockquote>
+<h2 align="center">
+    <img src="https://cloud.githubusercontent.com/assets/2560096/12190613/96a7d652-b605-11e5-8109-1c6fefa9dfc4.png" srcset="/img/loading.gif" lazyload/>
+</h2>
+
+<h2 id="JavaScript-SDK-模板"><a href="#JavaScript-SDK-模板" class="headerlink" title="JavaScript SDK 模板"></a>JavaScript SDK 模板</h2><p>This guide provides <strong>templates</strong> and <strong>boilerplates</strong> to building an SDK. </p>
+<p>初始化模板</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">(<span class="hljs-keyword">function</span>(window) &#123;<br>  // <span class="hljs-built_in">declare</span><br>  var myApp = &#123;&#125;;<br><br>  // your sdk init <span class="hljs-keyword">function</span><br>  myApp.init = <span class="hljs-function"><span class="hljs-title">function</span></span>() &#123;<br>    // ...<br>  &#125;;<br><br>  // define your namespace myApp<br>  window.myApp = myApp;<br>&#125;)(window, undefined);<br></code></pre></td></tr></table></figure>
+
+<p>包装模板</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">(<span class="hljs-keyword">function</span>(window) &#123;<br>  // add your sdk <span class="hljs-keyword">function</span> and method here and there<br>&#125;)(window, undefined);<br></code></pre></td></tr></table></figure>
+
+<p>面向对象模板</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">(<span class="hljs-keyword">function</span>(window) &#123;<br>  // <span class="hljs-built_in">declare</span><br>  var myApp = <span class="hljs-function"><span class="hljs-title">function</span></span>() &#123;<br>    <span class="hljs-built_in">return</span>;<br>  &#125;;<br><br>  // your sdk init <span class="hljs-keyword">function</span><br>  myApp.prototype.init = <span class="hljs-function"><span class="hljs-title">function</span></span>() &#123;<br>    // ...<br>  &#125;;<br><br>  // define your namespace myApp<br>  window.myApp = new myApp();<br>&#125;)(window, undefined);<br></code></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hueitan/javascript-sdk-design">https://github.com/hueitan/javascript-sdk-design</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/735a4f1db2af">https://www.jianshu.com/p/735a4f1db2af</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Go7hic/javascript-sdk-design-cn">https://github.com/Go7hic/javascript-sdk-design-cn</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/js-sdk/" class="print-no-link">#js-sdk</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>javascript-sdk-design</div>
+      <div>http://example.com/20201015-js-sdk/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年10月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20201015-js-call-apply-bind/" title="JavaScript 中 call()、apply()、bind() 的用法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaScript 中 call()、apply()、bind() 的用法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20201014-fee-navigation/" title="前端导航">
+                        <span class="hidden-mobile">前端导航</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

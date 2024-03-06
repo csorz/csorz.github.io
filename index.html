@@ -1,0 +1,819 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录生活日常，计算机技术分">
+<meta property="og:type" content="website">
+<meta property="og:title" content="日有所思，日有所得">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="记录生活日常，计算机技术分">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="೭(˵¯̴͒ꇴ¯̴͒˵)౨"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20240306-code-server%E5%AE%89%E8%A3%85%E5%8F%8Anginx%E4%BB%A3%E7%90%86/" target="_self">
+          <img src="https://bing.com/th?id=OHR.FirstCliff_ZH-CN2308482395_800x480.jpg" srcset="/img/loading.gif" lazyload alt="code-server安装及nginx代理">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20240306-code-server%E5%AE%89%E8%A3%85%E5%8F%8Anginx%E4%BB%A3%E7%90%86/" target="_self">
+          code-server安装及nginx代理
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20240306-code-server%E5%AE%89%E8%A3%85%E5%8F%8Anginx%E4%BB%A3%E7%90%86/" target="_self">
+        <div>
+          ubuntu 22.04系统下下安装code-server
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-06 15:14" pubdate>
+              2024-03-06
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20240229-linux%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" target="_self">
+          <img src="https://cn.bing.com/th?id=OHR.IdahoBarn_ZH-CN6472682534_1920x1080.webp&amp;qlt=50" srcset="/img/loading.gif" lazyload alt="linux系统设置虚拟内存">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20240229-linux%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" target="_self">
+          linux系统设置虚拟内存
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20240229-linux%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/" target="_self">
+        <div>
+          买了个2G内存入门服务器，高配服务器太贵…内存不够用怎么办，设置虚拟内存缓解一下焦虑。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-02-29 10:12" pubdate>
+              2024-02-29
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20240228-nginx%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" target="_self">
+          <img src="https://cn.bing.com/th?id=OHR.JohnDayFossil_ZH-CN6265838332_1920x1080.webp&amp;qlt=50" srcset="/img/loading.gif" lazyload alt="nginx入门知识">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20240228-nginx%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" target="_self">
+          nginx入门知识
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20240228-nginx%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/" target="_self">
+        <div>
+          本文实际上是适合所有想学习 Nginx 但不知道如何下手的同学。尽量深入浅出，讲得通俗易懂，让在座的不管是前端还是后端，阅读体验都如德芙巧克力般丝滑。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-02-28 10:08" pubdate>
+              2024-02-28
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20240123-%E8%AE%A1%E7%AE%97%E6%8D%A2%E8%A1%8C%E6%96%87%E5%AD%97%E5%BA%8F%E5%8F%B7/" target="_self">
+          <img src="https://bing.com/th?id=OHR.CumberlandSeashore_ZH-CN1662936356_800x480.jpg" srcset="/img/loading.gif" lazyload alt="计算换行文字序号">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20240123-%E8%AE%A1%E7%AE%97%E6%8D%A2%E8%A1%8C%E6%96%87%E5%AD%97%E5%BA%8F%E5%8F%B7/" target="_self">
+          计算换行文字序号
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20240123-%E8%AE%A1%E7%AE%97%E6%8D%A2%E8%A1%8C%E6%96%87%E5%AD%97%E5%BA%8F%E5%8F%B7/" target="_self">
+        <div>
+          通过克隆节点，逐一添加文本，通过高度变换判断来计算换行第一个文字的序号。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-23 14:23" pubdate>
+              2024-01-23
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20240112-npm%E7%A7%81%E6%9C%89%E9%95%9C%E5%83%8F%E5%9C%B0%E5%9D%80%E8%AE%BE%E7%BD%AE/" target="_self">
+          <img src="https://bing.com/th?id=OHR.NohsngithiangFalls_ZH-CN1819466830_800x480.jpg" srcset="/img/loading.gif" lazyload alt="npm私有镜像地址设置">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20240112-npm%E7%A7%81%E6%9C%89%E9%95%9C%E5%83%8F%E5%9C%B0%E5%9D%80%E8%AE%BE%E7%BD%AE/" target="_self">
+          npm私有镜像地址设置
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20240112-npm%E7%A7%81%E6%9C%89%E9%95%9C%E5%83%8F%E5%9C%B0%E5%9D%80%E8%AE%BE%E7%BD%AE/" target="_self">
+        <div>
+          使用官方仓库可能遇到如下问题：  访问缓慢且占用外部带宽 可能随着官方升级和维护 可能被删除或更换地址 私有包不方便存放公开地址当官方公共仓库无法满足我们需求时，我们需要部署私有仓库。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-01-12 13:39" pubdate>
+              2024-01-12
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20231222-%E9%80%9A%E8%BF%87%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95%E7%AE%80%E5%8C%96svg%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B/" target="_self">
+          <img src="https://bing.com/th?id=OHR.BeaversBend_ZH-CN1916035610_800x480.jpg" srcset="/img/loading.gif" lazyload alt="通过凸包算法简化svg碰撞检测">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20231222-%E9%80%9A%E8%BF%87%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95%E7%AE%80%E5%8C%96svg%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B/" target="_self">
+          通过凸包算法简化svg碰撞检测
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20231222-%E9%80%9A%E8%BF%87%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95%E7%AE%80%E5%8C%96svg%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B/" target="_self">
+        <div>
+          获取svg坐标点方案一 path-to-polygon（推荐）https://betravis.github.io/shape-tools/path-to-polygon/ 方案二 wilderness-dom-nodehttps://github.com/colinmeinke/wilderness-dom-node?tab=readme-ov-file#readme 12import &#12
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-22 14:56" pubdate>
+              2023-12-22
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20231222-FFMPEG%E8%BD%AC%E7%A0%81BUG%E5%AF%BC%E8%87%B4MP3%E8%BE%93%E5%87%BA%E6%8C%81%E7%BB%AD%E6%97%B6%E9%97%B4%E4%B8%8D%E6%AD%A3%E7%A1%AE/" target="_self">
+          <img src="https://bing.com/th?id=OHR.ElTajo_ZH-CN2134749418_800x480.jpg" srcset="/img/loading.gif" lazyload alt="FFMPEG转码BUG导致MP3音视频输出持续时间不正确">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20231222-FFMPEG%E8%BD%AC%E7%A0%81BUG%E5%AF%BC%E8%87%B4MP3%E8%BE%93%E5%87%BA%E6%8C%81%E7%BB%AD%E6%97%B6%E9%97%B4%E4%B8%8D%E6%AD%A3%E7%A1%AE/" target="_self">
+          FFMPEG转码BUG导致MP3音视频输出持续时间不正确
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20231222-FFMPEG%E8%BD%AC%E7%A0%81BUG%E5%AF%BC%E8%87%B4MP3%E8%BE%93%E5%87%BA%E6%8C%81%E7%BB%AD%E6%97%B6%E9%97%B4%E4%B8%8D%E6%AD%A3%E7%A1%AE/" target="_self">
+        <div>
+          遇到ffmpeg一个bug，需要转码时增加参数解决。该bug对web前端及android无影响。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-12-22 14:31" pubdate>
+              2023-12-22
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20231102-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91%E5%99%A8/" target="_self">
+          <img src="https://s.cn.bing.net/th?id=OHR.OliveOrchard_ZH-CN8198989130_1920x1080.webp&amp;qlt=50" srcset="/img/loading.gif" lazyload alt="所见即所得公式编辑器">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20231102-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91%E5%99%A8/" target="_self">
+          所见即所得公式编辑器
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20231102-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97%E5%85%AC%E5%BC%8F%E7%BC%96%E8%BE%91%E5%99%A8/" target="_self">
+        <div>
+          Mathwe use MathLive web component because it makes writing LaTeX effortless with its virtual keyboard.This is a centered block of the famous quadratic formula or You can inline it  is called a gate fu
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-11-02 11:51" pubdate>
+              2023-11-02
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20231025-%E8%AF%95%E9%A2%98%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="_self">
+          <img src="https://cn.bing.com/th?id=OHR.ValDiFunes_ZH-CN2080915930_1920x1080.webp&amp;qlt=50" srcset="/img/loading.gif" lazyload alt="试题、试卷数据结构">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20231025-%E8%AF%95%E9%A2%98%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="_self">
+          试题、试卷数据结构
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20231025-%E8%AF%95%E9%A2%98%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" target="_self">
+        <div>
+          主要结构：试卷 - 段 - 节 -（节）- 试题 可以存在多级“节” 枚举：视角(view)开发者(author)应试者(candidate)监考人(proctor)评分人(scorer)出题人(testConstructor.)辅导者(tutor) 枚举：形状(shape)形状的值总是伴随坐标值（见坐标和相关提供用于解释它们的图像）。默认(Default)默认形状指的是相关图像的整个区域。矩
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-10-25 15:47" pubdate>
+              2023-10-25
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/20231025-PDF%E8%BD%AC%E5%9B%BE%E7%89%87%E5%8F%8A%E9%A2%84%E8%A7%88/" target="_self">
+          <img src="https://cn.bing.com/th?id=OHR.MallarDucks_ZH-CN7422818269_1920x1080.webp&amp;qlt=50" srcset="/img/loading.gif" lazyload alt="PDF转图片及预览">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/20231025-PDF%E8%BD%AC%E5%9B%BE%E7%89%87%E5%8F%8A%E9%A2%84%E8%A7%88/" target="_self">
+          PDF转图片及预览
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/20231025-PDF%E8%BD%AC%E5%9B%BE%E7%89%87%E5%8F%8A%E9%A2%84%E8%A7%88/" target="_self">
+        <div>
+          使用imagemagick将pdf转换为图片，使用turnjs预览图片。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-10-25 09:58" pubdate>
+              2023-10-25
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/#board">31</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

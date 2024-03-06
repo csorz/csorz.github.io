@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="网页端的实时通信有什么样的特点。 首先，在浏览器端，依赖于浏览器获取音视频的能力，以及强大的网页上的渲染能力，能够为高清的通信体验打下基础。同时，相比移动端来说，屏幕比较大，视窗选择也比较灵活。 第二，跨平台。浏览器对各个终端的特殊性，不止PC上有浏览器、移动端上有浏览器，甚至是一些知名的社交APP也嵌入了浏览器。这需要一个跨平台的体验，现在支持WebRTC的浏览器也越来越多了，这也是网页实时通信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页端实时音视频服务架构与实践">
+<meta property="og:url" content="http://example.com/2017-12-08%20%E7%BD%91%E9%A1%B5%E7%AB%AF%E5%AE%9E%E6%97%B6%E9%9F%B3%E8%A7%86%E9%A2%91%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="网页端的实时通信有什么样的特点。 首先，在浏览器端，依赖于浏览器获取音视频的能力，以及强大的网页上的渲染能力，能够为高清的通信体验打下基础。同时，相比移动端来说，屏幕比较大，视窗选择也比较灵活。 第二，跨平台。浏览器对各个终端的特殊性，不止PC上有浏览器、移动端上有浏览器，甚至是一些知名的社交APP也嵌入了浏览器。这需要一个跨平台的体验，现在支持WebRTC的浏览器也越来越多了，这也是网页实时通信">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-08T01:05:36.000Z">
+<meta property="article:modified_time" content="2024-03-01T07:04:02.393Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>网页端实时音视频服务架构与实践 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="网页端实时音视频服务架构与实践"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2017-12-08 09:05" pubdate>
+          2017年12月8日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">网页端实时音视频服务架构与实践</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>网页端的实时通信有什么样的特点。 首先，在浏览器端，依赖于浏览器获取音视频的能力，以及强大的网页上的渲染能力，能够为高清的通信体验打下基础。同时，相比移动端来说，屏幕比较大，视窗选择也比较灵活。 第二，跨平台。浏览器对各个终端的特殊性，不止PC上有浏览器、移动端上有浏览器，甚至是一些知名的社交APP也嵌入了浏览器。这需要一个跨平台的体验，现在支持WebRTC的浏览器也越来越多了，这也是网页实时通信的一个特点 第三，免安装，方便接入。随着WebRTC的普及，它不需要安装任何插件就可以实现网页端的实时通信。 网页端实时通信可以应用在什么场景 首先是直播，直播非常火。直播的主播端会有需求，在网页端进行开播，因为网页端的屏幕比较大、视频比较清晰、处理能力比较强。同时也可以做直播的监控。大家也知道，直播开播的房间数很多，在一个网页上可以监控40-50个房间，来做直播的巡视员，用网页端也是比较方便的。 另外一个是在线教育，在线教育的老师端一般都在PC上，如果要安装应用程序，有些老师也不是很懂电脑技术，要去配置的话就比较麻烦。如果有网页端免安装的方案的话，他们用起来的话，用户体验也会比较好。在线教育除了音视频，还要求有屏幕共享、白板，因为都是H5的技术，所以与Web端的SDK集成起来的话也会非常方便。 最后就是视频会议，以往的视频会议都有一些复杂操作。现在有了免安装的WebRTC之后，大家对视频会议的体验也会上升一个台阶。还有一些比较典型的场景，比如远程医疗、企业协作之类的。 从技术上看，网页端的实时通信是否已经成熟？是否已经准备好了呢？ 如果说到网页端、浏览器端的实时通信的话，大家首先会想到的就是它有一个缺点，就是必须安装浏览器的插件和扩展程序，非常不方便。另一种做法是，在PC上安装一个应用程序，通过这个程序来代理获取、处理音视频的流，网页端只是做渲染和展示。 在很长一段时间里，这些网页端的用户觉得这个技术就是这样的，体验就是这样的，无法提升了。直到2011年，WebRTC技术的出现，并且由谷歌做推广。WebRTC带来的体验是因为免安装才受到了关注。现在在差不多6年的发展时间里，其实也有很多的质疑声，比如，Google的项目会不会半途而废，各大浏览器厂商会不会不支持这种打通浏览器生态的想法。 WebRTC这个技术是否已经成熟，是否可以产品化？ 首先，在caniuse网站可以看到目前支持WebRTC浏览器和平台的情况。 现在除了市场上占百分之8点几的IE之外不支持，其他的其实都已经支持了。 我们再从协议栈的角度来看一下。WebRTC 1.0 Spec已经基本定稿了，除了一些比较细节的问题还没有最终确认。各个浏览器对标准的支持也越来越好。 另外一个方面，看一下开源社区。举几个比较典型的开源项目，一个是Kurento，它是功能比较强大的一个多媒体处理框架，支持WebRTC协议栈。它可以作为Media server，后台有转码的能力，并且有OpenCV处理能力。Licode可以作为WebRTC的轻量通信平台，是纯转发的服务器处理模式。Janus可以作为WebRTC通信网关，比较轻量。值得关注的是React-Native-WebRTC。现在越来越多的开发者开始转向前端，JS。这种情况在国外更为普遍。在开源社区上出现了这么一个项目，封装了一个WebRTC的模块，开发者就可以很方便的在手机上来实现带有实时通信能力、兼容WebRTC的应用。 最后，看一下生态圈。在CPaas这一层，有声网、Twilio、Tokbox这样的公司在做贡献。 市场分析对WebRTC非常看好，预计到2022年市场规模将达到64.9亿美金。总的来说，WebRTC技术现在处在一个最好的时代。 对于开发者来说，如何用这个技术、如何能够构建起一个WebRTC的系统？其实是有一段必经之路。 WebRTC的底层是是点对点的通信。很多开发者上手的时候，都会去做P2P质量的检验。比如说一个公司的产品经理告诉开发人员说“现在WebRTC很火，你给我整一个WebRTC的系统。”八成的开发人员会交付一个网状结构WebRTC的架构。 那么，完全基于点对点之间通信的架构有什么特点？延时会比较小。但是，有一个很大的缺点。这种点对点音视频流的传递，每一个用户都要给另外一个用户传自己的视频流，这样对它上行带宽的压力很大。并且，每一路视频流都是独立进行采集编码，这对浏览器端编码压力的考验也很大。有人会问，能不能只采集一次编码，然后就把这个流发给不同的终端接收者？很遗憾，这是不行的。因为WebRTC的协议是做端到端的质量策略优化，所以它有一些策略调整，都是端对端的RTCP来实现，必须要经过多次的编码，然后分别传输给不同的接收者。 一个权威的行业机构统计的目前在互联网上使用WebRTC的系统架构，纯P2P的只占19%。 如果按刚才介绍的这个架构，开发人员交付给产品的话，肯定会打回来的，因为大家都知道，上行带宽非常宝贵，也非常受限。为了解决这个问题，开发人员会做一些深度的研究，在WebRTC架构其实中间加了一个点，这个点就是服务器，典型的媒体服务器只做多路流的转发，不做后台的媒体处理和转码。 Janus和Licode开源项目都可以实现转发媒体服务器的功能。它的特点是，每个终端用户只要上传一路流到中间服务器，节省了带宽。同时SFU只是做转发，所以对延时的影响相对比较小。弊端是，如果有两路接收者，下行带宽的能力不一样，一个是500K，一个是2m，由于源端发送者只送一路流，所以就很难适配多路的终端。 改成纯转发的媒体服务器之后，它还有一些弊端，开发人员又会想办法说，我在中间这个节点加上混流的功能。大家也可以从这个架构当中看出来，在服务器端收到不同的两路视频流之后，会分别做解码、拼接合成、编码。根据不同接收者的带宽情况，分别给不同的接收者发送不同profile的视频流。这就解决了，如果是多个接收端的用户，无法做到带宽的适配。这个缺点也很明显，中间做转码必然带来延时，其次是转码服务器的成本很高，但是，确实节省了下行的带宽，介绍了几种典型的WebRTC的系统架构之后，开发人员可以基于刚才说的几个开源项目，可以很方便的搭建出，或者是不用费太多的时间就可以搭建出这么一个Demo的系统，是不是故事就到此结束了？其实还差很远，这边还有很多隐藏的坑。 背后的技术的难点 首先是可用性。WebRTC是基于P2P的，P2P的可用性、连接成功率也是大家一直在诟病的，不止是打洞、穿越这些技术。 平台互通：WebRTC出来的时间还是有限的，很多领域内的公司都有自己自研的通信协议，这些协议一般是用在Native端，手机端、PC端、mac、windows，这也带来了一些问题，自研的协议跟WebRTC协议之间如何可以做到平台互通？这也有很多的坑在这里面。刚才说它是一个端到端优化的传输策略，你拆开这个端到端，你的上行是WebRTC，你的发送者是WebRTC，接收者是自研的端，这里面有很多策略匹配的工作需要去做。 编码器选择：音视频的编码在实时通信中非常重要。WebRTC的视频，支持VP8&#x2F;9,H.264。可能有人会选择H.264，认为它在移动端适应性强。但是H.264在Chrome上不太成熟，所以很多商用产品依然在用VP8，但是涉及到移动端的互通，又得考虑编码器的选择。 弱网对抗：WebRTC有一套自己的传输策略，比如说丢包重传、FEC、带宽检测、动态码率调整。但是，在弱网对抗方面，需要在中间加一个转发节点，不然就做不到端到端的传输链路。所以，弱网对抗又是比较头疼的问题。如何在浏览器上，和转发服务器上，实现上行跟下行链路的分别优化，这里面也有很多难题是需要克服的。 多用户场景：就像是典型的小型直播的场景，有很多的接收者，一个发送者。如果用纯WebRTC的传输策略，因为它多个接收者之间估计出来的下行带宽是不一样的，对发送端的要求，发送的码率调整也不一样。大家如果有测试经验就会发现，WebRTC做多人的场景，如果接收端的人数超过4个、5个的话，它发送出来的码率就会非常低，所以看到的画面就会非常的糊。 虽然主流的浏览器都开始支持WebRTC，但是在caniuse网站中还是有很多兼容问题，可以看到种种的技术难点，做WebRTC，在Demo产品化的时候我们就必须要去面对。 总结两点，要从一个WebRTC开发的Demo到真正成熟的产品服务的话，首先要有一个专业团队。这个专业团队要覆盖音视频的专业人才、专家，还要有音视频通信的、视频传输领域的专家，需要很强的行业经验，高可用运维、实时监控、调查工具这些，都需要真正的工程师、专家在日积月累的工作当中积累下来的经验。 最后我想说下我们的直播项目，我们现有的直播方案浏览器插件与客户端采集相结合的方式，但在未来两年势必会淘汰，留给我们的时间不多，要做体验更好网络直播我们就需要提前做好准备和计划，使用开源的项目或是第三方成熟的SDK。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/uncategorized/" class="category-chain-item">uncategorized</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>网页端实时音视频服务架构与实践</div>
+      <div>http://example.com/2017-12-08 网页端实时音视频服务架构与实践/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2017年12月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2017-12-08%20%E4%BA%BF%E7%AB%A5-js-sdk/" title="YT js-sdk">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">YT js-sdk</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2017-11-29%20%E6%95%B0%E6%8D%AE%E5%BA%8F%E5%88%97%E5%8C%96/" title="数据序列化">
+                        <span class="hidden-mobile">数据序列化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

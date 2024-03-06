@@ -1,0 +1,737 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="csorz">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="插件的作用是辅助我们精准且快速获取信息，提升效率。表格数据获取核心逻辑都在python后台程序。主要流程如下：  将交互按钮插入页面 点击按钮后发送页面信息到后台 后台通过插件获取数据并清洗 存入数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="油猴插件之表格数据获取">
+<meta property="og:url" content="http://example.com/20230313-%E6%B2%B9%E7%8C%B4%E6%8F%92%E4%BB%B6%E4%B9%8B%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96/index.html">
+<meta property="og:site_name" content="日有所思，日有所得">
+<meta property="og:description" content="插件的作用是辅助我们精准且快速获取信息，提升效率。表格数据获取核心逻辑都在python后台程序。主要流程如下：  将交互按钮插入页面 点击按钮后发送页面信息到后台 后台通过插件获取数据并清洗 存入数据库">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bing.com/th?id=OHR.GeckoLeaf_ZH-CN9908456174_800x480.jpg">
+<meta property="article:published_time" content="2023-03-13T01:04:28.000Z">
+<meta property="article:modified_time" content="2024-02-28T09:42:21.949Z">
+<meta property="article:author" content="csorz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bing.com/th?id=OHR.GeckoLeaf_ZH-CN9908456174_800x480.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>油猴插件之表格数据获取 - 日有所思，日有所得</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>CSorz</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+
+  <div class="mask full-video" style="z-index: 0; object-fit: cover;">
+    <video style="width: 100%; height: 100%; object-fit: cover;" id="fullVideo" src="/mp4/StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4" autoplay="autoplay" loop muted x5-video-player-type="h5" x5-video-player-fullscreen="true"></video>
+  </div>
+  <script type="text/javascript">
+    try{
+      var mp4List = [
+        "ArcticFoxPups_FramepoolRM_372-581-588_1080_HD_ZH-CN.mp4",
+        "DragonFly_ShutterstockRF_6899029_1080_HD_ZH-CN.mp4",
+        "Elephants_Serengeti_NF_RF_RSO016_0424_1080_HD_ZH-CN.mp4",
+        "LakePowell_Thunderstorms_nimiaRM_4471864_062_1080_HD_ZH-CN.mp4",
+        "Navagio_Shipwreck_Beach_Zakynthos_nimia_4K_588263_1080_HD_ZH-CN.mp4",
+        "SF_SutroBaths-4K_nimia_573584_1080_HD_ZH-CN.mp4",
+        "StargazingSwitzerland_1920x1080_G_628102888_HD_ZH-CN.mp4",
+        "Sunbeams_over_the_saronic_gulf_nimiaRM_4K_109609_1080_HD_ZH-CN.mp4",
+        "SunwaptaFalls_1920x1080_G_1078430640_HD_ZH-CN.mp4",
+        "ThaiWaterfall_1920x1080_G_679699496_HD_ZH-CN.mp4"
+      ]
+      var dom = document.getElementById('fullVideo')
+      dom.src = "/mp4/" + mp4List[Math.floor(Math.random()*10)]
+      setTimeout(function(){
+        if(window.innerWidth > 750) {
+          dom.play()
+        }
+      }, 1000)
+    } catch(err) {
+
+    }
+  </script>
+
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="油猴插件之表格数据获取"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-13 09:04" pubdate>
+          2023年3月13日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">油猴插件之表格数据获取</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>插件的作用是辅助我们精准且快速获取信息，提升效率。<br>表格数据获取核心逻辑都在python后台程序。<br>主要流程如下：</p>
+<ol>
+<li>将交互按钮插入页面</li>
+<li>点击按钮后发送页面信息到后台</li>
+<li>后台通过插件获取数据并清洗</li>
+<li>存入数据库<span id="more"></span></li>
+</ol>
+<h2 id="如何使用tampermonkey"><a href="#如何使用tampermonkey" class="headerlink" title="如何使用tampermonkey"></a>如何使用tampermonkey</h2><p>看官方教程，推荐使用edge浏览器<br><a target="_blank" rel="noopener" href="https://www.tampermonkey.net/">https://www.tampermonkey.net/</a></p>
+<h2 id="包含表格的网站"><a href="#包含表格的网站" class="headerlink" title="包含表格的网站"></a>包含表格的网站</h2><p>在插件脚本 &#x3D;&#x3D;UserScript&#x3D;&#x3D; 中配置目标网站</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// ==UserScript==</span><br><span class="hljs-comment">// @name         抓取表格数据</span><br><span class="hljs-comment">// @namespace    http://tampermonkey.net/</span><br><span class="hljs-comment">// @version      0.1</span><br><span class="hljs-comment">// @description  try to take over the world!</span><br><span class="hljs-comment">// @author       You</span><br><span class="hljs-comment">// @match        http://sh.bendibao.com/*</span><br><span class="hljs-comment">// @icon         https://www.google.com/s2/favicons?sz=64&amp;domain=</span><br><span class="hljs-comment">// @grant        GM_xmlhttpRequest</span><br><span class="hljs-comment">// @require      https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js</span><br><span class="hljs-comment">// ==/UserScript==</span><br></code></pre></td></tr></table></figure>
+<p>例如：<a target="_blank" rel="noopener" href="http://sh.bendibao.com/news/2022225/248869.shtm">http://sh.bendibao.com/news/2022225/248869.shtm</a></p>
+<h2 id="目标数据"><a href="#目标数据" class="headerlink" title="目标数据"></a>目标数据</h2><ol>
+<li>包含表格的网站或pdf文件</li>
+<li>常规表格</li>
+<li>跨行或跨列的复杂表格<br>我们需要复杂表格（3）转换为常规表格（2）</li>
+</ol>
+<h2 id="页面插入按钮"><a href="#页面插入按钮" class="headerlink" title="页面插入按钮"></a>页面插入按钮</h2><p>我们需要有选择的抓取数据，在页面中插入按钮</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> downloadLink = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>);<br>downloadLink.<span class="hljs-property">innerHTML</span> =<br>  <span class="hljs-string">&quot;&lt;a onclick=\&quot;window.postMessage(&#x27;pluginGetData&#x27;, &#x27;*&#x27;)\&quot; style=\&quot;display:block;width:300px;height:100px; line-height: 100px; position:fixed; top:10px;right:10px;z-index:999999; background-color:#c4261d; box-shadow: 1px 2px 3px #000; color:#fff; font-size: 28px; text-align:center; cursor: pointer;\&quot;&gt;》》获取数据《《&lt;/a&gt;&quot;</span>;<br><span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">insertBefore</span>(downloadLink, <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">children</span>[<span class="hljs-number">0</span>]);<br></code></pre></td></tr></table></figure>
+<p>GM_ 与 window不能同时使用，因为GM_*在沙盒中运行。点击按钮后发送postMessage消息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">window</span>.<span class="hljs-title function_">postMessage</span>(<span class="hljs-string">&#x27;pluginGetData&#x27;</span>, <span class="hljs-string">&#x27;*&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="页面与沙盒通信"><a href="#页面与沙盒通信" class="headerlink" title="页面与沙盒通信"></a>页面与沙盒通信</h2><p>接收页面消息，原页面与沙盒通信</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;message&quot;</span>, receiveMessage, <span class="hljs-literal">false</span>);<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">receiveMessage</span>(<span class="hljs-params">event</span>) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;receiveMessage&quot;</span>, event);<br>  <span class="hljs-keyword">if</span> (event.<span class="hljs-property">data</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&quot;pluginGetData&quot;</span>)) &#123;<br>    <span class="hljs-title function_">pluginGetData</span>();<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="数据上报"><a href="#数据上报" class="headerlink" title="数据上报"></a>数据上报</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript">(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-string">&#x27;use strict&#x27;</span>;<br>  <span class="hljs-title function_">GM_xmlhttpRequest</span>(&#123;<br>      <span class="hljs-attr">url</span>:<span class="hljs-string">&quot;http://localhost:5000/parseSchoolData&quot;</span>, <span class="hljs-comment">// 本地调试</span><br>      method :<span class="hljs-string">&quot;POST&quot;</span>,<br>      <span class="hljs-attr">data</span>:<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(&#123;<br>         <span class="hljs-attr">url</span>:location.<span class="hljs-property">href</span><br>      &#125;),<br>      <span class="hljs-attr">headers</span>: &#123;<br>          <span class="hljs-string">&quot;Content-type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span><br>      &#125;,<br>      <span class="hljs-attr">onload</span>:<span class="hljs-keyword">function</span>(<span class="hljs-params">xhr</span>)&#123;<br>          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(xhr.<span class="hljs-property">responseText</span>);<br>          <span class="hljs-comment">// alert(&quot;链接&quot; + location.href + &quot;上报成功！&quot;)</span><br>          <span class="hljs-title function_">alert</span>(xhr.<span class="hljs-property">responseText</span>)<br>      &#125;<br>  &#125;);<br>  <span class="hljs-comment">// Your code here...</span><br>&#125;)();<br></code></pre></td></tr></table></figure>
+
+<h2 id="后台程序"><a href="#后台程序" class="headerlink" title="后台程序"></a>后台程序</h2><p>主程序，开启http服务<br>index.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> pdfplumber<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> io<br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, redirect, url_for, request, render_template<br><span class="hljs-keyword">from</span> urllib.parse <span class="hljs-keyword">import</span> urlencode<br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br><span class="hljs-keyword">from</span> lxml <span class="hljs-keyword">import</span> etree<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> storage.parse<br><span class="hljs-keyword">from</span> query.parse <span class="hljs-keyword">import</span> checkDataSource<br><br>app = Flask(__name__)<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">  目前仅支持如下数据类型（域名）：</span><br><span class="hljs-string">  dataType1: &#123; # Table园所列表</span><br><span class="hljs-string">    dataType1_1: &#x27;http://sh.bendibao.com/news/2022225/248869.shtm&#x27;</span><br><span class="hljs-string">    dataType1_2: &#x27;http://jy.tj.gov.cn/BMFW/JYZC5803/YEY787/202111/t20211129_5736214.html&#x27;</span><br><span class="hljs-string">  &#125;</span><br><span class="hljs-string">  dataType2: &#123; # Table单园所信息</span><br><span class="hljs-string">    dataType2_1: &#x27;http://www.lg.gov.cn/zwfw/zdfw/jy/mdml/yeymdml/content/post_9766183.html&#x27;</span><br><span class="hljs-string">  &#125;</span><br><span class="hljs-string">  dataType3: &#123; # PDF园所列表</span><br><span class="hljs-string">    dataType3_1: &#x27;http://szeb.sz.gov.cn/attachment/1/1181/1181674/10052534.pdf&#x27;</span><br><span class="hljs-string">  &#125;</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-comment"># 网页内容提取</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getPage</span>(<span class="hljs-params">url</span>):<br>  <span class="hljs-keyword">try</span>:<br>    headers = &#123;<br>      <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36&#x27;</span><br>    &#125;<br>    response = requests.get(url, headers=headers)<br>    response.encoding = <span class="hljs-string">&#x27;utf-8&#x27;</span><br>    <span class="hljs-keyword">if</span> response.status_code == <span class="hljs-number">200</span>:<br>      <span class="hljs-keyword">return</span> response.text<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br>  <span class="hljs-keyword">except</span> BaseException <span class="hljs-keyword">as</span> error:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;def getPage error:&#x27;</span>, error, <span class="hljs-string">&#x27;网页内容提取失败！&#x27;</span>)<br><br><span class="hljs-comment"># 网页内容解析（dataType1、dataType3）</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parsePage</span>(<span class="hljs-params">html</span>):<br>  <span class="hljs-keyword">try</span>:<br>    <span class="hljs-keyword">return</span> pd.read_html(html, encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>, header=<span class="hljs-number">0</span>)[<span class="hljs-number">0</span>]<br>  <span class="hljs-keyword">except</span> BaseException <span class="hljs-keyword">as</span> error:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;def parsePage error:&#x27;</span>, error, <span class="hljs-string">&#x27;未找到表格！&#x27;</span>)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <br><span class="hljs-comment"># 网页内容解析（dataType2）</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parseSchoolPage</span>(<span class="hljs-params">html</span>):<br>  <span class="hljs-keyword">try</span>:<br>    <span class="hljs-keyword">return</span> pd.read_html(html, encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)[<span class="hljs-number">0</span>]<br>  <span class="hljs-keyword">except</span> BaseException <span class="hljs-keyword">as</span> error:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;def parseSchoolPage error:&#x27;</span>, error, <span class="hljs-string">&#x27;未找到表格！&#x27;</span>)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br><span class="hljs-comment"># PDF下载并保存临时目录</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getPDF</span>(<span class="hljs-params">url</span>):<br>  response = requests.get(url)<br>  pdfPath = <span class="hljs-string">f&#x27;temp/pdf/~temp<span class="hljs-subst">&#123;time.time()*<span class="hljs-number">1000</span>&#125;</span>~.pdf&#x27;</span><br>  <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(pdfPath, <span class="hljs-string">&#x27;wb+&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(response.content)<br>    f.flush()<br>  <span class="hljs-keyword">return</span> pdfPath<br><br><span class="hljs-comment"># PDF内容解析</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parsePDF</span>(<span class="hljs-params">pdfPath</span>):<br>  pdf = pdfplumber.<span class="hljs-built_in">open</span>(pdfPath)<br>  pages = pdf.pages<br>  table = []<br>  <span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> pages:<br>    table += page.extract_tables()[<span class="hljs-number">0</span>]<br>  pdf.close()<br>  <span class="hljs-keyword">return</span> table<br><br><span class="hljs-comment"># 重命名columns</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">renameColumns</span>(<span class="hljs-params">df</span>):<br>  <span class="hljs-comment"># dataType1_1</span><br>  df.rename(columns=&#123; <span class="hljs-string">&#x27;级别&#x27;</span>: <span class="hljs-string">&#x27;kindergartenLevel&#x27;</span>,<br>                      <span class="hljs-string">&#x27;性质&#x27;</span>: <span class="hljs-string">&#x27;nature&#x27;</span>,<br>                      <span class="hljs-string">&#x27;区县&#x27;</span>: <span class="hljs-string">&#x27;district&#x27;</span>,<br>                      <span class="hljs-string">&#x27;名称&#x27;</span>: <span class="hljs-string">&#x27;schoolName&#x27;</span>,<br>                      <span class="hljs-string">&#x27;园部&#x27;</span>: <span class="hljs-string">&#x27;division&#x27;</span>,<br>                      <span class="hljs-string">&#x27;地址&#x27;</span>: <span class="hljs-string">&#x27;address&#x27;</span>,<br>                      <span class="hljs-string">&#x27;电话&#x27;</span>: <span class="hljs-string">&#x27;phone&#x27;</span>,<br>                      &#125;, inplace=<span class="hljs-literal">True</span>)<br>  <span class="hljs-comment"># dataType1_2</span><br>  df.rename(columns=&#123; <span class="hljs-string">&#x27;幼儿园名称&#x27;</span>: <span class="hljs-string">&#x27;schoolName&#x27;</span>,<br>                      <span class="hljs-string">&#x27;办别&#x27;</span>: <span class="hljs-string">&#x27;system&#x27;</span>,<br>                      <span class="hljs-string">&#x27;举办者&#x27;</span>: <span class="hljs-string">&#x27;organizer&#x27;</span>,<br>                      <span class="hljs-string">&#x27;幼儿园地址&#x27;</span>: <span class="hljs-string">&#x27;address&#x27;</span>,<br>                      <span class="hljs-string">&#x27;办公电话&#x27;</span>: <span class="hljs-string">&#x27;phone&#x27;</span>,<br>                      &#125;, inplace=<span class="hljs-literal">True</span>)<br>  <span class="hljs-comment"># dataType2_1</span><br>  df.rename(columns=&#123; <span class="hljs-string">&#x27;幼儿园名称：&#x27;</span>: <span class="hljs-string">&#x27;schoolName&#x27;</span>,<br>                      <span class="hljs-string">&#x27;性质：&#x27;</span>: <span class="hljs-string">&#x27;system&#x27;</span>,<br>                      <span class="hljs-string">&#x27;所在街道：&#x27;</span>: <span class="hljs-string">&#x27;street&#x27;</span>,<br>                      <span class="hljs-string">&#x27;教师人数：&#x27;</span>: <span class="hljs-string">&#x27;teacherNumber&#x27;</span>,<br>                      <span class="hljs-string">&#x27;详细地址：&#x27;</span>: <span class="hljs-string">&#x27;address&#x27;</span>,<br>                      <span class="hljs-string">&#x27;园区简介：&#x27;</span>: <span class="hljs-string">&#x27;schoolIntroduction&#x27;</span>,<br>                      <span class="hljs-string">&#x27;园长介绍：&#x27;</span>: <span class="hljs-string">&#x27;leaderIntroduction&#x27;</span>,<br>                      <span class="hljs-string">&#x27;师资力量：&#x27;</span>: <span class="hljs-string">&#x27;TeachersStrength&#x27;</span>,<br>                      <span class="hljs-string">&#x27;教学环境：&#x27;</span>: <span class="hljs-string">&#x27;teachingEnvironment&#x27;</span>,<br>                      <span class="hljs-string">&#x27;收费标准：&#x27;</span>: <span class="hljs-string">&#x27;feeStandard&#x27;</span>,<br>                      <span class="hljs-string">&#x27;交通路线：&#x27;</span>: <span class="hljs-string">&#x27;trafficRoutes&#x27;</span>,<br>                      <span class="hljs-string">&#x27;主管部门：&#x27;</span>: <span class="hljs-string">&#x27;competentDepartment&#x27;</span>,<br>                      <span class="hljs-string">&#x27;联系电话：&#x27;</span>: <span class="hljs-string">&#x27;phone&#x27;</span>,<br>                      <span class="hljs-string">&#x27;所在社区：&#x27;</span>: <span class="hljs-string">&#x27;community&#x27;</span>,<br>                      <span class="hljs-string">&#x27;学生人数：&#x27;</span>: <span class="hljs-string">&#x27;studentNumber&#x27;</span>,<br>                      &#125;, inplace=<span class="hljs-literal">True</span>)<br>  <span class="hljs-comment"># dataType3_1</span><br>  df.rename(columns=&#123; <span class="hljs-string">&#x27;序号&#x27;</span>: <span class="hljs-string">&#x27;index&#x27;</span>,<br>                      <span class="hljs-string">&#x27;幼儿园名称&#x27;</span>: <span class="hljs-string">&#x27;schoolName&#x27;</span>,<br>                      <span class="hljs-string">&#x27;办学许可证编号或事业单\n位法人证书编号或社会统\n一信用代码&#x27;</span>: <span class="hljs-string">&#x27;uniformCreditCode&#x27;</span>,<br>                      <span class="hljs-string">&#x27;实际办学地址&#x27;</span>: <span class="hljs-string">&#x27;address&#x27;</span>,<br>                      <span class="hljs-string">&#x27;幼儿园所属街道、社\n区&#x27;</span>: <span class="hljs-string">&#x27;street&#x27;</span>,<br>                      <span class="hljs-string">&#x27;举办者&#x27;</span>: <span class="hljs-string">&#x27;organizer&#x27;</span>,<br>                      <span class="hljs-string">&#x27;法定代表人&#x27;</span>: <span class="hljs-string">&#x27;legalPerson&#x27;</span>,<br>                      <span class="hljs-string">&#x27;园长&#x27;</span>: <span class="hljs-string">&#x27;leaderName&#x27;</span>,<br>                      <span class="hljs-string">&#x27;联系电话&#x27;</span>: <span class="hljs-string">&#x27;phone&#x27;</span>,<br>                      <span class="hljs-string">&#x27;办园类型&#x27;</span>: <span class="hljs-string">&#x27;system&#x27;</span>,<br>                      <span class="hljs-string">&#x27;民办园年\n检结论&#x27;</span>: <span class="hljs-string">&#x27;annualInspection&#x27;</span>,<br>                      <span class="hljs-string">&#x27;保教费实\n际收取标\n准（元\n/月）&#x27;</span>: <span class="hljs-string">&#x27;feeStandard&#x27;</span>,<br>                      &#125;, inplace=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 数据存储</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">save2db</span>(<span class="hljs-params">df, url</span>):<br>  <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(df) &gt; <span class="hljs-number">0</span>:<br>    storage.parse.batchSave(df, url)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>  <span class="hljs-keyword">else</span>:<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>  <span class="hljs-comment"># df.to_csv(r&#x27;temp/csv/temp&#x27; + &#x27;%d&#x27; %time.time() + &#x27;.csv&#x27;, index=False)</span><br><br><span class="hljs-comment"># 返回结果</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getResult</span>(<span class="hljs-params">success = <span class="hljs-literal">True</span>, message = <span class="hljs-string">&#x27;&#x27;</span></span>):<br>  <span class="hljs-keyword">return</span> &#123;<br>    <span class="hljs-string">&#x27;code&#x27;</span>: <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> success <span class="hljs-keyword">else</span> <span class="hljs-number">9</span>,<br>    <span class="hljs-string">&#x27;message&#x27;</span>: (message <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;操作成功！&#x27;</span>) <span class="hljs-keyword">if</span> success <span class="hljs-keyword">else</span> (message <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;操作失败！&#x27;</span>)<br>  &#125;<br><br><span class="hljs-comment"># 主函数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">url</span>):<br>  <span class="hljs-keyword">try</span>:<br>    <span class="hljs-comment"># dataType3_1</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-string">&#x27;.pdf&#x27;</span> <span class="hljs-keyword">in</span> url):<br>      pdfPath = os.path.abspath(getPDF(url))<br>      table = parsePDF(pdfPath)<br>      os.remove(pdfPath)<br>      dataFrame = pd.DataFrame(table[<span class="hljs-number">1</span>:(<span class="hljs-built_in">len</span>(table)-<span class="hljs-number">1</span>)], columns=table[<span class="hljs-number">0</span>])<br>    <span class="hljs-keyword">else</span>:<br>      <span class="hljs-comment"># dataType2_1</span><br>      <span class="hljs-keyword">if</span>(<span class="hljs-string">&#x27;www.lg.gov.cn/zwfw/zdfw/jy/mdml/yeymdml/content&#x27;</span> <span class="hljs-keyword">in</span> url): <br>        html = getPage(url)<br>        table = parseSchoolPage(html)<br>        dataFrame = pd.DataFrame().append(table)<br>        <span class="hljs-comment"># 切割前两列数据，行列互换，重置序号</span><br>        dataFrame0_0_1_2 = dataFrame.iloc[:,:<span class="hljs-number">2</span>].transpose().reset_index(drop=<span class="hljs-literal">True</span>)<br>        <span class="hljs-comment"># 切割前两列、前四排数据，行列互换，重置序号</span><br>        dataFrame0_4_2_4 = dataFrame.iloc[:<span class="hljs-number">4</span>,<span class="hljs-number">2</span>:<span class="hljs-number">4</span>].transpose().reset_index(drop=<span class="hljs-literal">True</span>)<br>        <span class="hljs-comment"># 合并</span><br>        dataFrame = pd.concat([dataFrame0_0_1_2, dataFrame0_4_2_4], axis=<span class="hljs-number">1</span>)<br>        <span class="hljs-comment"># 移除header，将第一行设为header</span><br>        dataFrame = pd.read_csv(io.StringIO(<span class="hljs-string">u&quot;&quot;</span>+dataFrame.to_csv(header=<span class="hljs-literal">False</span>, index=<span class="hljs-literal">False</span>)), header=<span class="hljs-number">0</span>)<br>      <span class="hljs-keyword">else</span>:<br>        <span class="hljs-comment"># dataType1</span><br>        html = getPage(url)<br>        table = parsePage(html)<br>        dataFrame = pd.DataFrame().append(table)<br>    renameColumns(dataFrame)<br>    <span class="hljs-keyword">return</span> save2db(dataFrame, url)<br>  <span class="hljs-keyword">except</span> BaseException <span class="hljs-keyword">as</span> error:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;def main error:&#x27;</span>, error)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <br><span class="hljs-comment"># 路由</span><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/parseSchoolData&#x27;</span>, methods = [<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">postPage</span>():<br>  data = json.loads(json.dumps(request.json))<br>  dataSource = data[<span class="hljs-string">&#x27;url&#x27;</span>]<br>  dataLen = checkDataSource(dataSource)<br>  result = &#123;&#125;<br>  <span class="hljs-keyword">if</span> dataLen == -<span class="hljs-number">1</span>:<br>    result = getResult(<span class="hljs-literal">False</span>, <span class="hljs-string">&#x27;查询失败！&#x27;</span>)<br>  <span class="hljs-keyword">elif</span> dataLen &gt; <span class="hljs-number">0</span>:<br>    result = getResult(<span class="hljs-literal">True</span>, <span class="hljs-string">&#x27;数据已存在！&#x27;</span>) <br>  <span class="hljs-keyword">elif</span> dataLen == <span class="hljs-number">0</span>:<br>    result = getResult(main(dataSource))<br>  result[<span class="hljs-string">&#x27;timestamp&#x27;</span>] = <span class="hljs-built_in">int</span>(time.time()*<span class="hljs-number">1000</span>)<br>  resultStr = json.dumps(result, skipkeys=<span class="hljs-literal">True</span>, ensure_ascii=<span class="hljs-literal">False</span>)<br>  <span class="hljs-built_in">print</span>(resultStr)<br>  <span class="hljs-keyword">return</span> resultStr<br><br><span class="hljs-comment"># 单进程</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>  <span class="hljs-comment"># Debug/Development</span><br>  <span class="hljs-comment"># app.run(debug=True, host=&#x27;0.0.0.0&#x27;, port=5000)</span><br>  <span class="hljs-comment"># Production</span><br>  <span class="hljs-keyword">from</span> waitress <span class="hljs-keyword">import</span> serve<br>  serve(app, host=<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>, port=<span class="hljs-number">5000</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="连接Parse服务"><a href="#连接Parse服务" class="headerlink" title="连接Parse服务"></a>连接Parse服务</h3><p>engine&#x2F;parse.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> http.client<br><span class="hljs-keyword">from</span> props <span class="hljs-keyword">import</span> props<br><br>parseConnection = http.client.HTTPConnection(props[<span class="hljs-string">&#x27;apiBase&#x27;</span>], <span class="hljs-number">80</span>)<br>parseConnection.connect()<br><br>parseHeaders = &#123;<br>  <span class="hljs-string">&#x27;X-Parse-Application-Id&#x27;</span>: props[<span class="hljs-string">&#x27;parseApplicationId&#x27;</span>],<br>  <span class="hljs-string">&#x27;X-Parse-REST-API-Key&#x27;</span>: <span class="hljs-string">&#x27;&#x27;</span>,<br>  <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span><br>&#125;<br>parseApi = &#123;<br>  <span class="hljs-string">&#x27;PythonSpiderSchool&#x27;</span> : <span class="hljs-string">&#x27;/parse/classes/PythonSpiderSchool&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="数据查询"><a href="#数据查询" class="headerlink" title="数据查询"></a>数据查询</h3><p>防止重复写入<br>query&#x2F;parse.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> urllib.parse<br><span class="hljs-keyword">from</span> engine.parse <span class="hljs-keyword">import</span> parseConnection, parseHeaders, parseApi<br><br><span class="hljs-comment"># 查询&quot;数据来源&quot;是否存在</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">checkDataSource</span>(<span class="hljs-params">dataSource</span>):<br>  <span class="hljs-keyword">try</span>:<br>    paramsStr = urllib.parse.urlencode(&#123;<br>      <span class="hljs-string">&#x27;where&#x27;</span>: json.dumps(&#123;<br>        <span class="hljs-string">&#x27;dataSource&#x27;</span>: dataSource<br>      &#125;),<br>      <span class="hljs-string">&#x27;limit&#x27;</span>: <span class="hljs-number">1</span><br>    &#125;)<br>    parseConnection.request(<br>      <span class="hljs-string">&#x27;GET&#x27;</span>, <br>      parseApi[<span class="hljs-string">&#x27;PythonSpiderSchool&#x27;</span>] + <span class="hljs-string">&#x27;?%s&#x27;</span> % paramsStr,<br>      <span class="hljs-string">&#x27;&#x27;</span>,<br>      parseHeaders<br>    )<br>    readStr = parseConnection.getresponse().read()<br>    readDict = json.loads(readStr)<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(readDict[<span class="hljs-string">&#x27;results&#x27;</span>])<br>  <span class="hljs-keyword">except</span> BaseException <span class="hljs-keyword">as</span> error:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;def checkDataSource error:&#x27;</span>, error)<br>    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><p>数据写入<br>storage&#x2F;parse.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> engine.parse <span class="hljs-keyword">import</span> parseConnection, parseHeaders, parseApi<br><br><span class="hljs-comment"># 单条保存</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">save</span>(<span class="hljs-params">dataFrame, dataSource</span>):<br>  jsonStr = dataFrame.to_json(orient =<span class="hljs-string">&#x27;records&#x27;</span>, force_ascii = <span class="hljs-literal">False</span>)<br>  jsonDict = json.loads(jsonStr)[<span class="hljs-number">0</span>]<br>  jsonDict[<span class="hljs-string">&#x27;dataSource&#x27;</span>] = dataSource<br>  body = json.dumps(jsonDict)<br>  parseConnection.request(<br>    <span class="hljs-string">&#x27;POST&#x27;</span>, <br>    parseApi[<span class="hljs-string">&#x27;PythonSpiderSchool&#x27;</span>],<br>    body,<br>    parseHeaders<br>  )<br>  <span class="hljs-comment"># results = json.loads(parseConnection.getresponse().read())</span><br>  <span class="hljs-comment"># print(results)</span><br><br><span class="hljs-comment"># 批量保存</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">batchSave</span>(<span class="hljs-params">dataFrame, dataSource</span>):<br>  jsonStr = dataFrame.to_json(orient =<span class="hljs-string">&#x27;records&#x27;</span>, force_ascii = <span class="hljs-literal">False</span>)<br>  jsonDict = json.loads(jsonStr)<br>  <span class="hljs-built_in">list</span> = []<br>  <span class="hljs-keyword">for</span> dictItem <span class="hljs-keyword">in</span> jsonDict:<br>    dictItem[<span class="hljs-string">&#x27;dataSource&#x27;</span>] = dataSource<br>    listItem = &#123;<br>      <span class="hljs-string">&#x27;method&#x27;</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,<br>      <span class="hljs-string">&#x27;path&#x27;</span>: parseApi[<span class="hljs-string">&#x27;PythonSpiderSchool&#x27;</span>],<br>      <span class="hljs-string">&#x27;body&#x27;</span>: dictItem<br>    &#125;<br>    <span class="hljs-built_in">list</span>.append(listItem)<br>  body = json.dumps(&#123;    <br>    <span class="hljs-string">&#x27;requests&#x27;</span>: <span class="hljs-built_in">list</span><br>  &#125;)<br>  parseConnection.request(<br>    <span class="hljs-string">&#x27;POST&#x27;</span>, <br>    <span class="hljs-string">&#x27;/parse/batch&#x27;</span>,<br>    body,<br>    parseHeaders<br>  )<br>  <span class="hljs-comment"># results = json.loads(parseConnection.getresponse().read())</span><br>  <span class="hljs-comment"># print(results)</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/423911750">https://zhuanlan.zhihu.com/p/423911750</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>油猴插件之表格数据获取</div>
+      <div>http://example.com/20230313-油猴插件之表格数据获取/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>csorz</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20230331-%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF/" title="贝塞尔曲线">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">贝塞尔曲线</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20230226-%E6%B2%B9%E7%8C%B4%E6%8F%92%E4%BB%B6%E4%B9%8B%E6%8C%87%E5%AE%9A%EF%BC%88%E6%8B%9B%E8%81%98%EF%BC%89%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96/" title="油猴插件之指定（招聘）数据获取">
+                        <span class="hidden-mobile">油猴插件之指定（招聘）数据获取</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      鄂ICP备2024039931号
+    </a>
+  </span>
+  
+    
+      <span class="beian-police">
+        
+          <span style="visibility: hidden; width: 0">|</span>
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+        
+        <span class="beian-police">公安备案号（正在备案中...）</span>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
